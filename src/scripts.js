@@ -1,11 +1,13 @@
 var foo = 0;
 var down = 0;
 var startingTop = 0, startingLeft = 0;
-document.querySelector('.back').onmousemove = (e) => {
+var points = 0;
+document.querySelector('.back').onmousemove = () => {
   if (down) {
-    let math = Math.round(Math.sqrt(Math.pow(startingTop - event.clientY, 2) +
-      Math.pow(startingLeft - event.clientX, 2)));
-    console.log(math);
+    if (up && dn) {
+      document.getElementById('points').innerText = ++points;
+      up = 0; dn = 0;
+    }
   }
 };
 
