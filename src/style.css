@@ -1,0 +1,100 @@
+:root {
+  --head-top: 130px;
+  --ui-color: blue;
+}
+
+body {
+  text-align: center;
+  background-color: red;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+
+/* Skin colors */
+.brownSkin { --skin-color: #744737 }
+.yellowSkin { --skin-color: yellow }
+
+/* Hair colors */
+.brownHair { --hair-color: #33292a }
+
+/* Head shape */
+.elipticHead { --head-shape: 50% }
+.squareHead { --head-shape: 40% }
+
+.client > * {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.back {
+  cursor: grabbing;
+  top: calc(var(--head-top) + 300px);
+  position: absolute;
+  border-radius: 25% 25% 0 0;
+  background: var(--skin-color);
+  width: 300px;
+  height: 450px;
+  animation: beat 2s infinite alternate;
+}
+
+.head {
+  top: var(--head-top);
+  position: absolute;
+  width: 240px;
+  height: 270px;
+  background: var(--skin-color);
+  border-radius: var(--head-shape);
+  z-index: 1;
+}
+
+.hair {
+  position: absolute;
+  background: var(--hair-color);
+  width: 240px;
+  height: 260px;
+  border-radius: 40%;
+}
+
+.ears {
+  position: absolute;
+  top: 245px;
+  white-space:nowrap;
+}
+
+.ear {
+  display: inline-block;
+  background: var(--skin-color);
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+}
+
+.ear.right {
+  margin-left: 130px;
+}
+
+.neck {
+  top: calc(var(--head-top) + 225px);
+  position: absolute;
+  width: 90px;
+  height: 115px;
+  border-radius: 36px;
+  background: var(--skin-color);
+  animation: beat 2s infinite alternate;
+}
+
+@keyframes beat {
+  to {
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
+#bar {
+  width: 100%;
+  height: 150px;
+  background-color: var(--ui-color);
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}
