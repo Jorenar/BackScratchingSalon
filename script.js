@@ -6,11 +6,18 @@ var spotColumns = 12;
 
 var customerDiv = document.querySelector('.customer')
 
-const randomColor = () => {
+function randomColor() {
   return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6)
 }
 
-const createBodyPart = (classes, parent) => {
+function whenMouseUp() {
+  mouseIsDown = 0;
+  document.querySelectorAll('.scratched').forEach(spotScratched => {
+    spotScratched.classList.remove('scratched')
+  });
+}
+
+function createBodyPart(classes, parent) {
   part = document.createElement('div')
   part.className = classes;
   parent.appendChild(part);
@@ -93,12 +100,12 @@ class Customer {
   }
 }
 
-let cus = new Customer();
+var customer = new Customer();
 
 setInterval(() => {
   if (time === 0) {
-    cus.finalize();
-    cus = new Customer();
+    customer.finalize();
+    customer = new Customer();
   } else {
     document.getElementById("timer").innerHTML = --time;
   }
