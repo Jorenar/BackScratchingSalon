@@ -59,7 +59,6 @@ const createCustomer = () => {
 
             verticalScratches += verticality > horizontality ? 1 : 0;
             horizontalScratches += verticality < horizontality ? 1 : 0;
-            console.log(verticalScratches)
 
             spotRowsArray.fill(0);
             spotColumnsArray.fill(0);
@@ -73,10 +72,6 @@ const createCustomer = () => {
       back.appendChild(spot);
     }
   }
-
-  back.addEventListener('touchmove', () => {
-    document.getElementById('points').innerText = Math.floor(points += 0.05);
-  });
 
   document.querySelectorAll('.unpleasant, .unpleasant *').forEach(item => {
     item.onmousemove = () => {
