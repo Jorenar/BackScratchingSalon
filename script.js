@@ -1,6 +1,10 @@
 var mouseIsDown = 0;
 var points = 0;
 var time;
+var spotRows = 13;
+var spotColumns = 12;
+var spotRowsArray = new Array(spotRows).fill(0);
+var spotColumnsArray = new Array(spotColumns).fill(0);
 
 var customerDiv = document.querySelector('.customer')
 
@@ -16,6 +20,8 @@ const createBodyPart = (classes, parent) => {
 }
 
 const createCustomer = () => {
+  let verticalScratches = 0;
+  let horizontalScratches = 0;
   time = Math.floor((Math.random() * 20) + 10);
   customerDiv.innerHTML = "";
   customerDiv.className = 'customer';
@@ -30,24 +36,42 @@ const createCustomer = () => {
   createBodyPart('neck', customerDiv);
   back = createBodyPart('back', customerDiv);
 
-  for (let i = 0; i < 156; ++i) {
-    let spot = document.createElement('div');
-    spot.className = "spot";
-    spot.onmouseover = () => {
-      if (mouseIsDown) {
-        spot.classList.add('scratched');
+  for (let i = 0; i < spotRows; ++i) {
+    for (let j = 0; j < spotColumns; ++j) {
+      let spot = document.createElement('div');
+      spot.className = "spot";
+      spot.dataset.row = i;
+      spot.dataset.column = j;
+      spot.onmouseover = () => {
+        if (mouseIsDown) {
+          spot.classList.add('scratched');
 
-        let scratched = document.querySelectorAll('.scratched');
+          let scratched = document.querySelectorAll('.scratched');
 
-        if (scratched.length >= 10) {
-          document.getElementById('points').innerText = Math.floor(++points);
-          scratched.forEach(spotScratched => {
-            spotScratched.classList.remove('scratched')
-          });
+          if (scratched.length >= 10) {
+            scratched.forEach(spotScratched => {
+              spotRowsArray[spotScratched.dataset.row]++;
+              spotColumnsArray[spotScratched.dataset.column]++;
+            });
+
+            let horizontality = spotRowsArray.reduce((n, x) => n + (x === 0), 0);
+            let verticality = spotColumnsArray.reduce((n, x) => n + (x === 0), 0);
+
+            verticalScratches += verticality > horizontality ? 1 : 0;
+            horizontalScratches += verticality < horizontality ? 1 : 0;
+            console.log(verticalScratches)
+
+            spotRowsArray.fill(0);
+            spotColumnsArray.fill(0);
+            document.getElementById('points').innerText = Math.floor(++points);
+            scratched.forEach(spotScratched => {
+              spotScratched.classList.remove('scratched')
+            });
+          }
         }
       }
+      back.appendChild(spot);
     }
-    back.appendChild(spot);
   }
 
   back.addEventListener('touchmove', () => {
@@ -73,6 +97,7 @@ const nextCustomer = () => {
   createCustomer();
 }
 
+/*
 setInterval(() => {
   if (time === 0) {
     nextCustomer();
@@ -80,3 +105,4 @@ setInterval(() => {
     document.getElementById("timer").innerHTML = --time;
   }
 }, 1000);
+*/
