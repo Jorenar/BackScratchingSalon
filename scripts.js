@@ -48,6 +48,15 @@ createCustomer = () => {
     spot.onmouseover = () => {
       if (down) {
         spot.classList.add('scratched');
+
+        let scratched = document.querySelectorAll('.scratched');
+
+        if (scratched.length >= 10) {
+          document.getElementById('points').innerText = ++points;
+          scratched.forEach(spotScratched => {
+            spotScratched.classList.remove('scratched')
+          });
+        }
       }
     }
     back.appendChild(spot);
@@ -60,18 +69,6 @@ createCustomer = () => {
       break;
     }
   }
-
-  back.onmousemove = () => {
-    if (down) {
-      let scratched = document.querySelectorAll('.scratched');
-      if (scratched.length >= 10) {
-        document.getElementById('points').innerText = ++points;
-        scratched.forEach(spot => {
-          spot.classList.remove('scratched')
-        });
-      }
-    }
-  };
 
   document.querySelectorAll('.unpleasant, .unpleasant *').forEach(item => {
     item.onmousemove = () => {
