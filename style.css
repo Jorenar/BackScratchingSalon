@@ -3,11 +3,12 @@
   --ui-color: blue;
 }
 
-body {
+html,body{ margin:0; padding:0; height:100%; width:100%; }
+
+#playScreen {
   background-color: red;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  height:100%;
+  width:100%;
 }
 
 .customer > * {
@@ -31,6 +32,11 @@ body {
   display: inline-block;
   width: 25px;
   height: 25px;
+  background: green;
+}
+
+.scratched {
+  background: magenta;
 }
 
 #points {

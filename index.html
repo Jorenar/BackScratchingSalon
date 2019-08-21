@@ -7,11 +7,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
   <link rel="stylesheet" href="style.css">
 </head>
-<body onmouseup="mouseIsDown=0" onmousedown="mouseIsDown=1">
-  <div class="customer"></div>
-  <div id="bar">
-    <div id="points">0</div>
-    <div id="timer"></div>
+<body>
+  <div id="playScreen" onmouseup="whenMouseUp()" onmousedown="mouseIsDown=1">
+    <div class="customer"></div>
+    <div id="bar">
+      <div id="points">0</div>
+      <div id="timer"></div>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>
