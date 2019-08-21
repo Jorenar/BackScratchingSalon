@@ -10,41 +10,25 @@ body {
   overflow: hidden;
 }
 
-
-/* Skin colors */
-.brownSkin { --skin-color: #744737 }
-.yellowSkin { --skin-color: yellow }
-
-/* Hair colors */
-.brownHair { --hair-color: #33292a }
-
 /* Head shape */
 .elipticHead { --head-shape: 50% }
 .squareHead { --head-shape: 40% }
 
-.client > * {
+.customer > * {
   left: 50%;
   transform: translateX(-50%);
+  position: absolute;
 }
 
 .back {
   cursor: grabbing;
   top: calc(var(--head-top) + 300px);
-  position: absolute;
   border-radius: 90px;
   background: var(--skin-color);
   width: 300px;
   height: 500px;
   animation: breath 2s infinite alternate;
-}
-
-.back > *:not(.spot) {
-  width: 100%;
-  height: max-content;
-}
-
-.upper {
-  margin-top: 90px;
+  overflow: hidden;
 }
 
 .spot {
@@ -54,8 +38,13 @@ body {
   border-radius: 100%;
 }
 
+.scratched {
+  background: magenta;
+}
+
 .itchy {
   background: var(--skin-color);
+  filter: brightness(98%)
 }
 
 #points {
@@ -65,7 +54,6 @@ body {
 
 .head {
   top: var(--head-top);
-  position: absolute;
   width: 240px;
   height: 270px;
   background: var(--skin-color);
@@ -74,7 +62,6 @@ body {
 }
 
 .hair {
-  position: absolute;
   background: var(--hair-color);
   width: 240px;
   height: 260px;
@@ -82,7 +69,6 @@ body {
 }
 
 .ears {
-  position: absolute;
   top: 245px;
   white-space:nowrap;
 }
@@ -95,13 +81,12 @@ body {
   border-radius: 100%;
 }
 
-.rightEar {
+.earRight {
   margin-left: 130px;
 }
 
 .neck {
   top: calc(var(--head-top) + 225px);
-  position: absolute;
   width: 90px;
   height: 115px;
   border-radius: 36px;
@@ -127,11 +112,16 @@ body {
   background-color: var(--ui-color);
   left: 0;
   bottom: 0;
+  color: pink;
   position: absolute;
 }
 
+#bar ::selection {
+  background-color: none;
+}
+
 @media only screen and (max-device-width: 700px) {
-  .client {
+  .customer {
     zoom: scale(0.5);
     -moz-transform: scale(0.5);
   }
