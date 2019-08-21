@@ -35,7 +35,7 @@ body {
   display: inline-block;
   width: 25px;
   height: 25px;
-  border-radius: 100%;
+  background: green;
 }
 
 .scratched {
@@ -43,6 +43,7 @@ body {
 }
 
 .itchy {
+  border-radius: 100%;
   background: var(--skin-color);
   filter: brightness(98%)
 }
@@ -121,6 +122,10 @@ body {
 }
 
 @media only screen and (max-device-width: 700px) {
+  body {
+    width: 95%;
+    height: 95%;
+  }
   .customer {
     zoom: scale(0.5);
     -moz-transform: scale(0.5);

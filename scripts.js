@@ -62,6 +62,10 @@ createCustomer = () => {
     back.appendChild(spot);
   }
 
+  back.addEventListener('touchmove', () => {
+    document.getElementById('points').innerText = Math.floor(points += 0.05);
+  });
+
   for (let spot of document.getElementsByClassName('spot')) {
     if (Math.floor((Math.random() * 2000) + 1) % 13 === 0 &&
       Math.floor((Math.random() * 2000) + 1) % 5 === 0) {
