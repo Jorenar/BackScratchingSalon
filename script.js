@@ -3,8 +3,6 @@ var points = 0;
 var time;
 var spotRows = 13;
 var spotColumns = 12;
-var spotRowsArray = new Array(spotRows).fill(0);
-var spotColumnsArray = new Array(spotColumns).fill(0);
 
 var customerDiv = document.querySelector('.customer')
 
@@ -19,85 +17,89 @@ const createBodyPart = (classes, parent) => {
   return part;
 }
 
-const createCustomer = () => {
-  let verticalScratches = 0;
-  let horizontalScratches = 0;
-  time = Math.floor((Math.random() * 20) + 10);
-  customerDiv.innerHTML = "";
-  customerDiv.className = 'customer';
-  customerDiv.style = "--skin-color: " + randomColor() +
-    "; --hair-color: " + randomColor();
+class Customer {
+  constructor() {
+    let spotRowsArray = new Array(spotRows).fill(0);
+    let spotColumnsArray = new Array(spotColumns).fill(0);
+    this.verticalScratches = 0;
+    this.horizontalScratches = 0;
 
-  head = createBodyPart('head', customerDiv);
-  createBodyPart('hair', head);
-  ears = createBodyPart('ears', customerDiv);
-  createBodyPart('ear', ears);
-  createBodyPart('ear earRight', ears);
-  createBodyPart('neck', customerDiv);
-  back = createBodyPart('back', customerDiv);
+    this.preferVertical = Math.floor(Math.random() * 2);
 
-  for (let i = 0; i < spotRows; ++i) {
-    for (let j = 0; j < spotColumns; ++j) {
-      let spot = document.createElement('div');
-      spot.className = "spot";
-      spot.dataset.row = i;
-      spot.dataset.column = j;
-      spot.onmouseover = () => {
-        if (mouseIsDown) {
-          spot.classList.add('scratched');
+    time = Math.floor((Math.random() * 20) + 10);
+    customerDiv.innerHTML = "";
+    customerDiv.className = 'customer';
+    customerDiv.style = "--skin-color: " + randomColor() +
+      "; --hair-color: " + randomColor();
 
-          let scratched = document.querySelectorAll('.scratched');
+    let head = createBodyPart('head', customerDiv);
+    createBodyPart('hair', head);
+    let ears = createBodyPart('ears', customerDiv);
+    createBodyPart('ear', ears);
+    createBodyPart('ear earRight', ears);
+    createBodyPart('neck', customerDiv);
+    let back = createBodyPart('back', customerDiv);
 
-          if (scratched.length >= 10) {
-            scratched.forEach(spotScratched => {
-              spotRowsArray[spotScratched.dataset.row]++;
-              spotColumnsArray[spotScratched.dataset.column]++;
-            });
+    for (let i = 0; i < spotRows; ++i) {
+      for (let j = 0; j < spotColumns; ++j) {
+        let spot = document.createElement('div');
+        spot.className = "spot";
+        spot.dataset.row = i;
+        spot.dataset.column = j;
+        spot.onmouseover = () => {
+          if (mouseIsDown) {
+            spot.classList.add('scratched');
 
-            let horizontality = spotRowsArray.reduce((n, x) => n + (x === 0), 0);
-            let verticality = spotColumnsArray.reduce((n, x) => n + (x === 0), 0);
+            let scratched = document.querySelectorAll('.scratched');
 
-            verticalScratches += verticality > horizontality ? 1 : 0;
-            horizontalScratches += verticality < horizontality ? 1 : 0;
+            if (scratched.length >= 10) {
+              scratched.forEach(spotScratched => {
+                spotRowsArray[spotScratched.dataset.row]++;
+                spotColumnsArray[spotScratched.dataset.column]++;
+              });
 
-            spotRowsArray.fill(0);
-            spotColumnsArray.fill(0);
-            document.getElementById('points').innerText = Math.floor(++points);
-            scratched.forEach(spotScratched => {
-              spotScratched.classList.remove('scratched')
-            });
+              let horizontality = spotRowsArray.reduce((n, x) => n + (x === 0), 0);
+              let verticality = spotColumnsArray.reduce((n, x) => n + (x === 0), 0);
+
+              this.verticalScratches += verticality > horizontality ? 1 : 0;
+              this.horizontalScratches += verticality < horizontality ? 1 : 0;
+
+              spotRowsArray.fill(0);
+              spotColumnsArray.fill(0);
+
+              scratched.forEach(spotScratched => {
+                spotScratched.classList.remove('scratched')
+              });
+            }
           }
         }
+        back.appendChild(spot);
       }
-      back.appendChild(spot);
     }
+
+    document.querySelectorAll('.unpleasant, .unpleasant *').forEach(item => {
+      item.onmousemove = () => {
+        if (mouseIsDown) {
+          alert("Auch!");
+        }
+      }
+    });
+
+    document.getElementById("timer").innerHTML = time;
   }
 
-  document.querySelectorAll('.unpleasant, .unpleasant *').forEach(item => {
-    item.onmousemove = () => {
-      if (mouseIsDown) {
-        alert("Auch!");
-      }
-    }
-  });
-
-
-  document.getElementById("timer").innerHTML = time;
+  finalize() {
+    customerDiv.innerHTML = "";
+  }
 }
 
-createCustomer();
+let cus = new Customer();
 
-const nextCustomer = () => {
-  customerDiv.innerHTML = "";
-  createCustomer();
-}
-
-/*
 setInterval(() => {
   if (time === 0) {
-    nextCustomer();
+    cus.finalize();
+    cus = new Customer();
   } else {
     document.getElementById("timer").innerHTML = --time;
   }
 }, 1000);
-*/
