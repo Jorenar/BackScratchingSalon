@@ -7,23 +7,25 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
   <link rel="stylesheet" href="style.css">
 </head>
-<body onmouseup="down=0;" onmousedown="down=1">
+<body onmouseup="down=0;up=0;dn=0;" onmousedown="down=1">
   <div class="client yellowSkin brownHair squareHead">
-    <div class="head">
+    <div class="head unpleasant">
       <div class="hair"></div>
     </div>
-    <div class="neck"></div>
     <div class="ears">
-      <div class="ear left"></div>
-      <div class="ear right"></div>
+      <div class="ear"></div>
+      <div class="ear rightEar"></div>
     </div>
+    <div class="neck"></div>
     <div class="back">
-      <div class="upper" onmouseover="up=1"></div>
-      <div class="down" onmouseover="dn=1"></div>
+      <div class="upper" onmouseover="up = down ? 1 : 0">
+      </div>
+      <div class="down" onmouseover="dn = down ? 1 : 0">
+      </div>
     </div>
   </div>
   <div id="bar">
-    <div id="points"></div>
+    <div id="points" style="color: pink">0</div>
   </div>
   <script src="scripts.js"></script>
 </body>
