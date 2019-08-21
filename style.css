@@ -10,10 +10,6 @@ body {
   overflow: hidden;
 }
 
-/* Head shape */
-.elipticHead { --head-shape: 50% }
-.squareHead { --head-shape: 40% }
-
 .customer > * {
   left: 50%;
   transform: translateX(-50%);
@@ -35,17 +31,6 @@ body {
   display: inline-block;
   width: 25px;
   height: 25px;
-  background: green;
-}
-
-.scratched {
-  background: magenta;
-}
-
-.itchy {
-  border-radius: 100%;
-  background: var(--skin-color);
-  filter: brightness(98%)
 }
 
 #points {
@@ -58,7 +43,7 @@ body {
   width: 240px;
   height: 270px;
   background: var(--skin-color);
-  border-radius: var(--head-shape);
+  border-radius: 40%;
   z-index: 1;
 }
 

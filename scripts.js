@@ -1,58 +1,46 @@
-var down = 0;
+var mouseIsDown = 0;
 var points = 0;
 var time;
 
-randomColor = () => {
+var customerDiv = document.querySelector('.customer')
+
+const randomColor = () => {
   return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6)
 }
 
-createCustomer = () => {
+const createBodyPart = (classes, parent) => {
+  part = document.createElement('div')
+  part.className = classes;
+  parent.appendChild(part);
+  return part;
+}
+
+const createCustomer = () => {
   time = Math.floor((Math.random() * 20) + 10);
-  customer = document.querySelector('.customer')
-  customer.innerHTML = "";
-  customer.className = 'customer squareHead';
-  customer.style = "--skin-color: " + randomColor() +
+  customerDiv.innerHTML = "";
+  customerDiv.className = 'customer';
+  customerDiv.style = "--skin-color: " + randomColor() +
     "; --hair-color: " + randomColor();
 
-  head = document.createElement('div')
-  head.className = 'head';
-  customer.appendChild(head);
-
-  hair = document.createElement('div')
-  hair.className = 'hair';
-  head.appendChild(hair);
-
-  ears = document.createElement('div')
-  ears.className = 'ears';
-  customer.appendChild(ears);
-
-  earLeft = document.createElement('div')
-  earLeft.className = 'ear';
-  ears.appendChild(earLeft);
-
-  earRight = document.createElement('div')
-  earRight.className = 'ear earRight';
-  ears.appendChild(earRight);
-
-  neck = document.createElement('div')
-  neck.className = 'neck';
-  customer.appendChild(neck);
-
-  back = document.createElement('div')
-  back.className = 'back';
-  customer.appendChild(back);
+  head = createBodyPart('head', customerDiv);
+  createBodyPart('hair', head);
+  ears = createBodyPart('ears', customerDiv);
+  createBodyPart('ear', ears);
+  createBodyPart('ear earRight', ears);
+  createBodyPart('neck', customerDiv);
+  back = createBodyPart('back', customerDiv);
 
   for (let i = 0; i < 156; ++i) {
     let spot = document.createElement('div');
     spot.className = "spot";
     spot.onmouseover = () => {
-      if (down) {
+      if (mouseIsDown) {
         spot.classList.add('scratched');
 
         let scratched = document.querySelectorAll('.scratched');
 
         if (scratched.length >= 10) {
-          document.getElementById('points').innerText = ++points;
+          document.getElementById('points').innerText = Math.floor(++points);
           scratched.forEach(spotScratched => {
             spotScratched.classList.remove('scratched')
           });
@@ -66,39 +54,29 @@ createCustomer = () => {
     document.getElementById('points').innerText = Math.floor(points += 0.05);
   });
 
-  for (let spot of document.getElementsByClassName('spot')) {
-    if (Math.floor((Math.random() * 2000) + 1) % 13 === 0 &&
-      Math.floor((Math.random() * 2000) + 1) % 5 === 0) {
-      spot.className = "spot itchy";
-      break;
-    }
-  }
-
   document.querySelectorAll('.unpleasant, .unpleasant *').forEach(item => {
     item.onmousemove = () => {
-      if (down) {
+      if (mouseIsDown) {
         alert("Auch!");
       }
     }
   });
 
-  document.querySelectorAll('.itchy').forEach(item => {
-    item.onmousemove = () => {
-      if (down) {
-        document.getElementById('points').innerText = points += 1;
-      }
-    }
-  });
 
   document.getElementById("timer").innerHTML = time;
 }
 
-let timer = setInterval(() => {
+createCustomer();
+
+const nextCustomer = () => {
+  customerDiv.innerHTML = "";
+  createCustomer();
+}
+
+setInterval(() => {
   if (time === 0) {
-    createCustomer()
+    nextCustomer();
   } else {
     document.getElementById("timer").innerHTML = --time;
   }
 }, 1000);
-
-createCustomer();
