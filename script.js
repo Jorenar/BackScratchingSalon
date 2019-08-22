@@ -1,5 +1,4 @@
 var mouseIsDown = 0;
-var time;
 var spotRows = 13;
 var spotColumns = 12;
 
@@ -17,10 +16,13 @@ function whenMouseUp() {
   });
 }
 
-function finalize(pleasure) {
+function finalize(pleasure, timeLeft) {
+  clearInterval(customer.timer)
+  document.getElementById("timer").firstChild.innerHTML = '--';
+  document.getElementById("pleasureBar").style.width = pleasure + '%';
   customerDiv.innerHTML = "";
 
-  customer = new Customer;
+  setTimeout( () => { customer = new Customer; }, 1000);
 }
 
 function createBodyPart(classes, parent) {
@@ -38,31 +40,34 @@ class Customer {
     this.horizontalScratches = 0;
     this.skewScratches = 0;
 
-    let pleasure = 50;
-    document.getElementById('pleasureBar').style.width = '50%';
+    this.pleasure = 0;
+    document.getElementById('pleasureBar').style.width = '0%';
 
-    // time = Math.floor((Math.random() * 20) + 10);
-    time = 30;
 
-    // 0 - neutral, 1 - likes, 2 - hates
-    let attitudeVertical   = Math.floor(Math.random() * 3);
-    let attitudeHorizontal = Math.floor(Math.random() * 3);
-    let attitudeSkew       = Math.floor(Math.random() * 3);
-
-    if (attitudeVertical == 1) {
-      let attitudeLeft = Math.floor(Math.random() * 3);
-      let attitudeRight = Math.floor(Math.random() * 3);
+    let multipliers = { vertical:1, horizontal:1, skew:1 }
+    //, left:1, right:1, top:1, down:1, middleV:1, middleH:1 };
+    let maxMul = 0;
+    for (let multiplier in multipliers) {
+      multipliers[multiplier] = Math.floor(Math.random() * 7) + 3;
+      maxMul = multipliers[multiplier] > maxMul ? multipliers[multiplier] : maxMul;
     }
+    console.log('---');
 
-    if (attitudeHorizontal == 1) {
-    }
+    console.log(maxMul);
 
-    console.log(attitudeVertical)
-    console.log(attitudeHorizontal)
-    console.log(attitudeSkew)
+    this.time = Math.floor((Math.random() * 5) + 20) - maxMul;
 
-    customerDiv.style = "--skin-color: " + randomColor() +
-      "; --hair-color: " + randomColor();
+    document.getElementById("timer").firstChild.innerHTML = this.time;
+
+    this.timer = setInterval(() => {
+      if (this.time === 0) {
+        finalize(customer.pleasure, 0);
+      } else {
+        document.getElementById("timer").firstChild.innerHTML = --this.time >= 10 ? this.time : '0'+this.time;
+      }
+    }, 1000);
+
+    customerDiv.style = "--skin-color: " + randomColor();
 
     let head = createBodyPart('head', customerDiv);
     let back = createBodyPart('back', customerDiv);
@@ -104,18 +109,16 @@ class Customer {
               });
 
               if (verticalScratch)
-                pleasure = this.checkAttitude(attitudeVertical, pleasure);
+                this.pleasure += multipliers.vertical;
               else if (horizontalScratch)
-                pleasure = this.checkAttitude(attitudeHorizontal, pleasure);
+                this.pleasure += multipliers.horizontal;
               else if (skewScratch)
-                pleasure = this.checkAttitude(attitudeSkew, pleasure);
+                this.pleasure += multipliers.skew;
 
-              console.log(pleasure);
-
-              if (pleasure < 100 && pleasure > 0)
-                document.getElementById("pleasureBar").style.width = pleasure + '%';
+              if (this.pleasure < 100)
+                document.getElementById("pleasureBar").style.width = this.pleasure + '%';
               else
-                finalize(pleasure);
+                finalize(100, this.time)
             }
           }
         }
@@ -131,26 +134,7 @@ class Customer {
       }
     });
 
-    document.getElementById("timer").innerHTML = time;
-  }
-
-  checkAttitude(pref, pleasure) {
-    pleasure += (pref == 0)*5;
-    pleasure += (pref == 1)*10;
-    pleasure -= (pref == 2)*5;
-    return pleasure > 0 ? pleasure : 0;
   }
 }
 
 var customer = new Customer();
-
-/*
-setInterval(() => {
-  if (time === 0) {
-    finalize();
-    customer = new Customer();
-  } else {
-    document.getElementById("timer").innerHTML = --time;
-  }
-}, 1000);
-*/

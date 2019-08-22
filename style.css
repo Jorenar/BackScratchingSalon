@@ -1,14 +1,18 @@
 :root {
   --head-top: 130px;
-  --ui-color: blue;
+  --ui-color: cyan;
 }
 
 html,body{ margin:0; padding:0; height:100%; width:100%; }
 
 #playScreen {
-  background-color: red;
+  background-color: pink;
   height:100%;
   width:100%;
+}
+
+.customer {
+  mix-blend-mode: difference;
 }
 
 .customer > * {
@@ -49,8 +53,9 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
 }
 
 .hair {
-  background: var(--hair-color);
   width: 240px;
+  background: var(--skin-color);
+  filter: invert(80%);
   height: 260px;
   border-radius: 40%;
 }
@@ -79,45 +84,35 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
   }
 }
 
-@keyframes tiltHead {
-  to {
-    transform: translateX(-50%) rotateX(5deg);
-  }
-}
-
 #hud {
-  width: 100%;
+  border: 10px solid white;
   height: 150px;
   background-color: var(--ui-color);
-  left: 0;
   bottom: 0;
-  color: pink;
   position: absolute;
+  width: calc(100% - 20px);
 }
 
 #hud ::selection {
   background-color: none;
 }
 
-@media only screen and (max-device-width: 700px) {
-  body {
-    width: 95%;
-    height: 95%;
-  }
-  .customer {
-    zoom: scale(0.5);
-    -moz-transform: scale(0.5);
-  }
-}
-
 #progressBar {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px;
+  border: 5px solid darkblue;
   background-color: grey;
-  background-color: red;
 }
 
 #pleasureBar {
   height: 30px;
   background-color: green;
+}
+
+#timer {
+  font-size: 24px;
+  width: min-content;
+  border: 5px solid brown;
+  background: black;
+  color: lightgreen;
+  margin: 10px;
 }
