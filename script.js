@@ -30,6 +30,7 @@ class Customer {
     let spotColumnsArray = new Array(spotColumns).fill(0);
     this.verticalScratches = 0;
     this.horizontalScratches = 0;
+    this.skewScratches = 0;
 
     this.preferVertical = Math.floor(Math.random() * 2);
 
@@ -68,8 +69,9 @@ class Customer {
               let horizontality = spotRowsArray.reduce((n, x) => n + (x === 0), 0);
               let verticality = spotColumnsArray.reduce((n, x) => n + (x === 0), 0);
 
-              this.verticalScratches += verticality > horizontality ? 1 : 0;
-              this.horizontalScratches += verticality < horizontality ? 1 : 0;
+              this.verticalScratches += verticality > horizontality + 4 ? 1 : 0;
+              this.horizontalScratches += verticality + 4 < horizontality ? 1 : 0;
+              this.skewScratches += Math.abs(verticality - horizontality) < 4 ? 1 : 0;
 
               spotRowsArray.fill(0);
               spotColumnsArray.fill(0);
@@ -102,6 +104,7 @@ class Customer {
 
 var customer = new Customer();
 
+/*
 setInterval(() => {
   if (time === 0) {
     customer.finalize();
@@ -110,3 +113,4 @@ setInterval(() => {
     document.getElementById("timer").innerHTML = --time;
   }
 }, 1000);
+*/
