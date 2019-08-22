@@ -17,12 +17,17 @@ function whenMouseUp() {
 }
 
 function finalize(pleasure, timeLeft) {
+  document.querySelector('.back').innerHTML = '';
   clearInterval(customer.timer)
   document.getElementById("timer").firstChild.innerHTML = '--';
   document.getElementById("pleasureBar").style.width = pleasure + '%';
-  customerDiv.innerHTML = "";
 
-  setTimeout( () => { customer = new Customer; }, 1000);
+  customerDiv.style.filter = "opacity(50%)"
+
+  setTimeout( () => {
+    customerDiv.innerHTML = "";
+    customer = new Customer;
+  }, 1000);
 }
 
 function createBodyPart(classes, parent) {
@@ -43,7 +48,6 @@ class Customer {
     this.pleasure = 0;
     document.getElementById('pleasureBar').style.width = '0%';
 
-
     let multipliers = { vertical:1, horizontal:1, skew:1 }
     //, left:1, right:1, top:1, down:1, middleV:1, middleH:1 };
     let maxMul = 0;
@@ -51,9 +55,6 @@ class Customer {
       multipliers[multiplier] = Math.floor(Math.random() * 7) + 3;
       maxMul = multipliers[multiplier] > maxMul ? multipliers[multiplier] : maxMul;
     }
-    console.log('---');
-
-    console.log(maxMul);
 
     this.time = Math.floor((Math.random() * 5) + 20) - maxMul;
 
