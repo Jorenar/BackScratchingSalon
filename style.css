@@ -32,11 +32,6 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
   display: inline-block;
   width: 25px;
   height: 25px;
-  background: green;
-}
-
-.scratched {
-  background: magenta;
 }
 
 #points {
@@ -62,19 +57,11 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
 
 .ears {
   top: 245px;
-  white-space:nowrap;
-}
-
-.ear {
   display: inline-block;
   background: var(--skin-color);
-  width: 75px;
+  width: 290px;
   height: 75px;
-  border-radius: 100%;
-}
-
-.earRight {
-  margin-left: 130px;
+  border-radius: 50px;
 }
 
 .neck {
@@ -98,7 +85,7 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
   }
 }
 
-#bar {
+#hud {
   width: 100%;
   height: 150px;
   background-color: var(--ui-color);
@@ -108,7 +95,7 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
   position: absolute;
 }
 
-#bar ::selection {
+#hud ::selection {
   background-color: none;
 }
 
@@ -121,4 +108,16 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
     zoom: scale(0.5);
     -moz-transform: scale(0.5);
   }
+}
+
+#progressBar {
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: grey;
+  background-color: red;
+}
+
+#pleasureBar {
+  height: 30px;
+  background-color: green;
 }

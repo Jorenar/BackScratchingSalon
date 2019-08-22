@@ -1,8 +1,8 @@
 var mouseIsDown = 0;
-var points = 0;
 var time;
 var spotRows = 13;
 var spotColumns = 12;
+
 
 var customerDiv = document.querySelector('.customer')
 
@@ -15,6 +15,12 @@ function whenMouseUp() {
   document.querySelectorAll('.scratched').forEach(spotScratched => {
     spotScratched.classList.remove('scratched')
   });
+}
+
+function finalize(pleasure) {
+  customerDiv.innerHTML = "";
+
+  customer = new Customer;
 }
 
 function createBodyPart(classes, parent) {
@@ -32,21 +38,38 @@ class Customer {
     this.horizontalScratches = 0;
     this.skewScratches = 0;
 
-    this.preferVertical = Math.floor(Math.random() * 2);
+    let pleasure = 50;
+    document.getElementById('pleasureBar').style.width = '50%';
 
-    time = Math.floor((Math.random() * 20) + 10);
-    customerDiv.innerHTML = "";
-    customerDiv.className = 'customer';
+    // time = Math.floor((Math.random() * 20) + 10);
+    time = 30;
+
+    // 0 - neutral, 1 - likes, 2 - hates
+    let attitudeVertical   = Math.floor(Math.random() * 3);
+    let attitudeHorizontal = Math.floor(Math.random() * 3);
+    let attitudeSkew       = Math.floor(Math.random() * 3);
+
+    if (attitudeVertical == 1) {
+      let attitudeLeft = Math.floor(Math.random() * 3);
+      let attitudeRight = Math.floor(Math.random() * 3);
+    }
+
+    if (attitudeHorizontal == 1) {
+    }
+
+    console.log(attitudeVertical)
+    console.log(attitudeHorizontal)
+    console.log(attitudeSkew)
+
     customerDiv.style = "--skin-color: " + randomColor() +
       "; --hair-color: " + randomColor();
 
     let head = createBodyPart('head', customerDiv);
-    createBodyPart('hair', head);
-    let ears = createBodyPart('ears', customerDiv);
-    createBodyPart('ear', ears);
-    createBodyPart('ear earRight', ears);
-    createBodyPart('neck', customerDiv);
     let back = createBodyPart('back', customerDiv);
+
+    createBodyPart('hair', head);
+    createBodyPart('ears', customerDiv);
+    createBodyPart('neck', customerDiv);
 
     for (let i = 0; i < spotRows; ++i) {
       for (let j = 0; j < spotColumns; ++j) {
@@ -69,9 +92,9 @@ class Customer {
               let horizontality = spotRowsArray.reduce((n, x) => n + (x === 0), 0);
               let verticality = spotColumnsArray.reduce((n, x) => n + (x === 0), 0);
 
-              this.verticalScratches += verticality > horizontality + 4 ? 1 : 0;
-              this.horizontalScratches += verticality + 4 < horizontality ? 1 : 0;
-              this.skewScratches += Math.abs(verticality - horizontality) < 4 ? 1 : 0;
+              let verticalScratch = verticality > horizontality + 2 ? 1 : 0;
+              let horizontalScratch = verticality + 2 < horizontality ? 1 : 0;
+              let skewScratch = Math.abs(verticality - horizontality) < 2 ? 1 : 0;
 
               spotRowsArray.fill(0);
               spotColumnsArray.fill(0);
@@ -79,6 +102,20 @@ class Customer {
               scratched.forEach(spotScratched => {
                 spotScratched.classList.remove('scratched')
               });
+
+              if (verticalScratch)
+                pleasure = this.checkAttitude(attitudeVertical, pleasure);
+              else if (horizontalScratch)
+                pleasure = this.checkAttitude(attitudeHorizontal, pleasure);
+              else if (skewScratch)
+                pleasure = this.checkAttitude(attitudeSkew, pleasure);
+
+              console.log(pleasure);
+
+              if (pleasure < 100 && pleasure > 0)
+                document.getElementById("pleasureBar").style.width = pleasure + '%';
+              else
+                finalize(pleasure);
             }
           }
         }
@@ -97,8 +134,11 @@ class Customer {
     document.getElementById("timer").innerHTML = time;
   }
 
-  finalize() {
-    customerDiv.innerHTML = "";
+  checkAttitude(pref, pleasure) {
+    pleasure += (pref == 0)*5;
+    pleasure += (pref == 1)*10;
+    pleasure -= (pref == 2)*5;
+    return pleasure > 0 ? pleasure : 0;
   }
 }
 
@@ -107,7 +147,7 @@ var customer = new Customer();
 /*
 setInterval(() => {
   if (time === 0) {
-    customer.finalize();
+    finalize();
     customer = new Customer();
   } else {
     document.getElementById("timer").innerHTML = --time;
