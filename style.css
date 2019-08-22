@@ -1,18 +1,22 @@
 :root {
   --head-top: 130px;
-  --ui-color: cyan;
 }
 
-html,body{ margin:0; padding:0; height:100%; width:100%; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
 
 #playScreen {
-  background-color: pink;
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(315deg, #2d3436 0%, #d3d3d3 74%);
 }
 
-.customer {
-  mix-blend-mode: difference;
+.bank {
+  filter: opacity(50%);
 }
 
 .customer > * {
@@ -84,35 +88,45 @@ html,body{ margin:0; padding:0; height:100%; width:100%; }
   }
 }
 
-#hud {
-  border: 10px solid white;
+.hud {
+  border: 10px solid #333;
   height: 150px;
-  background-color: var(--ui-color);
   bottom: 0;
   position: absolute;
   width: calc(100% - 20px);
 }
 
-#hud ::selection {
+.hud ::selection {
   background-color: none;
 }
 
 #progressBar {
   margin: 10px;
-  border: 5px solid darkblue;
-  background-color: grey;
+  border: 5px solid #686868;
+  background-color: #000;
 }
 
 #pleasureBar {
   height: 30px;
-  background-color: green;
+  background-color: #00f900;
+  box-shadow: 0 0 5px 5px green;
 }
 
-#timer {
+#timer, #money {
+  display: inline-block;
   font-size: 24px;
+  padding: 5px;
   width: min-content;
-  border: 5px solid brown;
+  border: 5px solid #686868;
   background: black;
-  color: lightgreen;
+  color: #00f900;
   margin: 10px;
+}
+
+#money > samp::before {
+  content: '$';
+}
+
+.metalBg {
+  background: linear-gradient(45deg, #c0c0c0 0%, #ffffff 50%, #808080 100%);
 }
