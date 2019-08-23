@@ -9,6 +9,7 @@ var customerDiv = document.querySelector('.customer')
 function randomColor() {
   return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6)
 }
+var satisfyBar = document.getElementById('satisfyBar');
 
 function whenMouseUp() {
   mouseIsDown = 0;
@@ -17,11 +18,11 @@ function whenMouseUp() {
   });
 }
 
-function finalize(pleasure, timeLeft) {
+function finalize(satisfy, timeLeft) {
   document.querySelector('.back').innerHTML = '';
   clearInterval(customer.timer)
   document.getElementById("timer").firstChild.innerHTML = '--';
-  document.getElementById("pleasureBar").style.width = pleasure + '%';
+  satisfyBar.style.width = satisfy + '%';
 
   customerDiv.style.filter = "opacity(50%)"
 
@@ -46,8 +47,8 @@ class Customer {
     this.horizontalScratches = 0;
     this.skewScratches = 0;
 
-    this.pleasure = 0;
-    document.getElementById('pleasureBar').style.width = '0%';
+    this.satisfy = 0;
+    satisfyBar.style.width = '0%';
 
     let multipliers = { vertical:1, horizontal:1, skew:1 }
     //, left:1, right:1, top:1, down:1, middleV:1, middleH:1 };
@@ -63,9 +64,9 @@ class Customer {
 
     this.timer = setInterval(() => {
       if (this.time === 0) {
-        finalize(customer.pleasure, 0);
       } else {
         document.getElementById("timer").firstChild.innerHTML = --this.time >= 10 ? this.time : '0'+this.time;
+        finalize(customer.satisfy, 0);
       }
     }, 1000);
 
@@ -113,14 +114,14 @@ class Customer {
               });
 
               if (verticalScratch)
-                this.pleasure += multipliers.vertical;
+                this.satisfy += verticalPoints;
               else if (horizontalScratch)
-                this.pleasure += multipliers.horizontal;
+                this.satisfy += horizontalPoints;
               else if (skewScratch)
-                this.pleasure += multipliers.skew;
+                this.satisfy += skewPoints;
 
-              if (this.pleasure < 100)
-                document.getElementById("pleasureBar").style.width = this.pleasure + '%';
+              if (this.satisfy < 100)
+                document.getElementById("satisfyBar").style.width = this.satisfy + '%';
               else
                 finalize(100, this.time)
             }
