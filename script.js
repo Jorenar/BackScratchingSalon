@@ -2,6 +2,7 @@ var mouseIsDown = 0;
 var spotRows = 13;
 var spotColumns = 12;
 
+var audio = new Audio('sound.ogg');
 
 var customerDiv = document.querySelector('.customer')
 
@@ -88,6 +89,8 @@ class Customer {
             spot.classList.add('scratched');
 
             let scratched = document.querySelectorAll('.scratched');
+
+            audio.play();
 
             if (scratched.length >= 10) {
               scratched.forEach(spotScratched => {
