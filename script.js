@@ -79,7 +79,11 @@ class Customer {
 
     let back = createBodyPart('back', customerDiv);
 
-    createBodyPart('hair', head);
+    let hair = createBodyPart('hair', head);
+
+    if (Math.floor((Math.random() * 2)))
+      hair.classList.add('long')
+
     createBodyPart('ears', customerDiv);
 
     for (let i = 0; i < backRows; ++i) {
