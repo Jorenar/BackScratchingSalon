@@ -4,8 +4,10 @@ var backColumns = 12;
 var audio = new Audio('sound.ogg');
 var customer;
 var pause = 0;
+var money = 0;
 
 var customerDiv = document.querySelector('.customer')
+var moneyDiv = document.getElementById('money').firstChild;
 var pauseScreen = document.getElementById('pauseScreen');
 var satisfyBar = document.getElementById('satisfyBar');
 var timerDiv = document.getElementById('timer').firstChild;
@@ -23,7 +25,12 @@ function finalize(satisfy, timeLeft) {
   timerDiv.innerHTML = '--';
   satisfyBar.style.width = satisfy + '%';
 
+  money += timeLeft > 0 ? satisfy*timeLeft/100 : Math.floor(satisfy/10);
+
   customerDiv.style.filter = "opacity(50%)"
+
+  document.title = "$" + money + " | Back Scratching Salon"
+  moneyDiv.innerHTML = money;
 
   setTimeout(() => {
     customerDiv.innerHTML = "";
