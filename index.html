@@ -8,7 +8,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="playScreen" onmouseup="whenMouseUp()" onmousedown="mouseIsDown=1">
+  <div id="titleScreen">
+    <button onclick="startGame()" type="button">START</button>
+  </div>
+  <div id="playScreen" style="display: none;" onmouseup="whenMouseUp()" onmousedown="mouseIsDown=1">
+    <button onclick="pauseGame()" type="button">PAUSE</button>
     <div class="customer"></div>
     <div class="hud metalBg">
       <div id="progressBar">
@@ -17,6 +21,8 @@
       <div id="timer"><samp>--</samp></div>
       <div id="money"><samp>0</samp></div>
     </div>
+  </div>
+  <div id="pauseScreen" onclick="resumeGame()" style="display:none">
   </div>
   <script src="script.js"></script>
 </body>

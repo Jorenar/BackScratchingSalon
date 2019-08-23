@@ -1,7 +1,3 @@
-:root {
-  --head-top: 130px;
-}
-
 html, body {
   margin: 0;
   padding: 0;
@@ -15,14 +11,21 @@ html, body {
   background: linear-gradient(315deg, #2d3436 0%, #d3d3d3 74%);
 }
 
-.bank {
-  filter: opacity(50%);
+#pauseScreen {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  position: absolute;
+  top: 0;
+  z-index: 2;
 }
 
 .customer > * {
   left: 50%;
   transform: translateX(-50%);
   position: absolute;
+  --head-top: 130px;
 }
 
 .back {

@@ -3,13 +3,17 @@ var spotRows = 13;
 var spotColumns = 12;
 
 var audio = new Audio('sound.ogg');
+var customer;
+var pause = 0;
 
 var customerDiv = document.querySelector('.customer')
 
 function randomColor() {
   return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6)
 }
+var pauseScreen = document.getElementById('pauseScreen');
 var satisfyBar = document.getElementById('satisfyBar');
+var timerDiv = document.getElementById('timer').firstChild;
 
 function whenMouseUp() {
   mouseIsDown = 0;
@@ -21,7 +25,7 @@ function whenMouseUp() {
 function finalize(satisfy, timeLeft) {
   document.querySelector('.back').innerHTML = '';
   clearInterval(customer.timer)
-  document.getElementById("timer").firstChild.innerHTML = '--';
+  timerDiv.innerHTML = '--';
   satisfyBar.style.width = satisfy + '%';
 
   customerDiv.style.filter = "opacity(50%)"
@@ -29,7 +33,6 @@ function finalize(satisfy, timeLeft) {
   setTimeout( () => {
     customerDiv.innerHTML = "";
     customer = new Customer;
-  }, 1000);
 }
 
 function createBodyPart(classes, parent) {
@@ -60,13 +63,13 @@ class Customer {
 
     this.time = Math.floor((Math.random() * 5) + 20) - maxMul;
 
-    document.getElementById("timer").firstChild.innerHTML = this.time;
+    timerDiv.innerHTML = this.time;
 
     this.timer = setInterval(() => {
       if (this.time === 0) {
-      } else {
-        document.getElementById("timer").firstChild.innerHTML = --this.time >= 10 ? this.time : '0'+this.time;
         finalize(customer.satisfy, 0);
+      } else if (!pause) {
+        timerDiv.innerHTML = --this.time >= 10 ? this.time : '0' + this.time;
       }
     }, 1000);
 
@@ -142,4 +145,19 @@ class Customer {
   }
 }
 
-var customer = new Customer();
+function startGame() {
+  document.getElementById('playScreen').style.display = '';
+  document.getElementById('titleScreen').style.display = 'none';
+  document.title = "$" + money + " | Back Scratching Salon"
+  customer = new Customer();
+}
+
+function pauseGame() {
+  pause = 1
+  pauseScreen.style.display = '';
+}
+
+function resumeGame() {
+  pause = 0
+  pauseScreen.style.display = 'none';
+}
