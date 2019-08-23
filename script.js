@@ -38,7 +38,7 @@ function finalize(timeLeft) {
 
   money += timeLeft > 0 ? satisfy*timeLeft/100 : Math.floor(satisfy/10);
 
-  customerDiv.style.filter = "opacity(50%)"
+  customerDiv.style.filter = "opacity(20%)"
 
   document.title = "$" + money + " | Back Scratching Salon"
   moneyDiv.innerHTML = '$' + money;
@@ -46,7 +46,7 @@ function finalize(timeLeft) {
   setTimeout(() => {
     customerDiv.innerHTML = "";
     createCustomer();
-  }, 100);
+  }, 1000);
 }
 
 function createBodyPart(classes, parent) {

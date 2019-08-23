@@ -21,6 +21,10 @@ html, body {
   z-index: 2;
 }
 
+.customer {
+  transition: filter 1s;
+}
+
 .customer > * {
   left: 50%;
   transform: translateX(-50%);
@@ -121,8 +125,9 @@ button {
 
 #satisfyBar {
   height: 30px;
-  background-color: #00f900;
   box-shadow: 0 0 5px 5px green;
+  background: linear-gradient(0deg, rgba(60,255,0,1) 0%, rgba(0,255,166,1) 50%, rgba(60,255,0,1) 100%);
+  transition: width 1s, height 1s;
 }
 
 #timer, #money {
