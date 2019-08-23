@@ -30,7 +30,7 @@ function finalize(satisfy, timeLeft) {
   customerDiv.style.filter = "opacity(50%)"
 
   document.title = "$" + money + " | Back Scratching Salon"
-  moneyDiv.innerHTML = money;
+  moneyDiv.innerHTML = '$' + money;
 
   setTimeout(() => {
     customerDiv.innerHTML = "";
@@ -98,7 +98,8 @@ class Customer {
 
             let scratched = document.querySelectorAll('.scratched');
 
-            audio.play();
+            if (!mute)
+              audio.play();
 
             if (scratched.length >= 10) {
               scratched.forEach(spotScratched => {
@@ -159,9 +160,27 @@ function startGame() {
 function pauseGame() {
   pause = 1
   pauseScreen.style.display = '';
+  document.querySelector('.pause').style.display = 'none';
+  document.querySelector('.start').style.display = '';
 }
 
 function resumeGame() {
   pause = 0
   pauseScreen.style.display = 'none';
+  document.querySelector('.pause').style.display = '';
+  document.querySelector('.start').style.display = 'none';
 }
+
+function toggleMute() {
+  if (mute) {
+    document.querySelector('.mute').style.display = '';
+    document.querySelector('.unmute').style.display = 'none';
+    mute = 0;
+  } else {
+    document.querySelector('.unmute').style.display = '';
+    document.querySelector('.mute').style.display = 'none';
+    mute = 1;
+  }
+}
+
+startGame();
