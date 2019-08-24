@@ -10,10 +10,10 @@ var time;
 var timer;
 
 var customerDiv = document.querySelector('.customer')
-var moneyDiv = document.getElementById('money').firstChild;
+var moneyDiv = document.getElementById('money');
 var pauseScreen = document.querySelector('.pauseScreen');
 var satisfyBar = document.getElementById('satisfyBar');
-var timerDiv = document.getElementById('timer').firstChild;
+var timerDiv = document.getElementById('timer');
 
 Element.prototype.toggle = function() {
   this.classList.toggle('hidden');
