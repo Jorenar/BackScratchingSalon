@@ -103,6 +103,9 @@ html, body {
 
 .hud {
   border: 10px solid #333;
+}
+
+.hudBar {
   height: 150px;
   bottom: 0;
   position: absolute;
@@ -128,13 +131,16 @@ html, body {
 
 #timer, #money {
   display: inline-block;
-  font-size: 24px;
   padding: 5px;
   width: min-content;
   border: 5px solid #686868;
   background: black;
   color: #00f900;
   margin: 10px;
+}
+
+samp {
+  font-size: 24px;
 }
 
 .metalBg {
@@ -177,4 +183,11 @@ html, body {
 
 .hidden {
   display: none;
+}
+
+.shop {
+  width: 400px;
+  height: calc(100% - 180px);
+  right: 0;
+  position: absolute;
 }
