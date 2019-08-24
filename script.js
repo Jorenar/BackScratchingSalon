@@ -151,6 +151,13 @@ function toggleMute() {
   mute = mute ? 0 : 1;
 }
 
+document.querySelectorAll('.tabs > button').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelector('.tabs > .current').classList.remove('current');
+    btn.classList.add('current');
+  }
+});
+
 startGame();
 
 // vim: fen:
