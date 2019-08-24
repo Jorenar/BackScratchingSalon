@@ -139,7 +139,6 @@ html, body {
   font-size: 24px;
   margin: 10px;
   padding: 5px;
-  width: min-content;
 }
 
 .metalBg {
@@ -147,37 +146,22 @@ html, body {
 }
 
 .menu {
-  position: absolute;
-  z-index: 3;
-  top: 10px;
+  cursor: pointer;
   left: 10px;
-}
-
-.menu > svg {
-  fill: #fff;
-  width: 50px;
-  height: 50px;
-  margin: 5px;
-  filter: drop-shadow(0px 0px 3px #000);
-}
-
-.mute {
-  z-index: 1;
   position: absolute;
+  top: 10px;
+  z-index: 3;
 }
 
-.gear:hover {
-  animation: spin 4s infinite linear;
+.menu > p:not(.hidden) {
+  display: inline-block;
+  filter: drop-shadow(0px 0px 3px #000);
+  font-size: 50px;
+  margin: 5px;
 }
 
-.menu > *:not(.gear):hover {
+.menu > *:hover {
   transform: scale(1.05);
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .hidden {
@@ -215,4 +199,14 @@ html, body {
   height: 100%;
   position: relative;
   background: pink;
+}
+
+.pulsating {
+  animation: pulsation 0.5s infinite alternate;
+}
+
+@keyframes pulsation {
+  to {
+    transform: scale(1.1);
+  }
 }

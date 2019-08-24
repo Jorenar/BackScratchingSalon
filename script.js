@@ -142,13 +142,12 @@ function startGame() {
 function togglePause() {
   pause = pause ? 0 : 1;
   pauseScreen.toggle();
-  document.querySelector('.pause').toggle();
-  document.querySelector('.start').toggle();
+  document.querySelector('.pausePlay').classList.toggle('pulsating');
 }
 
 function toggleMute() {
-  document.querySelector('.mute').toggle();
   mute = mute ? 0 : 1;
+  document.querySelector('.sound').innerHTML = mute ? "&#128263;" : "&#128264;";
 }
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
@@ -159,5 +158,3 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
 });
 
 startGame();
-
-// vim: fen:
