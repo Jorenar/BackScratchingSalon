@@ -1,6 +1,3 @@
-var backColumns = 12;
-var backRows = 13;
-
 var mouseIsDown = 0;
 var mute = 0;
 var pause = 0;
@@ -14,9 +11,13 @@ var timer;
 
 var customerDiv = document.querySelector('.customer')
 var moneyDiv = document.getElementById('money').firstChild;
-var pauseScreen = document.getElementById('pauseScreen');
+var pauseScreen = document.querySelector('.pauseScreen');
 var satisfyBar = document.getElementById('satisfyBar');
 var timerDiv = document.getElementById('timer').firstChild;
+
+Element.prototype.toggle = function() {
+  this.classList.toggle('hidden');
+}
 
 function sound() {
   with(new AudioContext)
@@ -98,8 +99,8 @@ function createCustomer() {
 
   createBodyPart('ears', customerDiv);
 
-  for (let i = 0; i < backRows; ++i) {
-    for (let j = 0; j < backColumns; ++j) {
+  for (let i = 0; i < 13; ++i) {
+    for (let j = 0; j < 12; ++j) {
       let spot = document.createElement('div');
       spot.className = "spot";
       spot.onmouseover = () => {
@@ -130,29 +131,23 @@ function createCustomer() {
 }
 
 function startGame() {
-  document.getElementById('playScreen').style.display = '';
-  document.getElementById('titleScreen').style.display = 'none';
+  document.querySelector('.playScreen').toggle();
+  document.getElementById('titleScreen').toggle();
   document.title = "$" + money + " | Back Scratching Salon"
-  document.querySelector('.mute').style.display = 'none';
+  if (mute)
+    document.querySelector('.mute').toggle;
   createCustomer();
 }
 
-function pauseGame() {
-  pause = 1
-  pauseScreen.style.display = '';
-  document.querySelector('.pause').style.display = 'none';
-  document.querySelector('.start').style.display = '';
-}
-
-function resumeGame() {
-  pause = 0
-  pauseScreen.style.display = 'none';
-  document.querySelector('.pause').style.display = '';
-  document.querySelector('.start').style.display = 'none';
+function togglePause() {
+  pause = pause ? 0 : 1;
+  pauseScreen.toggle();
+  document.querySelector('.pause').toggle();
+  document.querySelector('.start').toggle();
 }
 
 function toggleMute() {
-  document.querySelector('.mute').style.display = mute ? 'none' : '';
+  document.querySelector('.mute').toggle();
   mute = mute ? 0 : 1;
 }
 

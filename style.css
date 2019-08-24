@@ -5,13 +5,13 @@ html, body {
   width: 100%;
 }
 
-#playScreen {
+.playScreen {
   height: 100%;
   width: 100%;
   background: linear-gradient(315deg, #21D4FD 0%, #B721FF 100%);
 }
 
-#pauseScreen {
+.pauseScreen {
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -101,11 +101,6 @@ html, body {
   }
 }
 
-button {
-  background: none;
-  border: none;
-}
-
 .hud {
   border: 10px solid #333;
   height: 150px;
@@ -178,4 +173,8 @@ button {
   to {
     transform: rotate(360deg);
   }
+}
+
+.hidden {
+  display: none;
 }
