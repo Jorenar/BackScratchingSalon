@@ -21,16 +21,16 @@ var timerDiv = document.getElementById('timer').firstChild;
 function sound() {
   with(new AudioContext)
     with(G=createGain())
-      for(i in D=[17,12])
+      for(i in D=[16,12])
         with(createOscillator())
           if(D[i])
             connect(G),
               G.connect(destination),
-              start(i*.1),
-              frequency.setValueAtTime(440*1.06**(13-D[i]),i*.1),
-              gain.setValueAtTime(1,i*.1),
-              gain.setTargetAtTime(.0001,i*.1+.08,.005),
-              stop(i*.1+.09)
+              start(i*.05),
+              frequency.setValueAtTime(550*1.06**(13-D[i]),i*.05),
+              gain.setValueAtTime(1,i*.05),
+              gain.setTargetAtTime(.0001,i*.05+.03,.005),
+              stop(i*.05+.04)
 }
 
 function whenMouseUp() {
@@ -108,7 +108,7 @@ function createCustomer() {
 
           let scratched = document.querySelectorAll('.scratched');
 
-          if (scratched.length >= 10) {
+          if (scratched.length >= 5) {
             scratched.forEach(spotScratched => {
               spotScratched.classList.remove('scratched')
             });
