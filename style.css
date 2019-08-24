@@ -184,6 +184,10 @@ html, body {
   transform: scale(1.05);
 }
 
+.backToTitle {
+  filter: drop-shadow(0px 0px 3px #fff) !important;
+}
+
 .pulsating {
   animation: pulsation 0.5s infinite alternate;
 }
