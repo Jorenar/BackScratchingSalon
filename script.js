@@ -113,7 +113,8 @@ function createCustomer() {
               spotScratched.classList.remove('scratched')
             });
 
-            sound()
+            if (!mute)
+              sound()
 
             satisfy += 5;
             if (satisfy < 100)
@@ -132,6 +133,7 @@ function startGame() {
   document.getElementById('playScreen').style.display = '';
   document.getElementById('titleScreen').style.display = 'none';
   document.title = "$" + money + " | Back Scratching Salon"
+  document.querySelector('.mute').style.display = 'none';
   createCustomer();
 }
 
@@ -150,13 +152,8 @@ function resumeGame() {
 }
 
 function toggleMute() {
-  if (mute) {
-    document.querySelector('.mute').style.display = '';
-    mute = 0;
-  } else {
-    document.querySelector('.mute').style.display = 'none';
-    mute = 1;
-  }
+  document.querySelector('.mute').style.display = mute ? 'none' : '';
+  mute = mute ? 0 : 1;
 }
 
 startGame();
