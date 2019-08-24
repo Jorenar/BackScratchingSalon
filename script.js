@@ -27,16 +27,14 @@ function whenMouseUp() {
   });
 }
 
-function finalize(timeLeft) {
-  document.querySelector('.back').innerHTML = '';
+function finalize() {
   clearInterval(timer)
+  document.querySelector('.back').innerHTML = '';
   timerDiv.innerHTML = '--';
-  if (satisfy > 100)
-    satisfy = 100;
 
   satisfyBar.style.width = satisfy + '%';
 
-  money += timeLeft > 0 ? satisfy*timeLeft/100 : Math.floor(satisfy/10);
+  money += time > 0 ? satisfy*time/100 : Math.floor(satisfy/10);
 
   customerDiv.style.filter = "opacity(20%)"
 
@@ -59,25 +57,15 @@ function createBodyPart(classes, parent) {
 function createCustomer() {
   satisfy = 0;
 
-  let spotRowsArray = new Array(backRows).fill(0);
-  let spotColumnsArray = new Array(backColumns).fill(0);
-  let verticalScratches = 0;
-  let horizontalScratches = 0;
-  let skewScratches = 0;
-
   satisfyBar.style.width = '0%';
 
-  let verticalPoints = Math.floor(Math.random() * 7) + 3;
-  let horizontalPoints = Math.floor(Math.random() * 7) + 3;
-  let skewPoints = Math.floor(Math.random() * 7) + 3;
-
-  time = Math.floor((Math.random() * 5) + 20) - Math.max(verticalPoints, horizontalPoints, skewPoints);
+  time = 15;
 
   timerDiv.innerHTML = time;
 
   timer = setInterval(() => {
     if (time === 0) {
-      finalize(0);
+      finalize();
     } else if (!pause) {
       timerDiv.innerHTML = --time >= 10 ? time : '0' + time;
     }
@@ -101,8 +89,6 @@ function createCustomer() {
     for (let j = 0; j < backColumns; ++j) {
       let spot = document.createElement('div');
       spot.className = "spot";
-      spot.dataset.row = i;
-      spot.dataset.column = j;
       spot.onmouseover = () => {
         if (mouseIsDown) {
           spot.classList.add('scratched');
@@ -114,35 +100,14 @@ function createCustomer() {
 
           if (scratched.length >= 10) {
             scratched.forEach(spotScratched => {
-              spotRowsArray[spotScratched.dataset.row]++;
-              spotColumnsArray[spotScratched.dataset.column]++;
-            });
-
-            let horizontality = spotRowsArray.reduce((n, x) => n + (x === 0), 0);
-            let verticality = spotColumnsArray.reduce((n, x) => n + (x === 0), 0);
-
-            let verticalScratch = verticality > horizontality + 2 ? 1 : 0;
-            let horizontalScratch = verticality + 2 < horizontality ? 1 : 0;
-            let skewScratch = Math.abs(verticality - horizontality) < 2 ? 1 : 0;
-
-            spotRowsArray.fill(0);
-            spotColumnsArray.fill(0);
-
-            scratched.forEach(spotScratched => {
               spotScratched.classList.remove('scratched')
             });
 
-            if (verticalScratch)
-              satisfy += verticalPoints;
-            else if (horizontalScratch)
-              satisfy += horizontalPoints;
-            else if (skewScratch)
-              satisfy += skewPoints;
-
+            satisfy += 5;
             if (satisfy < 100)
               document.getElementById("satisfyBar").style.width = satisfy + '%';
             else
-              finalize(time)
+              finalize()
           }
         }
       }
