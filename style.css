@@ -6,13 +6,27 @@ html, body {
   font-family: Courier New;
 }
 
+.hidden {
+  display: none;
+}
+
+::selection {
+  background: none;
+}
+
+
+/* SCREENS, WINDOWS etc. */
+
+.titleScreen {
+}
+
 .playScreen {
   height: 100%;
   width: 100%;
   background: linear-gradient(315deg, #21D4FD 0%, #B721FF 100%);
 }
 
-.pauseScreen {
+.pauseCover {
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -21,6 +35,13 @@ html, body {
   top: 0;
   z-index: 2;
 }
+
+.settingsWindow {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
+/* CUSTOMER */
 
 .customer {
   transition: filter 1s;
@@ -33,28 +54,6 @@ html, body {
   transform: translateX(-50%);
   position: absolute;
   --head-top: 130px;
-}
-
-.back {
-  cursor: grabbing;
-  top: calc(var(--head-top) + 300px);
-  border-radius: 90px;
-  background: var(--skin-color);
-  width: 300px;
-  height: 500px;
-  animation: breath 2s infinite alternate;
-  overflow: hidden;
-}
-
-.spot {
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-}
-
-#points {
-  float: left;
-  margin: 20px;
 }
 
 .head {
@@ -97,11 +96,31 @@ html, body {
   animation: breath 2s infinite alternate;
 }
 
+.spot {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+}
+
+.back {
+  cursor: grabbing;
+  top: calc(var(--head-top) + 300px);
+  border-radius: 90px;
+  background: var(--skin-color);
+  width: 300px;
+  height: 500px;
+  animation: breath 2s infinite alternate;
+  overflow: hidden;
+}
+
 @keyframes breath {
   to {
     transform: translateX(-50%) scale(1.05);
   }
 }
+
+
+/* HUD */
 
 .hud {
   border: 10px solid #333;
@@ -112,10 +131,12 @@ html, body {
   bottom: 0;
   position: absolute;
   width: calc(100% - 20px);
+  background: linear-gradient(45deg, #c0c0c0 0%, #ffffff 50%, #808080 100%);
 }
 
-::selection {
-  background: none;
+#points {
+  float: left;
+  margin: 20px;
 }
 
 #progressBar {
@@ -141,9 +162,8 @@ html, body {
   padding: 5px;
 }
 
-.metalBg {
-  background: linear-gradient(45deg, #c0c0c0 0%, #ffffff 50%, #808080 100%);
-}
+
+/* -- MENU */
 
 .menu {
   cursor: pointer;
@@ -164,9 +184,18 @@ html, body {
   transform: scale(1.05);
 }
 
-.hidden {
-  display: none;
+.pulsating {
+  animation: pulsation 0.5s infinite alternate;
 }
+
+@keyframes pulsation {
+  to {
+    transform: scale(1.1);
+  }
+}
+
+
+/* -- FOO */
 
 .foo {
   width: calc(100% - 550px);
@@ -199,14 +228,4 @@ html, body {
   height: 100%;
   position: relative;
   background: pink;
-}
-
-.pulsating {
-  animation: pulsation 0.5s infinite alternate;
-}
-
-@keyframes pulsation {
-  to {
-    transform: scale(1.1);
-  }
 }

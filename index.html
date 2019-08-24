@@ -1,45 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="UTF-8">
+  <meta charset='UTF-8'>
   <title>Back Scratching Salon</title>
-  <meta name="author" content="Jorengarenar">
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
-  <link rel="stylesheet" href="style.css">
+  <meta name='author' content='Jorengarenar'>
+  <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=yes'>
+  <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-  <div id="titleScreen">
-    <button onclick="startGame()" type="button">START</button>
+  <div class='titleScreen'>
+    <button onclick='startGame()' type='button'>START</button>
   </div>
-  <div class="playScreen hidden" none;" onmouseup="whenMouseUp()" onmousedown="mouseIsDown=1">
-    <div class="customer"></div>
-    <div class="menu">
-      <p class="pausePlay" onclick="togglePause()">&#9199;</p>
-      <p class="sound" onclick="toggleMute()">&#128264;</p>
-      <p class="save" tittle="SAVE">&#128190;</p>
-      <p class="export" title="EXPORT SAVE">&#128228;</p>
-      <p class="import" title="IMPORT SAVE">&#128229;</p>
-      <p class="settings" title="SETTINGS">&#128736;</p>
+  <div class='playScreen hidden' onmouseup='whenMouseUp()' onmousedown='mouseIsDown=1'>
+    <div class='customer'></div>
+    <div class='menu'>
+      <p class='pausePlay' onclick='togglePause()'>&#9199;</p>
+      <p class='sound' onclick='toggleMute()'>&#128264;</p>
+      <p class='save' tittle='SAVE'>&#128190;</p>
+      <p class='export' title='EXPORT SAVE'>&#128228;</p>
+      <p class='import' title='IMPORT SAVE'>&#128229;</p>
+      <p class='settings' title='SETTINGS'>&#128736;</p>
     </div>
-    <div class="foo hud">
-      <div class="tabs">
-        <button class="current">SHOP</button>
-        <button>PERSONNEL</button>
-        <button>BUFFS</button>
+    <div class='foo hud'>
+      <div class='tabs'>
+        <button class='current'>SHOP</button>
+        <button class='personnel'>PERSONNEL</button>
+        <button class='buffs'>BUFFS</button>
       </div>
-      <div class="shop">
-        <div onclick="">finger</div>
-      </div>
+      <div class='shop'></div>
     </div>
-    <div class="hud hudBar metalBg">
-      <div id="progressBar">
-        <div id="satisfyBar"></div>
+    <div class='hud hudBar'>
+      <div id='progressBar'>
+        <div id='satisfyBar'></div>
       </div>
-      <div id="timer">--</div>
-      <div id="money">$0</div>
+      <div id='timer'>--</div>
+      <div id='money'>$0</div>
     </div>
-    <div class="pauseScreen hidden"></div>
+    <div class='pauseCover hidden'></div>
   </div>
-  <script src="script.js"></script>
+  <script src='script.js'></script>
 </body>
 </html>

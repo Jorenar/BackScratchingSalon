@@ -1,22 +1,22 @@
-var mouseIsDown = 0;
-var mute = 0;
-var pause = 0;
+var mouseIsDown = 0
+var mute = 0
+var pause = 0
 
-var money = 0;
+var money = 0
 
-var satisfy = 0;
+var satisfy = 0
 
-var time;
-var timer;
+var time
+var timer
 
 var customerDiv = document.querySelector('.customer')
-var moneyDiv = document.getElementById('money');
-var pauseScreen = document.querySelector('.pauseScreen');
-var satisfyBar = document.getElementById('satisfyBar');
-var timerDiv = document.getElementById('timer');
+var moneyDiv = document.getElementById('money')
+var pauseCover = document.querySelector('.pauseCover')
+var satisfyBar = document.getElementById('satisfyBar')
+var timerDiv = document.getElementById('timer')
 
 Element.prototype.toggle = function() {
-  this.classList.toggle('hidden');
+  this.classList.toggle('hidden')
 }
 
 function sound() {
@@ -35,126 +35,127 @@ function sound() {
 }
 
 function whenMouseUp() {
-  mouseIsDown = 0;
+  mouseIsDown = 0
   document.querySelectorAll('.scratched').forEach(spotScratched => {
     spotScratched.classList.remove('scratched')
-  });
+  })
 }
 
 function finalize() {
   clearInterval(timer)
-  document.querySelector('.back').innerHTML = '';
-  timerDiv.innerHTML = '--';
+  document.querySelector('.back').innerHTML = ''
+  timerDiv.innerHTML = '--'
 
-  satisfyBar.style.width = satisfy + '%';
+  satisfyBar.style.width = satisfy + '%'
 
-  money += time > 0 ? satisfy*time/100 : Math.floor(satisfy/10);
+  money += time > 0 ? satisfy*time/100 : Math.floor(satisfy/10)
 
-  customerDiv.style.filter = "opacity(20%)"
+  customerDiv.style.filter = 'opacity(20%)'
 
-  document.title = "$" + money + " | Back Scratching Salon"
-  moneyDiv.innerHTML = '$' + money;
+  document.title = '$' + money + ' | Back Scratching Salon'
+  moneyDiv.innerHTML = '$' + money
 
   setTimeout(() => {
-    customerDiv.innerHTML = "";
-    createCustomer();
-  }, 1000);
+    customerDiv.innerHTML = ''
+    createCustomer()
+  }, 1000)
 }
 
 function createBodyPart(classes, parent) {
   part = document.createElement('div')
-  part.className = classes;
-  parent.appendChild(part);
-  return part;
+  part.className = classes
+  parent.appendChild(part)
+  return part
 }
 
 function createCustomer() {
-  satisfy = 0;
+  satisfy = 0
 
-  satisfyBar.style.width = '0%';
+  satisfyBar.style.width = '0%'
 
-  time = 15;
+  time = 15
 
-  timerDiv.innerHTML = time;
+  timerDiv.innerHTML = time
 
   timer = setInterval(() => {
     if (time === 0) {
-      finalize();
+      finalize()
     } else if (!pause) {
-      timerDiv.innerHTML = --time >= 10 ? time : '0' + time;
+      timerDiv.innerHTML = --time >= 10 ? time : '0' + time
     }
-  }, 1000);
+  }, 1000)
 
-  customerDiv.style = "--skin-color: #" + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6);
+  customerDiv.style = '--skin-color: #' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6)
 
-  let head = createBodyPart('head', customerDiv);
-  createBodyPart('neck', customerDiv);
+  let head = createBodyPart('head', customerDiv)
+  createBodyPart('neck', customerDiv)
 
-  let back = createBodyPart('back', customerDiv);
+  let back = createBodyPart('back', customerDiv)
 
-  let hair = createBodyPart('hair', head);
+  let hair = createBodyPart('hair', head)
 
   if (Math.floor((Math.random() * 2)))
     hair.classList.add('long')
 
-  createBodyPart('ears', customerDiv);
+  createBodyPart('ears', customerDiv)
 
   for (let i = 0; i < 13; ++i) {
     for (let j = 0; j < 12; ++j) {
-      let spot = document.createElement('div');
-      spot.className = "spot";
+      let spot = document.createElement('div')
+      spot.className = 'spot'
       spot.onmouseover = () => {
         if (mouseIsDown) {
-          spot.classList.add('scratched');
+          spot.classList.add('scratched')
 
-          let scratched = document.querySelectorAll('.scratched');
+          let scratched = document.querySelectorAll('.scratched')
 
           if (scratched.length >= 5) {
             scratched.forEach(spotScratched => {
               spotScratched.classList.remove('scratched')
-            });
+            })
 
             if (!mute)
               sound()
 
-            satisfy += 5;
+            satisfy += 5
             if (satisfy < 100)
-              document.getElementById("satisfyBar").style.width = satisfy + '%';
+              document.getElementById('satisfyBar').style.width = satisfy + '%'
             else
               finalize()
           }
         }
       }
-      back.appendChild(spot);
+      back.appendChild(spot)
     }
   }
+  back.insertAdjacentHTML( 'beforeend', '<div style="font-size: 70px; color: red; background: black">' + atob('Q0VOU1VSRQ') + '</div>')
 }
 
 function startGame() {
-  document.querySelector('.playScreen').toggle();
-  document.getElementById('titleScreen').toggle();
-  document.title = "$" + money + " | Back Scratching Salon"
+  document.querySelector('.playScreen').toggle()
+  document.querySelector('.titleScreen').toggle()
+  document.title = '$' + money + ' | Back Scratching Salon'
   if (mute)
-    document.querySelector('.mute').toggle;
-  createCustomer();
+    document.querySelector('.mute').toggle
+  createCustomer()
 }
 
 function togglePause() {
-  pause = pause ? 0 : 1;
-  pauseScreen.toggle();
-  document.querySelector('.pausePlay').classList.toggle('pulsating');
+  pause = pause ? 0 : 1
+  pauseCover.toggle()
+  document.querySelector('.pausePlay').classList.toggle('pulsating')
 }
 
 function toggleMute() {
-  mute = mute ? 0 : 1;
-  document.querySelector('.sound').innerHTML = mute ? "&#128263;" : "&#128264;";
+  mute = mute ? 0 : 1
+  document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
 }
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
   btn.onclick = () => {
-    document.querySelector('.tabs > .current').classList.remove('current');
-    btn.classList.add('current');
+    document.querySelector('.tabs > .current').classList.remove('current')
+    btn.classList.add('current')
   }
-});
+})
 
-startGame();
+startGame()
