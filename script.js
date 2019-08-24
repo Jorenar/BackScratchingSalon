@@ -2,6 +2,7 @@ var backColumns = 12;
 var backRows = 13;
 
 var mouseIsDown = 0;
+var mute = 0;
 var pause = 0;
 
 var money = 0;
@@ -16,6 +17,21 @@ var moneyDiv = document.getElementById('money').firstChild;
 var pauseScreen = document.getElementById('pauseScreen');
 var satisfyBar = document.getElementById('satisfyBar');
 var timerDiv = document.getElementById('timer').firstChild;
+
+function sound() {
+  with(new AudioContext)
+    with(G=createGain())
+      for(i in D=[17,12])
+        with(createOscillator())
+          if(D[i])
+            connect(G),
+              G.connect(destination),
+              start(i*.1),
+              frequency.setValueAtTime(440*1.06**(13-D[i]),i*.1),
+              gain.setValueAtTime(1,i*.1),
+              gain.setTargetAtTime(.0001,i*.1+.08,.005),
+              stop(i*.1+.09)
+}
 
 function whenMouseUp() {
   mouseIsDown = 0;
@@ -97,6 +113,8 @@ function createCustomer() {
               spotScratched.classList.remove('scratched')
             });
 
+            sound()
+
             satisfy += 5;
             if (satisfy < 100)
               document.getElementById("satisfyBar").style.width = satisfy + '%';
@@ -129,6 +147,16 @@ function resumeGame() {
   pauseScreen.style.display = 'none';
   document.querySelector('.pause').style.display = '';
   document.querySelector('.start').style.display = 'none';
+}
+
+function toggleMute() {
+  if (mute) {
+    document.querySelector('.mute').style.display = '';
+    mute = 0;
+  } else {
+    document.querySelector('.mute').style.display = 'none';
+    mute = 1;
+  }
 }
 
 startGame();
