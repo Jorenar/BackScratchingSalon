@@ -127,7 +127,7 @@ button {
   height: 30px;
   box-shadow: 0 0 5px 5px green;
   background: linear-gradient(0deg, rgba(60,255,0,1) 0%, rgba(0,255,166,1) 50%, rgba(60,255,0,1) 100%);
-  transition: width 1s, height 1s;
+  transition: width 0.5s;
 }
 
 #timer, #money {

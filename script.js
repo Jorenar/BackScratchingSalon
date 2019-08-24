@@ -2,7 +2,6 @@ var backColumns = 12;
 var backRows = 13;
 
 var mouseIsDown = 0;
-var mute = 0;
 var pause = 0;
 
 var money = 0;
@@ -11,8 +10,6 @@ var satisfy = 0;
 
 var time;
 var timer;
-
-var audio = new Audio('sound.ogg');
 
 var customerDiv = document.querySelector('.customer')
 var moneyDiv = document.getElementById('money').firstChild;
@@ -95,9 +92,6 @@ function createCustomer() {
 
           let scratched = document.querySelectorAll('.scratched');
 
-          if (!mute)
-            audio.play();
-
           if (scratched.length >= 10) {
             scratched.forEach(spotScratched => {
               spotScratched.classList.remove('scratched')
@@ -135,18 +129,6 @@ function resumeGame() {
   pauseScreen.style.display = 'none';
   document.querySelector('.pause').style.display = '';
   document.querySelector('.start').style.display = 'none';
-}
-
-function toggleMute() {
-  if (mute) {
-    document.querySelector('.mute').style.display = '';
-    document.querySelector('.unmute').style.display = 'none';
-    mute = 0;
-  } else {
-    document.querySelector('.unmute').style.display = '';
-    document.querySelector('.mute').style.display = 'none';
-    mute = 1;
-  }
 }
 
 startGame();
