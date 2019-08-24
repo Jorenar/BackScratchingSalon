@@ -29,7 +29,7 @@ function sound() {
               G.connect(destination),
               start(i*.05),
               frequency.setValueAtTime(550*1.06**(13-D[i]),i*.05),
-              gain.setValueAtTime(1,i*.05),
+              gain.setValueAtTime(0.1,i*.05),
               gain.setTargetAtTime(.0001,i*.05+.03,.005),
               stop(i*.05+.04)
 }
