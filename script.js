@@ -104,7 +104,7 @@ function createCustomer() {
       let spot = document.createElement('div')
       spot.className = 'spot'
       spot.onmouseover = () => {
-        if (mouseIsDown) {
+        if (mouseIsDown && !pause) {
           spot.classList.add('scratched')
 
           let scratched = document.querySelectorAll('.scratched')
@@ -142,7 +142,8 @@ function startGame() {
 
 function togglePause() {
   pause = pause ? 0 : 1
-  pauseCover.toggle()
+  customerDiv.classList.toggle('pauseCover');
+  document.querySelector('.hudBar').classList.toggle('pauseCover');
   document.querySelector('.pausePlay').classList.toggle('pulsating')
 }
 
@@ -153,7 +154,8 @@ function toggleMute() {
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
   btn.onclick = () => {
-    document.querySelector('.tabs > .current').classList.remove('current')
+    document.querySelectorAll('.management .current').forEach( e => { e.classList.remove('current') })
+    document.querySelector(".management div." + CSS.escape(btn.className)).classList.add('current')
     btn.classList.add('current')
   }
 })

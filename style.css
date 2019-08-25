@@ -28,11 +28,7 @@ html, body {
 .pauseCover {
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  position: absolute;
-  top: 0;
-  z-index: 2;
+  filter: brightness(50%) !important;
 }
 
 .settingsWindow {
@@ -204,41 +200,47 @@ html, body {
 }
 
 
-/* -- FOO */
+/* -- MANAGEMENT */
 
-.foo {
+.management {
   width: calc(100% - 550px);
   height: calc(100% - 180px);
   right: 0;
   position: absolute;
 }
 
-.tabs {
-  background: pink;
-}
-
 .tabs > * {
-  background: none;
-  border: none;
+  border-bottom: 10px solid #333;
+  border-left: 10px solid #333;
+  border-right: 10px solid #333;
   color: black;
   cursor: pointer;
   display: table-cell;
   font-size: 24px;
   width: 33.33%;
-  border-left: 10px solid #333;
-  border-right: 10px solid #333;
-}
-
-.tabs > *:not(.current) {
-  border-bottom: 10px solid #333;
 }
 
 .tabs > .current {
-  border-bottom: 10px solid pink;
+  border-bottom: 10px solid transparent;
 }
 
-.shop {
+.management div:not(.tabs) {
   height: 100%;
   position: relative;
-  background: pink;
+}
+
+.management div:not(.tabs):not(.current) {
+  display: none;
+}
+
+.management .powerUps {
+  background: red;
+}
+
+.management .equipment {
+  background: blue;
+}
+
+.management .personnel {
+  background: green;
 }
