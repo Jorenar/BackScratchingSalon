@@ -142,8 +142,8 @@ function startGame() {
 
 function togglePause() {
   pause = pause ? 0 : 1
-  customerDiv.classList.toggle('pauseCover');
   document.querySelector('.hudBar').classList.toggle('pauseCover');
+  document.querySelector('.customerContainer').classList.toggle('pauseCover');
   document.querySelector('.pausePlay').classList.toggle('pulsating')
 }
 
