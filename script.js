@@ -11,7 +11,7 @@ var timer
 
 var customerDiv = document.querySelector('.customer')
 var moneyDiv = document.getElementById('money')
-var pauseCover = document.querySelector('.pauseCover')
+var inactiveCover = document.querySelector('.inactiveCover')
 var satisfyBar = document.getElementById('satisfyBar')
 var timerDiv = document.getElementById('timer')
 
@@ -142,8 +142,8 @@ function startGame() {
 
 function togglePause() {
   pause = pause ? 0 : 1
-  document.querySelector('.hudBar').classList.toggle('pauseCover');
-  document.querySelector('.customerContainer').classList.toggle('pauseCover');
+  document.querySelector('.hudBar').classList.toggle('inactiveCover');
+  document.querySelector('.customerContainer').classList.toggle('inactiveCover');
   document.querySelector('.pausePlay').classList.toggle('pulsating')
 }
 

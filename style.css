@@ -10,8 +10,18 @@ html, body {
   display: none;
 }
 
-::selection {
-  background: none;
+::selection { background: none; }
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}
+
+.inactiveCover {
+  height: 100%;
+  width: 100%;
+  filter: brightness(50%) !important;
+}
+
+.inactiveCover * {
+  animation-play-state: paused !important;
 }
 
 
@@ -23,12 +33,6 @@ html, body {
 .playScreen {
   height: 100%;
   width: 100%;
-}
-
-.pauseCover {
-  height: 100%;
-  width: 100%;
-  filter: brightness(50%) !important;
 }
 
 .settingsWindow {
@@ -120,6 +124,10 @@ html, body {
   }
 }
 
+.inactiveCover .back{
+  cursor: default;
+}
+
 
 /* HUD */
 
@@ -203,10 +211,9 @@ html, body {
 /* -- MANAGEMENT */
 
 .management {
-  width: calc(100% - 550px);
+  width: calc(100% - 570px);
   height: calc(100% - 180px);
-  right: 0;
-  position: absolute;
+  float: right;
 }
 
 .tabs > * {
@@ -224,12 +231,12 @@ html, body {
   border-bottom: 10px solid transparent;
 }
 
-.management div:not(.tabs) {
+.management > div:not(.tabs) {
   height: 100%;
   position: relative;
 }
 
-.management div:not(.tabs):not(.current) {
+.management > div:not(.tabs):not(.current) {
   display: none;
 }
 
