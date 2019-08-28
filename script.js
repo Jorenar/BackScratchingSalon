@@ -224,7 +224,7 @@ function startGame() {
         moneyDiv.innerHTML = m.money
       }
     }
-    item.insertBefore(buy, amount)
+    item.querySelector('.bottomRow').insertBefore(buy, amount)
   });
 
 }
