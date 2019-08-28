@@ -317,7 +317,6 @@ html, body {
 #cookiesMsg {
   position: absolute;
   bottom: 0;
-  overflow: hidden;
   animation: slide 25s linear infinite;
   font-size: 1.5em;
   white-space: nowrap;

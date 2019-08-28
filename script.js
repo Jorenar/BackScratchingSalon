@@ -111,6 +111,11 @@ function recalculateMultiplier() {
   });
 }
 
+function toggleMute() {
+  m.mute = m.mute ? 0 : 1
+  document.querySelector('.sound').innerHTML = m.mute ? '&#128263;' : '&#128264;'
+}
+
 function finalize() {
   clearInterval(timer)
   document.querySelector('.back').innerHTML = ''
@@ -204,8 +209,6 @@ function createCustomer() {
 }
 
 function startGame(continuation) {
-  if (m.mute)
-    toggleMute()
   if (continuation) {
     readSave()
     fillData()
@@ -216,7 +219,7 @@ function startGame(continuation) {
   document.querySelector('.playScreen').toggle()
   document.querySelector('.titleScreen').toggle()
   if (m.mute)
-    document.querySelector('.mute').toggle
+    toggleMute()
   createCustomer()
   recalculateMultiplier();
 
@@ -243,11 +246,6 @@ function togglePause() {
   satisfyBar.toggleInactive();
   document.querySelector('.customerContainer').toggleInactive();
   document.querySelector('.pausePlay').toggleInactive();
-}
-
-function toggleMute() {
-  m.mute = m.mute ? 0 : 1
-  document.querySelector('.sound').innerHTML = m.mute ? '&#128263;' : '&#128264;'
 }
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
