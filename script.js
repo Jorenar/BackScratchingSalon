@@ -204,6 +204,8 @@ function createCustomer() {
 }
 
 function startGame(continuation) {
+  if (m.mute)
+    toggleMute()
   if (continuation) {
     readSave()
     fillData()

@@ -317,15 +317,16 @@ html, body {
 #cookiesMsg {
   position: absolute;
   bottom: 0;
-  animation: example1 20s linear infinite;
+  overflow: hidden;
+  animation: slide 25s linear infinite;
   font-size: 1.5em;
+  white-space: nowrap;
 }
 
-@keyframes example1 {
+@keyframes slide {
   from {
     transform: translateX(100%);
-  }
-  to {
+  } to {
     transform: translateX(-100%);
   }
 }
