@@ -213,13 +213,12 @@ function startGame() {
 
   document.querySelectorAll('.powerUps > .item').forEach(item => {
     let amount = item.querySelector('.amount')
-    let current = m[item.id]
     let price = item.querySelector('.price').innerHTML
     let buy = document.createElement('button')
     buy.innerHTML = 'BUY'
     buy.onclick = () => {
       if (m.money >= price) {
-        amount.innerHTML = ++current
+        amount.innerHTML = ++m[item.id]
         m.money -= price
         moneyDiv.innerHTML = m.money
       }
