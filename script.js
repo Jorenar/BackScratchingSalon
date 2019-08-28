@@ -1,8 +1,4 @@
 var mouseIsDown = 0
-var mute = 0
-var pause = 0
-
-var money = 0
 
 var satisfy = 0
 
@@ -16,6 +12,65 @@ var moneyDiv = document.getElementById('money')
 var satisfyBar = document.getElementById('satisfyBar')
 var timerDiv = document.getElementById('timer')
 
+var m = {
+  chainsaw: 0,
+  fingers: 1,
+  hands: 0,
+  hands: 0,
+  longNails: 0,
+  money: 0,
+  mute: 0,
+  pause: 0,
+  sandpaper: 0,
+  scratcher: 0,
+  skipStart: 0,
+}
+
+function save() {
+  let variables = ''
+  for (let key in m)
+    variables += m[key] + '|'
+  document.cookie = 'BackScratchingSalonSave=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+}
+
+function getCookie(name) {
+  var dc = document.cookie;
+  var prefix = name + "=";
+  var begin = dc.indexOf("; " + prefix);
+  if (begin == -1) {
+    begin = dc.indexOf(prefix);
+    if (begin != 0) return null;
+  } else {
+    begin += 2;
+    var end = document.cookie.indexOf(";", begin);
+    if (end == -1) {
+      end = dc.length;
+    }
+  }
+  // because unescape has been deprecated, replaced with decodeURI
+  //return unescape(dc.substring(begin + prefix.length, end));
+  return decodeURI(dc.substring(begin + prefix.length, end));
+}
+
+function readSave() {
+  let variables = getCookie('BackScratchingSalonSave')
+  if (variables) {
+    variables = variables.split('|')
+    let i = 0;
+    for (let key in m)
+      m[key] = Number(variables[i++])
+  }
+}
+
+function fillData() {
+  document.title = '$' + m.money + ' | Back Scratching Salon'
+  moneyDiv.innerHTML = m.money
+  document.querySelectorAll('.powerUps > .item').forEach(item => {
+    document.querySelector('.amount').innerHTML = m[item.id]
+  });
+}
+
+
 Element.prototype.toggle = function() {
   this.classList.toggle('hidden')
 }
@@ -26,17 +81,17 @@ Element.prototype.toggleInactive = function() {
 
 function sound() {
   with(new AudioContext)
-    with(G=createGain())
-      for(i in D=[16,12])
-        with(createOscillator())
-          if(D[i])
-            connect(G),
-              G.connect(destination),
-              start(i*.05),
-              frequency.setValueAtTime(550*1.06**(13-D[i]),i*.05),
-              gain.setValueAtTime(0.1,i*.05),
-              gain.setTargetAtTime(.0001,i*.05+.03,.005),
-              stop(i*.05+.04)
+  with(G = createGain())
+  for (i in D = [16, 12])
+    with(createOscillator())
+  if (D[i])
+    connect(G),
+    G.connect(destination),
+    start(i * .05),
+    frequency.setValueAtTime(550 * 1.06 ** (13 - D[i]), i * .05),
+    gain.setValueAtTime(0.1, i * .05),
+    gain.setTargetAtTime(.0001, i * .05 + .03, .005),
+    stop(i * .05 + .04)
 }
 
 function whenMouseUp() {
@@ -50,7 +105,7 @@ function recalculateMultiplier() {
   multiplier = 1
   document.querySelectorAll('.amount').forEach(amount => {
     let current = amount.innerHTML
-    multiplier *= current > 0 ? current*amount.dataset.worth : 1
+    multiplier *= current > 0 ? current * amount.dataset.worth : 1
   });
 }
 
@@ -63,12 +118,12 @@ function finalize() {
 
   recalculateMultiplier()
 
-  money += time > 0 ? Math.floor(time*satisfy*multiplier/100) : Math.floor(satisfy*multiplier/100)
+  m.money += time > 0 ? Math.floor(time * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100)
 
   customerDiv.style.filter = 'opacity(20%)'
 
-  document.title = '$' + money + ' | Back Scratching Salon'
-  moneyDiv.innerHTML = '$' + money
+  document.title = '$' + m.money + ' | Back Scratching Salon'
+  moneyDiv.innerHTML = m.money
 
   setTimeout(() => {
     customerDiv.innerHTML = ''
@@ -95,7 +150,7 @@ function createCustomer() {
   timer = setInterval(() => {
     if (time === 0) {
       finalize()
-    } else if (!pause) {
+    } else if (!m.pause) {
       timerDiv.innerHTML = --time >= 10 ? time : '0' + time
     }
   }, 1000)
@@ -119,7 +174,7 @@ function createCustomer() {
       let spot = document.createElement('div')
       spot.className = 'spot'
       spot.onmouseover = () => {
-        if (mouseIsDown && !pause) {
+        if (mouseIsDown && !m.pause) {
           spot.classList.add('scratched')
 
           let scratched = document.querySelectorAll('.scratched')
@@ -129,7 +184,7 @@ function createCustomer() {
               spotScratched.classList.remove('scratched')
             })
 
-            if (!mute)
+            if (!m.mute)
               sound()
 
             satisfy += 5
@@ -143,14 +198,15 @@ function createCustomer() {
       back.appendChild(spot)
     }
   }
-  back.insertAdjacentHTML( 'beforeend', '<div style="font-size: 70px; color: red; background: black">' + atob('Q0VOU1VSRQ') + '</div>')
+  back.insertAdjacentHTML('beforeend', '<div style="font-size: 70px; color: red; background: black">' + atob('Q0VOU1VSRQ') + '</div>')
 }
 
 function startGame() {
+  readSave()
+  fillData()
   document.querySelector('.playScreen').toggle()
   document.querySelector('.titleScreen').toggle()
-  document.title = '$' + money + ' | Back Scratching Salon'
-  if (mute)
+  if (m.mute)
     document.querySelector('.mute').toggle
   createCustomer()
   recalculateMultiplier();
@@ -162,10 +218,10 @@ function startGame() {
     let buy = document.createElement('button')
     buy.innerHTML = 'BUY'
     buy.onclick = () => {
-      if (money >= price) {
+      if (m.money >= price) {
         amount.innerHTML = ++current
-        money -= price
-        moneyDiv.innerHTML = '$' + money
+        m.money -= price
+        moneyDiv.innerHTML = m.money
       }
     }
     item.insertBefore(buy, amount)
@@ -174,7 +230,7 @@ function startGame() {
 }
 
 function togglePause() {
-  pause = pause ? 0 : 1
+  m.pause = m.pause ? 0 : 1
   timerDiv.toggleInactive();
   satisfyBar.toggleInactive();
   document.querySelector('.customerContainer').toggleInactive();
@@ -182,13 +238,15 @@ function togglePause() {
 }
 
 function toggleMute() {
-  mute = mute ? 0 : 1
-  document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
+  m.mute = m.mute ? 0 : 1
+  document.querySelector('.sound').innerHTML = m.mute ? '&#128263;' : '&#128264;'
 }
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
   btn.onclick = () => {
-    document.querySelectorAll('.management .current').forEach( e => { e.classList.remove('current') })
+    document.querySelectorAll('.management .current').forEach(e => {
+      e.classList.remove('current')
+    })
     document.querySelector(".management div." + CSS.escape(btn.className)).classList.add('current')
     btn.classList.add('current')
   }

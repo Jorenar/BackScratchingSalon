@@ -169,6 +169,10 @@ html, body {
   padding: 5px;
 }
 
+#money:before {
+  content: '$';
+}
+
 
 /* -- MENU */
 
