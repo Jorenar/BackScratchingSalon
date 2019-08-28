@@ -314,7 +314,7 @@ html, body {
   margin: 100px;
 }
 
-#biscuitsMsg {
+#feedBrowser {
   position: absolute;
   bottom: 0;
   animation: slide 25s linear infinite;
