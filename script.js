@@ -66,7 +66,7 @@ function fillData() {
   document.title = '$' + m.money + ' | Back Scratching Salon'
   moneyDiv.innerHTML = m.money
   document.querySelectorAll('.powerUps > .item').forEach(item => {
-    document.querySelector('.amount').innerHTML = m[item.id]
+    item.querySelector('.amount').innerHTML = m[item.id]
   });
 }
 
