@@ -211,9 +211,9 @@ function startGame() {
   createCustomer()
   recalculateMultiplier();
 
-  document.querySelectorAll('.item > .bottomRow').forEach(item => {
+  document.querySelectorAll('.powerUps > .item').forEach(item => {
     let amount = item.querySelector('.amount')
-    let current = amount.innerHTML
+    let current = m[item.id]
     let price = item.querySelector('.price').innerHTML
     let buy = document.createElement('button')
     buy.innerHTML = 'BUY'
