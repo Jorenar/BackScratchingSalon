@@ -13,6 +13,7 @@ var satisfyBar = document.getElementById('satisfyBar')
 var timerDiv = document.getElementById('timer')
 
 var m = {
+  autosave: 1,
   chainsaw: 0,
   fingers: 1,
   hands: 0,
@@ -25,6 +26,8 @@ var m = {
   scratcher: 0,
   skipStart: 0,
 }
+
+const n = Object.assign({}, m)
 
 function save() {
   let variables = ''
@@ -70,7 +73,6 @@ function fillData() {
   });
 }
 
-
 Element.prototype.toggle = function() {
   this.classList.toggle('hidden')
 }
@@ -81,17 +83,17 @@ Element.prototype.toggleInactive = function() {
 
 function sound() {
   with(new AudioContext)
-  with(G = createGain())
-  for (i in D = [16, 12])
-    with(createOscillator())
-  if (D[i])
-    connect(G),
-    G.connect(destination),
-    start(i * .05),
-    frequency.setValueAtTime(550 * 1.06 ** (13 - D[i]), i * .05),
-    gain.setValueAtTime(0.1, i * .05),
-    gain.setTargetAtTime(.0001, i * .05 + .03, .005),
-    stop(i * .05 + .04)
+    with(G = createGain())
+      for (i in D = [16, 12])
+        with(createOscillator())
+          if (D[i])
+            connect(G),
+              G.connect(destination),
+              start(i * .05),
+              frequency.setValueAtTime(550 * 1.06 ** (13 - D[i]), i * .05),
+              gain.setValueAtTime(0.1, i * .05),
+              gain.setTargetAtTime(.0001, i * .05 + .03, .005),
+              stop(i * .05 + .04)
 }
 
 function whenMouseUp() {
@@ -201,9 +203,14 @@ function createCustomer() {
   back.insertAdjacentHTML('beforeend', '<div style="font-size: 70px; color: red; background: black">' + atob('Q0VOU1VSRQ') + '</div>')
 }
 
-function startGame() {
-  readSave()
-  fillData()
+function startGame(continuation) {
+  if (continuation) {
+    readSave()
+    fillData()
+  } else {
+    Object.assign(m, n)
+    fillData()
+  }
   document.querySelector('.playScreen').toggle()
   document.querySelector('.titleScreen').toggle()
   if (m.mute)
@@ -251,4 +258,12 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
   }
 })
 
-startGame()
+function backToTitle() {
+  clearInterval(timer)
+  customerDiv.innerHTML = ''
+  document.querySelector('.playScreen').toggle()
+  document.querySelector('.titleScreen').toggle()
+}
+
+if (m.skipStart)
+  startGame(1)

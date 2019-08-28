@@ -12,14 +12,20 @@
 </head>
 <body>
   <div class='titleScreen'>
-    <button onclick='startGame()' type='button'>START</button>
+    <div id='title'>Back Scratching Salon</div>
+    <div class='menu'>
+      <button onclick='startGame(0)'>NEW GAME</button>
+      <button onclick='startGame(1)'>CONTINUE</button>
+      <button onclick=''>CREDITS</button>
+    </div>
+    <div id='cookiesMsg'>Attention! Attention! This game uses &#127850;! By continuing to play this game you agree to feed your browser some tasty &#127850;</div>
   </div>
   <div class='playScreen hidden' onmouseup='whenMouseUp()' onmousedown='mouseIsDown=1'>
     <div class='customerContainer'>
       <div class='customer'></div>
     </div>
     <div class='menu'>
-      <p class='backToTitle' title='RETURN TO TITLE SCREEN' onclick=''>&#128281;</p>
+      <p class='backToTitle' title='RETURN TO TITLE SCREEN' onclick='backToTitle()'>&#128281;</p>
       <p class='pausePlay' title='PAUSE/PLAY' onclick='togglePause()'>&#9199;</p>
       <p class='sound' title='MUTE/UNMUTE' onclick='toggleMute()'>&#128264;</p>
       <p class='save' title='SAVE' onclick='save()'>&#128190;</p>
