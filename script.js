@@ -9,14 +9,19 @@ var satisfy = 0
 var time
 var timer
 
+var multiplier = 1
+
 var customerDiv = document.querySelector('.customer')
 var moneyDiv = document.getElementById('money')
-var inactiveCover = document.querySelector('.inactiveCover')
 var satisfyBar = document.getElementById('satisfyBar')
 var timerDiv = document.getElementById('timer')
 
 Element.prototype.toggle = function() {
   this.classList.toggle('hidden')
+}
+
+Element.prototype.toggleInactive = function() {
+  this.classList.toggle('inactiveCover')
 }
 
 function sound() {
@@ -41,6 +46,14 @@ function whenMouseUp() {
   })
 }
 
+function recalculateMultiplier() {
+  multiplier = 1
+  document.querySelectorAll('.amount').forEach(amount => {
+    let current = amount.innerHTML
+    multiplier *= current > 0 ? current*amount.dataset.worth : 1
+  });
+}
+
 function finalize() {
   clearInterval(timer)
   document.querySelector('.back').innerHTML = ''
@@ -48,7 +61,9 @@ function finalize() {
 
   satisfyBar.style.width = satisfy + '%'
 
-  money += time > 0 ? satisfy*time/100 : Math.floor(satisfy/10)
+  recalculateMultiplier()
+
+  money += time > 0 ? Math.floor(time*satisfy*multiplier/100) : Math.floor(satisfy*multiplier/100)
 
   customerDiv.style.filter = 'opacity(20%)'
 
@@ -138,13 +153,32 @@ function startGame() {
   if (mute)
     document.querySelector('.mute').toggle
   createCustomer()
+  recalculateMultiplier();
+
+  document.querySelectorAll('.item > .bottomRow').forEach(item => {
+    let amount = item.querySelector('.amount')
+    let current = amount.innerHTML
+    let price = item.querySelector('.price').innerHTML
+    let buy = document.createElement('button')
+    buy.innerHTML = 'BUY'
+    buy.onclick = () => {
+      if (money >= price) {
+        amount.innerHTML = ++current
+        money -= price
+        moneyDiv.innerHTML = '$' + money
+      }
+    }
+    item.insertBefore(buy, amount)
+  });
+
 }
 
 function togglePause() {
   pause = pause ? 0 : 1
-  document.querySelector('.hudBar').classList.toggle('inactiveCover');
-  document.querySelector('.customerContainer').classList.toggle('inactiveCover');
-  document.querySelector('.pausePlay').classList.toggle('pulsating')
+  timerDiv.toggleInactive();
+  satisfyBar.toggleInactive();
+  document.querySelector('.customerContainer').toggleInactive();
+  document.querySelector('.pausePlay').toggleInactive();
 }
 
 function toggleMute() {

@@ -15,8 +15,6 @@ html, body {
 ::-moz-focus-inner {border:0;}
 
 .inactiveCover {
-  height: 100%;
-  width: 100%;
   filter: brightness(50%) !important;
 }
 
@@ -223,7 +221,9 @@ html, body {
   color: black;
   cursor: pointer;
   display: table-cell;
-  font-size: 24px;
+  font-size: 2em;
+  font-weight: bold;
+  letter-spacing: 3px;
   width: 33.33%;
 }
 
@@ -233,7 +233,6 @@ html, body {
 
 .management > div:not(.tabs) {
   height: 100%;
-  position: relative;
 }
 
 .management > div:not(.tabs):not(.current) {
@@ -250,4 +249,41 @@ html, body {
 
 .management .personnel {
   background: green;
+}
+
+.item  {
+  width: 400px;
+  position: relative;
+  margin: 10px;
+  height: 200px;
+  display: inline-table;
+  background: yellow;
+}
+
+.item > h1 {
+  margin: 5px;
+  text-decoration: underline;
+}
+
+.item > p {
+  margin: 5px;
+}
+
+.item > .bottomRow {
+  position: absolute;
+  bottom: 0;
+  margin: 20px;
+}
+
+.item > .bottomRow > * {
+  display: inline;
+  margin: 5px;
+}
+
+.amount:after {
+  content: ' (x' attr(data-worth) ')';
+}
+
+.price:before {
+  content: '$';
 }
