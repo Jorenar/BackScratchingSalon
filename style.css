@@ -221,7 +221,7 @@ button {
 }
 
 .management > div:not(.tabs) {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: calc(100% - 70px);
 }
 
