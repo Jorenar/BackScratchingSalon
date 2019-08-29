@@ -356,7 +356,7 @@ html, body {
   display: none;
 }
 
-@media (max-width: 1200px), (max-height: 890px) {
+@media (max-device-width: 1200px), (max-device-height: 890px) {
   body > div {
     display: none;
   }
