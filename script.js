@@ -1,4 +1,6 @@
+// Flag variables
 var mouseIsDown = 0
+var firstRun = 1 // there is no need to generate some things again
 
 var satisfy = 0
 
@@ -209,35 +211,48 @@ function createCustomer() {
 }
 
 function startGame(continuation) {
+
   if (continuation) {
     readSave()
     fillData()
+    if (m.pause) {
+      m.pause = 0
+      togglePause()
+    }
   } else {
+    if (m.pause)
+      togglePause()
     Object.assign(m, n)
     fillData()
   }
+
+  document.querySelector('.sound').innerHTML = m.mute ? '&#128263;' : '&#128264;'
+
   document.querySelector('.playScreen').toggle()
   document.querySelector('.titleScreen').toggle()
-  if (m.mute)
-    toggleMute()
+
   createCustomer()
+
   recalculateMultiplier();
 
-  document.querySelectorAll('.powerUps > .item').forEach(item => {
-    let amount = item.querySelector('.amount')
-    let price = item.querySelector('.price').innerHTML
-    let buy = document.createElement('button')
-    buy.innerHTML = 'BUY'
-    buy.onclick = () => {
-      if (m.money >= price) {
-        amount.innerHTML = ++m[item.id]
-        m.money -= price
-        moneyDiv.innerHTML = m.money
+  if(firstRun) {
+    document.querySelectorAll('.powerUps > .item').forEach(item => {
+      let amount = item.querySelector('.amount')
+      let price = item.querySelector('.price').innerHTML
+      let buy = document.createElement('button')
+      buy.innerHTML = 'BUY'
+      buy.onclick = () => {
+        if (m.money >= price) {
+          amount.innerHTML = ++m[item.id]
+          m.money -= price
+          moneyDiv.innerHTML = m.money
+        }
       }
-    }
-    item.querySelector('.bottomRow').insertBefore(buy, amount)
-  });
+      item.querySelector('.bottomRow').insertBefore(buy, amount)
+    });
+  }
 
+  firstRun = 0
 }
 
 function togglePause() {
@@ -245,7 +260,7 @@ function togglePause() {
   timerDiv.toggleInactive();
   satisfyBar.toggleInactive();
   document.querySelector('.customerContainer').toggleInactive();
-  document.querySelector('.pausePlay').toggleInactive();
+  document.querySelector('.pausePlay').classList.toggle('pulsating');
 }
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
