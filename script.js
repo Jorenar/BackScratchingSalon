@@ -32,10 +32,10 @@ var d = {
 
 // settings variables
 var s = {
-  autoMute: 1,
+  autoMute: 0,
   autoSave: 1,
   autoPause: 0,
-  skipTitle: 0,
+  skipTitle: 1,
 }
 
 const m = Object.assign({}, d)
