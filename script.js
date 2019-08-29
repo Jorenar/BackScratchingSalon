@@ -245,6 +245,8 @@ function backToTitle() {
   document.querySelector('.titleScreen').toggle()
 }
 
+readSave('Settings', s)
+
 document.querySelectorAll('.settingsWin > input[type=checkbox]').forEach(checkbox => {
   checkbox.checked = s[checkbox.name]
   checkbox.onclick = () => {
@@ -299,8 +301,6 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
     btn.classList.add('current')
   }
 })
-
-readSave('Settings', s)
 
 if (s.skipTitle)
   startGame(1)
