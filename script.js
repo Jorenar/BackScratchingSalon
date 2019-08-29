@@ -45,7 +45,7 @@ const n = Object.assign({}, s)
 function save(type, dict) {
   let variables = ''
   for (let key in dict)
-    variables += Number(dict[key]) + '|'
+    variables += dict[key] + '|'
   document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
 }
 
@@ -248,7 +248,7 @@ function backToTitle() {
 document.querySelectorAll('.settingsWin > input[type=checkbox]').forEach(checkbox => {
   checkbox.checked = s[checkbox.name]
   checkbox.onclick = () => {
-    s[checkbox.name] = checkbox.checked
+    s[checkbox.name] = Number(checkbox.checked)
   }
 })
 
