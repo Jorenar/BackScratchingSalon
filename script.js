@@ -32,47 +32,49 @@ var d = {
 
 // settings variables
 var s = {
-  autoMute: 0,
-  autosave: 1,
+  autoMute: 1,
+  autoSave: 1,
   autoPause: 0,
-  skipStart: 0,
+  skipTitle: 0,
 }
 
-const n = Object.assign({}, d)
+const m = Object.assign({}, d)
+const n = Object.assign({}, s)
+
 
 function save(type, dict) {
   let variables = ''
   for (let key in dict)
     variables += dict[key] + '|'
-  document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
 }
 
 function getCookie(name) {
-  var dc = document.cookie;
-  var prefix = name + "=";
-  var begin = dc.indexOf("; " + prefix);
+  var dc = document.cookie
+  var prefix = name + "="
+  var begin = dc.indexOf("; " + prefix)
   if (begin == -1) {
-    begin = dc.indexOf(prefix);
-    if (begin != 0) return null;
+    begin = dc.indexOf(prefix)
+    if (begin != 0) return null
   } else {
-    begin += 2;
-    var end = document.cookie.indexOf(";", begin);
+    begin += 2
+    var end = document.cookie.indexOf(";", begin)
     if (end == -1) {
-      end = dc.length;
+      end = dc.length
     }
   }
   // because unescape has been deprecated, replaced with decodeURI
-  //return unescape(dc.substring(begin + prefix.length, end));
-  return decodeURI(dc.substring(begin + prefix.length, end));
+  //return unescape(dc.substring(begin + prefix.length, end))
+  return decodeURI(dc.substring(begin + prefix.length, end))
 }
 
-function readSave(type) {
+function readSave(type, dict) {
   let variables = getCookie(cookiePrefix + type + 'Save')
   if (variables) {
     variables = variables.split('|')
-    let i = 0;
-    for (let key in m)
-      d[key] = Number(variables[i++])
+    let i = 0
+    for (let key in dict)
+      dict[key] = Number(variables[i++])
   }
 }
 
@@ -83,7 +85,7 @@ function fillData() {
   pause = s.autoPause
   document.querySelectorAll('.powerUps > .item').forEach(item => {
     item.querySelector('.amount').innerHTML = d[item.id]
-  });
+  })
 }
 
 Element.prototype.toggle = function() {
@@ -121,7 +123,7 @@ function recalculateMultiplier() {
   document.querySelectorAll('.amount').forEach(amount => {
     let current = amount.innerHTML
     multiplier *= current > 0 ? current * amount.dataset.worth : 1
-  });
+  })
 }
 
 function toggleMute() {
@@ -221,21 +223,43 @@ function createCustomer() {
   back.insertAdjacentHTML('beforeend', '<div style="font-size: 70px; color: red; background: black">' + atob('Q0VOU1VSRQ') + '</div>')
 }
 
+function settings() {
+  document.querySelector('.settingsWin').classList.remove('hidden')
+}
+
+function togglePause() {
+  pause = pause ? 0 : 1
+  timerDiv.toggleInactive()
+  satisfyBar.toggleInactive()
+  document.querySelector('.customerContainer').toggleInactive()
+  document.querySelector('.pausePlay').classList.toggle('pulsating')
+}
+
+function backToTitle() {
+  document.title = 'Back Scratching Salon'
+  if (pause)
+    togglePause()
+  clearInterval(timer)
+  customerDiv.innerHTML = ''
+  document.querySelector('.playScreen').toggle()
+  document.querySelector('.titleScreen').toggle()
+}
+
+document.querySelectorAll('.settingsWin > input[type=checkbox]').forEach(checkbox => {
+  checkbox.checked = s[checkbox.name]
+  checkbox.onclick = () => {
+    s[checkbox.name] = checkbox.checked
+  }
+})
+
 function startGame(continuation) {
 
-  if (continuation) {
-    readSave()
-    fillData()
-    if (pause) {
-      pause = 0
-      togglePause()
-    }
-  } else {
-    if (pause)
-      togglePause()
-    Object.assign(d, n)
-    fillData()
-  }
+  if (continuation)
+    readSave('Data', d)
+  else
+    Object.assign(d, m)
+
+  fillData()
 
   document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
 
@@ -244,7 +268,7 @@ function startGame(continuation) {
 
   createCustomer()
 
-  recalculateMultiplier();
+  recalculateMultiplier()
 
   if(firstRun) {
     document.querySelectorAll('.powerUps > .item').forEach(item => {
@@ -260,18 +284,10 @@ function startGame(continuation) {
         }
       }
       item.querySelector('.bottomRow').insertBefore(buy, amount)
-    });
+    })
   }
 
   firstRun = 0
-}
-
-function togglePause() {
-  pause = pause ? 0 : 1
-  timerDiv.toggleInactive();
-  satisfyBar.toggleInactive();
-  document.querySelector('.customerContainer').toggleInactive();
-  document.querySelector('.pausePlay').classList.toggle('pulsating');
 }
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
@@ -284,12 +300,7 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
   }
 })
 
-function backToTitle() {
-  clearInterval(timer)
-  customerDiv.innerHTML = ''
-  document.querySelector('.playScreen').toggle()
-  document.querySelector('.titleScreen').toggle()
-}
+readSave('Settings', s)
 
-if (s.skipStart)
+if (s.skipTitle)
   startGame(1)

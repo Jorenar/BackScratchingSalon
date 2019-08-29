@@ -18,7 +18,13 @@
     <p><br><a href='https://github.com/Jorengarenar/BackScratchingSalon'>Project's GitHub repository</a></p>
     <p><a href='https://joren.ga'>My webpage</a></p>
   </div>
-  <div class='settings'></div>
+  <div class='settingsWin hidden'>
+    <button style='float: right; margin: 10px' onclick='document.querySelector(".settingsWin").classList.add("hidden")'>X</button>
+    <input type="checkbox" name="autoMute">Auto mute<br>
+    <input type="checkbox" name="autoSave">Auto save<br>
+    <input type="checkbox" name="skipStart">Skip title screen<br>
+    <button onclick='save("Settings", s)'>SAVE SETTINGS</button>
+  </div>
   <div class='titleScreen'>
     <div id='title'>Back Scratching Salon <p>by <a href='https://joren.ga' target='_blank'>Jorengarenar</a></p></div>
     <div class='menu'>
@@ -26,7 +32,7 @@
       <button onclick='startGame(1)'>CONTINUE</button>
       <button onclick='settings()'>SETTINGS</button>
     </div>
-    <p style="left: 5px; bottom: 30px; position: absolute">Version: dev</p>
+    <p style="left: 10px; bottom: 30px; position: absolute">Version: dev</p>
     <div id='feedBrowser'>Attention! Attention! This game uses &#127850;&#127850;! By continuing to play this game you agree to feed your browser some tasty &#127850;&#127850;!</div>
   </div>
   <div class='playScreen hidden' onmouseup='whenMouseUp()' onmousedown='mouseIsDown=1'>
