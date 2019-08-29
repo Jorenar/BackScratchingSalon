@@ -1,10 +1,11 @@
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
   font-family: monospace;
   font-size: 1.2em;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
 }
 
 .hidden {
@@ -22,6 +23,7 @@ html, body {
 .inactiveCover * {
   animation-play-state: paused !important;
 }
+
 
 
 .playScreen {
