@@ -1,11 +1,15 @@
-// Flag variables
+// flag variables
 var mouseIsDown = 0
 var firstRun = 1 // there is no need to generate some things again
+var mute = 0
+var pause = 0
 
 var satisfy = 0
 
 var time
 var timer
+
+var cookiePrefix = "BackScratchingSalon_"
 
 var multiplier = 1
 
@@ -14,28 +18,33 @@ var moneyDiv = document.getElementById('money')
 var satisfyBar = document.getElementById('satisfyBar')
 var timerDiv = document.getElementById('timer')
 
-var m = {
-  autosave: 1,
+// data variables
+var d = {
   chainsaw: 0,
   fingers: 1,
   hands: 0,
   hands: 0,
   longNails: 0,
   money: 0,
-  mute: 0,
-  pause: 0,
   sandpaper: 0,
   scratcher: 0,
+}
+
+// settings variables
+var s = {
+  autoMute: 0,
+  autosave: 1,
+  autoPause: 0,
   skipStart: 0,
 }
 
-const n = Object.assign({}, m)
+const n = Object.assign({}, d)
 
-function save() {
+function save(type, dict) {
   let variables = ''
-  for (let key in m)
-    variables += m[key] + '|'
-  document.cookie = 'BackScratchingSalonSave=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  for (let key in dict)
+    variables += dict[key] + '|'
+  document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT";
 }
 
 function getCookie(name) {
@@ -57,21 +66,23 @@ function getCookie(name) {
   return decodeURI(dc.substring(begin + prefix.length, end));
 }
 
-function readSave() {
-  let variables = getCookie('BackScratchingSalonSave')
+function readSave(type) {
+  let variables = getCookie(cookiePrefix + type + 'Save')
   if (variables) {
     variables = variables.split('|')
     let i = 0;
     for (let key in m)
-      m[key] = Number(variables[i++])
+      d[key] = Number(variables[i++])
   }
 }
 
 function fillData() {
-  document.title = '$' + m.money + ' | Back Scratching Salon'
-  moneyDiv.innerHTML = m.money
+  document.title = '$' + d.money + ' | Back Scratching Salon'
+  moneyDiv.innerHTML = d.money
+  mute = s.autoMute
+  pause = s.autoPause
   document.querySelectorAll('.powerUps > .item').forEach(item => {
-    item.querySelector('.amount').innerHTML = m[item.id]
+    item.querySelector('.amount').innerHTML = d[item.id]
   });
 }
 
@@ -114,8 +125,8 @@ function recalculateMultiplier() {
 }
 
 function toggleMute() {
-  m.mute = m.mute ? 0 : 1
-  document.querySelector('.sound').innerHTML = m.mute ? '&#128263;' : '&#128264;'
+  mute = mute ? 0 : 1
+  document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
 }
 
 function finalize() {
@@ -127,12 +138,12 @@ function finalize() {
 
   recalculateMultiplier()
 
-  m.money += time > 0 ? Math.floor(time * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100)
+  d.money += time > 0 ? Math.floor(time * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100)
 
   customerDiv.style.filter = 'opacity(20%)'
 
-  document.title = '$' + m.money + ' | Back Scratching Salon'
-  moneyDiv.innerHTML = m.money
+  document.title = '$' + d.money + ' | Back Scratching Salon'
+  moneyDiv.innerHTML = d.money
 
   setTimeout(() => {
     customerDiv.innerHTML = ''
@@ -159,7 +170,7 @@ function createCustomer() {
   timer = setInterval(() => {
     if (time === 0) {
       finalize()
-    } else if (!m.pause) {
+    } else if (!pause) {
       timerDiv.innerHTML = --time >= 10 ? time : '0' + time
     }
   }, 1000)
@@ -183,7 +194,7 @@ function createCustomer() {
       let spot = document.createElement('div')
       spot.className = 'spot'
       spot.onmouseover = () => {
-        if (mouseIsDown && !m.pause) {
+        if (mouseIsDown && !pause) {
           spot.classList.add('scratched')
 
           let scratched = document.querySelectorAll('.scratched')
@@ -193,7 +204,7 @@ function createCustomer() {
               spotScratched.classList.remove('scratched')
             })
 
-            if (!m.mute)
+            if (!mute)
               sound()
 
             satisfy += 5
@@ -215,18 +226,18 @@ function startGame(continuation) {
   if (continuation) {
     readSave()
     fillData()
-    if (m.pause) {
-      m.pause = 0
+    if (pause) {
+      pause = 0
       togglePause()
     }
   } else {
-    if (m.pause)
+    if (pause)
       togglePause()
-    Object.assign(m, n)
+    Object.assign(d, n)
     fillData()
   }
 
-  document.querySelector('.sound').innerHTML = m.mute ? '&#128263;' : '&#128264;'
+  document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
 
   document.querySelector('.playScreen').toggle()
   document.querySelector('.titleScreen').toggle()
@@ -242,10 +253,10 @@ function startGame(continuation) {
       let buy = document.createElement('button')
       buy.innerHTML = 'BUY'
       buy.onclick = () => {
-        if (m.money >= price) {
-          amount.innerHTML = ++m[item.id]
-          m.money -= price
-          moneyDiv.innerHTML = m.money
+        if (d.money >= price) {
+          amount.innerHTML = ++d[item.id]
+          d.money -= price
+          moneyDiv.innerHTML = d.money
         }
       }
       item.querySelector('.bottomRow').insertBefore(buy, amount)
@@ -256,7 +267,7 @@ function startGame(continuation) {
 }
 
 function togglePause() {
-  m.pause = m.pause ? 0 : 1
+  pause = pause ? 0 : 1
   timerDiv.toggleInactive();
   satisfyBar.toggleInactive();
   document.querySelector('.customerContainer').toggleInactive();
@@ -280,5 +291,5 @@ function backToTitle() {
   document.querySelector('.titleScreen').toggle()
 }
 
-if (m.skipStart)
+if (s.skipStart)
   startGame(1)
