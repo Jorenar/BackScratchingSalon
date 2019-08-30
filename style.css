@@ -386,13 +386,13 @@ button {
 
 #version {
   left: 10px;
-  bottom: 30px;
+  bottom: 0px;
   position: absolute
 }
 
 #feedBrowser {
   position: absolute;
-  bottom: 0;
+  bottom: 50px;
   animation: slide 25s linear infinite;
   font-size: 1.5em;
   white-space: nowrap;

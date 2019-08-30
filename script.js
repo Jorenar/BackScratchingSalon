@@ -36,6 +36,7 @@ var s = {
   autoSave: 1,
   autoPause: 0,
   skipTitle: 0,
+  disableCookieMsg: 0,
 }
 
 const m = Object.assign({}, d)
@@ -315,6 +316,9 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
 })
 
 checkForSave()
+
+if (s.disableCookieMsg)
+  document.getElementById('feedBrowser').toggle()
 
 if (s.skipTitle)
   startGame(1)
