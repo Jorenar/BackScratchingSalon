@@ -29,7 +29,8 @@
     <div id='title'>Back Scratching Salon <p>by <a href='https://joren.ga' target='_blank'>Jorengarenar</a></p></div>
     <div class='newGameWarning modal hidden'>
       <div class='hud'>
-        Your previous progress will be lost, when you save
+        <p>Your previous progress will be lost, when you save</p>
+        <button onclick='this.parentNode.parentNode.toggle()'>ABORT</button>
         <button onclick='startGame(0)'>OK</button>
       </div>
     </div>

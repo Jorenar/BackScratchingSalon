@@ -363,10 +363,10 @@ button {
 }
 
 .newGameWarning button {
-  font-size: 1em;
   background: #444;
   color: white;
-
+  display: inline;
+  font-size: 1em;
 }
 
 #title {
