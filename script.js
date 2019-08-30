@@ -240,6 +240,7 @@ function backToTitle() {
     togglePause()
   clearInterval(timer)
   customerDiv.innerHTML = ''
+  document.querySelector('.backToTitleConfirm').toggle()
   document.querySelector('.playScreen').toggle()
   document.querySelector('.titleScreen').toggle()
 }
@@ -255,10 +256,12 @@ document.querySelectorAll('.settingsWin > div > label > input[type=checkbox]').f
 
 function startGame(continuation) {
 
-  if (continuation)
+  if (continuation) {
     readSave('Data', d)
-  else
+  } else {
     Object.assign(d, m)
+    document.querySelector('.newGameWarning').classList.add('hidden')
+  }
 
   fillData()
 
@@ -300,6 +303,15 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
     btn.classList.add('current')
   }
 })
+
+//if(getCookie(cookiePrefix + 'DataSave'))
+
+if (document.cookie.includes('BackScratchingSalon_DataSave')) {
+  document.getElementById('continue').toggle()
+  document.getElementById('newGame').onclick = () => {
+    document.querySelector('.newGameWarning').toggle()
+  }
+}
 
 if (s.skipTitle)
   startGame(1)
