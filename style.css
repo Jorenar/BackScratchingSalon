@@ -158,8 +158,7 @@ button {
   transition: width 0.5s;
 }
 
-#timer,
-#money {
+#timer, #money {
   background: black;
   border: 5px solid #686868;
   color: #00f900;
@@ -349,17 +348,34 @@ button {
 
 /* SETTINGS WINDOW */
 
-.settingsWin {
-  border: 50px solid rgba(0,0,0,0.5);
-  background-color: white;
-  width: calc(100% - 100px);
-  height: calc(100% - 100px);
-  position: absolute;
-  z-index: 3;
+.modal {
+  position: fixed;
+  z-index: 3; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  color: #fff;
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.settingsWin > div {
+  background-color: #777;
+  margin: auto;
+  padding: 20px;
+  width: 80%;
 }
 
 .settingsWin label {
   display: block;
+}
+
+.settingsWin button {
+  margin-top: 20px;
+  padding: 10px;
+  background: #555;
 }
 
 
@@ -396,13 +412,13 @@ button {
     animation: initial;
   }
 
-.customer {
-  transform: scale(.5);
-}
+  .customer {
+    transform: scale(.5);
+  }
 
-.customerContainer {
-  width: 100%;
-}
+  .customerContainer {
+    width: 100%;
+  }
 
   .menu > p {
     font-size: 1.5em;

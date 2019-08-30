@@ -11,20 +11,22 @@
   <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-  <div class='settingsWin hidden'>
-    <button style='float: right; margin: 10px' onclick='document.querySelector(".settingsWin").classList.add("hidden")'>X</button>
-    <label><input type="checkbox" name="autoMute">Auto mute</label>
-    <label><input type="checkbox" name="autoSave">Auto save</label>
-    <label><input type="checkbox" name="skipTitle">Skip title screen</label>
-    <button onclick='save("Settings", s)'>SAVE SETTINGS</button>
+  <div class='settingsWin modal hidden'>
+    <div class='hud'>
+      <label><input type="checkbox" name="autoMute"> Auto mute</label>
+      <label><input type="checkbox" name="autoSave"> Auto save</label>
+      <label><input type="checkbox" name="skipTitle"> Skip title screen</label>
+      <button onclick='save("Settings", s); document.querySelector(".settingsWin").toggle()'>CLOSE AND SAVE</button>
+    </div>
   </div>
+  <div class='manual modal hidden'></div>
   <div class='titleScreen'>
     <div id='title'>Back Scratching Salon <p>by <a href='https://joren.ga' target='_blank'>Jorengarenar</a></p></div>
     <div class='menu'>
       <button onclick='startGame(0)'>NEW GAME</button>
       <button onclick='startGame(1)'>CONTINUE</button>
       <button onclick='settings()'>SETTINGS</button>
-      <button onclick='manual()'>MANUAL</button>
+      <button onclick='document.querySelector(".manual").toggle()'>MANUAL</button>
     </div>
     <p id='version'>Version: dev</p>
     <div id='feedBrowser'>Attention! Attention! This game uses &#127850;&#127850;! By continuing to play this game you agree to feed your browser some tasty &#127850;&#127850;!</div>
@@ -44,9 +46,9 @@
     </div>
     <div class='management'>
       <div class='tabs'>
-          <button class='powerUps current'>POWER-UPS</button>
-          <button class='equipment'>EQUIPMENT</button>
-          <button class='personnel'>PERSONNEL</button>
+        <button class='powerUps current'>POWER-UPS</button>
+        <button class='equipment'>EQUIPMENT</button>
+        <button class='personnel'>PERSONNEL</button>
       </div>
       <div class='powerUps current'>
         <div id="fingers" class='hud item'>
