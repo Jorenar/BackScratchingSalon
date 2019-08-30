@@ -234,6 +234,15 @@ function togglePause() {
   document.querySelector('.pausePlay').classList.toggle('pulsating')
 }
 
+function checkForSave() {
+  if (document.cookie.includes('BackScratchingSalon_DataSave')) {
+    document.getElementById('continue').toggle()
+    document.getElementById('newGame').onclick = () => {
+      document.querySelector('.newGameWarning').toggle()
+    }
+  }
+}
+
 function backToTitle() {
   document.title = 'Back Scratching Salon'
   if (pause)
@@ -242,6 +251,7 @@ function backToTitle() {
   customerDiv.innerHTML = ''
   document.querySelector('.backToTitleConfirm').toggle()
   document.querySelector('.playScreen').toggle()
+  checkForSave()
   document.querySelector('.titleScreen').toggle()
 }
 
@@ -304,14 +314,7 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
   }
 })
 
-//if(getCookie(cookiePrefix + 'DataSave'))
-
-if (document.cookie.includes('BackScratchingSalon_DataSave')) {
-  document.getElementById('continue').toggle()
-  document.getElementById('newGame').onclick = () => {
-    document.querySelector('.newGameWarning').toggle()
-  }
-}
+checkForSave()
 
 if (s.skipTitle)
   startGame(1)
