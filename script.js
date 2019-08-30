@@ -35,7 +35,7 @@ var s = {
   autoMute: 0,
   autoSave: 1,
   autoPause: 0,
-  skipTitle: 1,
+  skipTitle: 0,
 }
 
 const m = Object.assign({}, d)
@@ -82,7 +82,6 @@ function fillData() {
   document.title = '$' + d.money + ' | Back Scratching Salon'
   moneyDiv.innerHTML = d.money
   mute = s.autoMute
-  pause = s.autoPause
   document.querySelectorAll('.powerUps > .item').forEach(item => {
     item.querySelector('.amount').innerHTML = d[item.id]
   })
@@ -247,8 +246,8 @@ function backToTitle() {
 
 readSave('Settings', s)
 
-document.querySelectorAll('.settingsWin > input[type=checkbox]').forEach(checkbox => {
-  checkbox.checked = s[checkbox.name]
+document.querySelectorAll('.settingsWin > div > label > input[type=checkbox]').forEach(checkbox => {
+  checkbox.checked = Number(s[checkbox.name])
   checkbox.onclick = () => {
     s[checkbox.name] = Number(checkbox.checked)
   }
