@@ -247,7 +247,7 @@ function backToTitle() {
 readSave('Settings', s)
 
 document.querySelectorAll('.settingsWin > div > label > input[type=checkbox]').forEach(checkbox => {
-  checkbox.checked = Number(s[checkbox.name])
+  checkbox.checked = s[checkbox.name]
   checkbox.onclick = () => {
     s[checkbox.name] = Number(checkbox.checked)
   }
