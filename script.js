@@ -236,7 +236,7 @@ function togglePause() {
 
 function checkForSave() {
   if (document.cookie.includes('BackScratchingSalon_DataSave')) {
-    document.getElementById('continue').toggle()
+    document.getElementById('continue').classList.remove('hidden')
     document.getElementById('newGame').onclick = () => {
       document.querySelector('.newGameWarning').toggle()
     }
