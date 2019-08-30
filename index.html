@@ -11,18 +11,11 @@
   <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-  <div id='tooSmallScreen'>
-    <p>Unfortunately your screen size is not supported (and may never be...)</p>
-    <p>I'm sorry for the inconvenience</p>
-    <p>~ Jorengarenar</p>
-    <p><br><a href='https://github.com/Jorengarenar/BackScratchingSalon'>Project's GitHub repository</a></p>
-    <p><a href='https://joren.ga'>My webpage</a></p>
-  </div>
   <div class='settingsWin hidden'>
     <button style='float: right; margin: 10px' onclick='document.querySelector(".settingsWin").classList.add("hidden")'>X</button>
-    <input type="checkbox" name="autoMute">Auto mute<br>
-    <input type="checkbox" name="autoSave">Auto save<br>
-    <input type="checkbox" name="skipTitle">Skip title screen<br>
+    <label><input type="checkbox" name="autoMute">Auto mute</label>
+    <label><input type="checkbox" name="autoSave">Auto save</label>
+    <label><input type="checkbox" name="skipTitle">Skip title screen</label>
     <button onclick='save("Settings", s)'>SAVE SETTINGS</button>
   </div>
   <div class='titleScreen'>
@@ -31,8 +24,9 @@
       <button onclick='startGame(0)'>NEW GAME</button>
       <button onclick='startGame(1)'>CONTINUE</button>
       <button onclick='settings()'>SETTINGS</button>
+      <button onclick='manual()'>MANUAL</button>
     </div>
-    <p style="left: 10px; bottom: 30px; position: absolute">Version: dev</p>
+    <p id='version'>Version: dev</p>
     <div id='feedBrowser'>Attention! Attention! This game uses &#127850;&#127850;! By continuing to play this game you agree to feed your browser some tasty &#127850;&#127850;!</div>
   </div>
   <div class='playScreen hidden' onmouseup='whenMouseUp()' onmousedown='mouseIsDown=1'>
@@ -48,11 +42,11 @@
       <p class='import' title='IMPORT SAVE'>&#128229;</p>
       <p class='settings' title='SETTINGS' onclick='settings()'>&#128736;</p>
     </div>
-    <div class='management hud'>
+    <div class='management'>
       <div class='tabs'>
-        <button class='powerUps current'>POWER-UPS</button>
-        <button class='equipment'>EQUIPMENT</button>
-        <button class='personnel'>PERSONNEL</button>
+          <button class='powerUps current'>POWER-UPS</button>
+          <button class='equipment'>EQUIPMENT</button>
+          <button class='personnel'>PERSONNEL</button>
       </div>
       <div class='powerUps current'>
         <div id="fingers" class='hud item'>

@@ -17,9 +17,17 @@ button {
   display: none;
 }
 
-::selection { background: none; }
-:focus {outline:none;}
-::-moz-focus-inner {border:0;}
+::selection {
+  background: none;
+}
+
+:focus {
+  outline: none;
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
 
 .inactiveCover {
   filter: brightness(50%) !important;
@@ -39,9 +47,10 @@ button {
 
 .customerContainer {
   width: 550px;
-  height: 100%;
-  position: absolute;
-  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(68,37,148,1) 100%);
+  height: calc(100% - 170px);
+  position: relative;
+  display: inline-block;
+  background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(68, 37, 148, 1) 100%);
 }
 
 .customer {
@@ -112,7 +121,7 @@ button {
   overflow: hidden;
 }
 
-.inactiveCover .back{
+.inactiveCover .back {
   cursor: default;
 }
 
@@ -149,7 +158,8 @@ button {
   transition: width 0.5s;
 }
 
-#timer, #money {
+#timer,
+#money {
   background: black;
   border: 5px solid #686868;
   color: #00f900;
@@ -174,7 +184,7 @@ button {
   z-index: 2;
 }
 
-.menu > p:not(.hidden) {
+.menu > p {
   display: inline-block;
   filter: drop-shadow(0px 0px 3px #000);
   font-size: 50px;
@@ -197,15 +207,19 @@ button {
 /* -- MANAGEMENT */
 
 .management {
-  width: calc(100% - 570px);
-  height: calc(100% - 180px);
+  width: calc(100% - 560px);
+  display: inline-block;
+  height: calc(100% - 170px);
   float: right;
+  border-left: 10px solid #333;
+}
+
+.tabs {
+  background: #222;
 }
 
 .tabs > * {
-  border-bottom: 10px solid #333;
-  border-left: 10px solid #333;
-  border-right: 10px solid #333;
+  border: 10px solid #333;
   color: black;
   cursor: pointer;
   display: table-cell;
@@ -213,7 +227,7 @@ button {
   font-size: 24px;
   font-weight: bold;
   letter-spacing: 3px;
-  width: 33.33%;
+  margin-bottom: -10px;
 }
 
 .tabs > .current {
@@ -221,8 +235,10 @@ button {
 }
 
 .management > div:not(.tabs) {
+  border-top: 10px solid #333;
   overflow-y: auto;
   height: calc(100% - 70px);
+  border-right: 10px solid #333;
 }
 
 .management > div:not(.tabs):not(.current) {
@@ -241,7 +257,7 @@ button {
   background: green;
 }
 
-.item  {
+.item {
   width: 400px;
   position: relative;
   margin: 10px;
@@ -271,7 +287,7 @@ button {
 }
 
 .amount:after {
-  content: ' (x' attr(data-worth) ')';
+  content: ' (x'attr(data-worth) ')';
 }
 
 .price:before {
@@ -283,7 +299,8 @@ button {
 
 .titleScreen {
   text-align: center;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: #BBB;
   width: 100%;
   height: 100%;
@@ -316,6 +333,12 @@ button {
   color: #444;
 }
 
+#version {
+  left: 10px;
+  bottom: 30px;
+  position: absolute
+}
+
 #feedBrowser {
   position: absolute;
   bottom: 0;
@@ -327,14 +350,16 @@ button {
 /* SETTINGS WINDOW */
 
 .settingsWin {
-  background: pink;
-  width: 100%;
-  height: 100%;
+  border: 50px solid rgba(0,0,0,0.5);
+  background-color: white;
+  width: calc(100% - 100px);
+  height: calc(100% - 100px);
   position: absolute;
   z-index: 3;
 }
 
-.settingsWin [type=checkbox]{
+.settingsWin label {
+  display: block;
 }
 
 
@@ -343,7 +368,9 @@ button {
 @keyframes slide {
   from {
     transform: translateX(100%);
-  } to {
+  }
+
+  to {
     transform: translateX(-100%);
   }
 }
@@ -361,18 +388,51 @@ button {
 }
 
 
-/* TOO SMALL SCREEN */
-
-#tooSmallScreen {
-  display: none;
-}
+/* MOBILE */
 
 @media (max-device-width: 1200px), (max-device-height: 890px) {
-  body > div {
+
+  * {
+    animation: initial;
+  }
+
+.customer {
+  transform: scale(.5);
+}
+
+.customerContainer {
+  width: 100%;
+}
+
+  .menu > p {
+    font-size: 1.5em;
+  }
+
+  .management {
     display: none;
   }
-  #tooSmallScreen {
-    display: initial;
-  text-align: center;
+
+  .titleScreen button {
+    font-size: 1em;
   }
+
+  #title {
+    text-align: center;
+    word-spacing: 100vw;
+    font-size: 3em;
+    margin: 40px auto;
+  }
+
+  #title > p {
+    word-spacing: initial;
+  }
+
+  #version {
+    bottom: 0px;
+  }
+
+  #feedBrowser {
+    display: none;
+  }
+
 }
