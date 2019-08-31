@@ -123,10 +123,11 @@ function whenMouseUp() {
 }
 
 function recalculateMultiplier() {
-  multiplier = 1
+  multiplier = 0.2
   document.querySelectorAll('.amount').forEach(amount => {
     let current = amount.innerHTML
-    multiplier *= current > 0 ? current * amount.dataset.worth : 1
+    //multiplier *= current > 0 ? current * (1 + amount.dataset.worth / 1000) : 1
+    multiplier += current * amount.dataset.worth
   })
 }
 
@@ -299,14 +300,13 @@ function startGame(continuation) {
 
   createCustomer()
 
-  recalculateMultiplier()
-
   document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
     let amount = item.querySelector('.amount')
     let priceDiv = item.querySelector('.price')
     let priceInitiator = priceDiv.dataset.initiator
     let price = d[item.id] ? priceInitiator * d[item.id] : priceInitiator
-    price = Math.floor(price * 0.2465)
+    let lMulti = 1.0465 + amount.dataset.worth / 100
+    price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)))
     priceDiv.innerHTML = price
     if(firstRun) {
       let buy = document.createElement('button')
@@ -316,13 +316,15 @@ function startGame(continuation) {
           amount.innerHTML = ++d[item.id]
           d.money -= price
           moneyDiv.innerHTML = d.money
-          price = Math.floor(priceInitiator * (d[item.id]+1) * 0.2465)
+          price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)))
           priceDiv.innerHTML = price
         }
       }
       item.querySelector('.bottomRow').insertBefore(buy, amount)
     }
   })
+
+  recalculateMultiplier()
 
   firstRun = 0
 

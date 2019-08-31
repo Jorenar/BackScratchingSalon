@@ -41,14 +41,14 @@ button {
 
 .modal {
   position: fixed;
-  z-index: 3; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  z-index: 3;
+  padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
 }
 
 .modal > div {
@@ -356,7 +356,7 @@ button {
 }
 
 .amount:after {
-  content: ' (x'attr(data-worth) ')';
+  content: ' (+'attr(data-worth) ')';
 }
 
 .price:before {
