@@ -53,6 +53,7 @@
         <p>Are you sure? All unsaved progress will be lost</p>
         <button onclick='this.parentNode.parentNode.toggle()'>NO</button>
         <button onclick='backToTitle()'>YES</button>
+        <button onclick='save("Data", d); backToTitle()'>SAVE AND RETURN TO TITLE</button>
       </div>
     </div>
     <div class='menu'>
@@ -123,11 +124,12 @@
       <div class='equipment'></div>
       <div class='personnel'></div>
     </div>
-    <div class='hud hudBar'>
+    <div class='hudBar hud'>
       <div id='progressBar'>
         <div id='satisfyBar'></div>
       </div>
       <div id='timer'>--</div>
+      <div id='cmd'># <span>_</span></div>
       <div id='money'></div>
     </div>
   </div>

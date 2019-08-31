@@ -48,6 +48,10 @@ function save(type, dict) {
   for (let key in dict)
     variables += dict[key] + '|'
   document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
+  document.getElementById('cmd').innerHTML = 'SAVED_'
+  setTimeout(() => {
+    document.getElementById('cmd').innerHTML = '# <span>_</span>'
+  }, 1000)
 }
 
 function getCookie(name) {

@@ -2,6 +2,9 @@
   user-select: none;
   -webkit-user-select: none;
 }
+::-moz-focus-inner { border: 0; }
+::selection { background: none; }
+:focus { outline: none; }
 
 html, body {
   font-family: monospace;
@@ -16,22 +19,11 @@ html, body {
 button {
   background: #444;
   color: white;
+  font-size: 1em;
 }
 
 .hidden {
   display: none !important;
-}
-
-::selection {
-  background: none;
-}
-
-:focus {
-  outline: none;
-}
-
-::-moz-focus-inner {
-  border: 0;
 }
 
 .inactiveCover {
@@ -194,7 +186,7 @@ button {
   transition: width 0.5s;
 }
 
-#timer, #money {
+#timer, #cmd, #money {
   background: black;
   border: 5px solid #686868;
   color: #00f900;
@@ -202,6 +194,10 @@ button {
   font-size: 24px;
   margin: 10px;
   padding: 5px;
+}
+
+#cmd > span {
+  animation: blink 1s step-end infinite;
 }
 
 #money:before {
@@ -435,6 +431,11 @@ button {
   }
 }
 
+@keyframes blink {
+
+  67% { opacity: 0 }
+
+}
 
 /* MOBILE */
 
