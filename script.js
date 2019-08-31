@@ -254,6 +254,7 @@ function backToTitle() {
     togglePause()
   clearInterval(timer)
   customerDiv.innerHTML = ''
+
   document.querySelector('.backToTitleConfirm').toggle()
   document.querySelector('.playScreen').toggle()
   checkForSave()
@@ -289,10 +290,14 @@ function startGame(continuation) {
 
   recalculateMultiplier()
 
-  if(firstRun) {
-    document.querySelectorAll('.powerUps > .item').forEach(item => {
-      let amount = item.querySelector('.amount')
-      let price = item.querySelector('.price').innerHTML
+  document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
+    let amount = item.querySelector('.amount')
+    let priceDiv = item.querySelector('.price')
+    let price = d[item.id] ? priceDiv.dataset.initial * d[item.id] : priceDiv.dataset.initial
+    price = Math.floor(price * 0.465)
+    priceDiv.innerHTML = price
+    if(firstRun) {
+      let trade = document.createElement('div')
       let buy = document.createElement('button')
       buy.innerHTML = 'BUY'
       buy.onclick = () => {
@@ -300,11 +305,14 @@ function startGame(continuation) {
           amount.innerHTML = ++d[item.id]
           d.money -= price
           moneyDiv.innerHTML = d.money
+          price = Math.floor(priceDiv.dataset.initial * d[item.id] * 0.45)
+          priceDiv.innerHTML = price
         }
       }
-      item.querySelector('.bottomRow').insertBefore(buy, amount)
-    })
-  }
+      trade.appendChild(buy)
+      item.querySelector('.bottomRow').insertBefore(trade, amount)
+    }
+  })
 
   firstRun = 0
 }
