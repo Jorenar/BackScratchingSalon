@@ -293,11 +293,11 @@ function startGame(continuation) {
   document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
     let amount = item.querySelector('.amount')
     let priceDiv = item.querySelector('.price')
-    let price = d[item.id] ? priceDiv.dataset.initial * d[item.id] : priceDiv.dataset.initial
-    price = Math.floor(price * 0.465)
+    let priceInitiator = priceDiv.dataset.initiator
+    let price = d[item.id] ? priceInitiator * d[item.id] : priceInitiator
+    price = Math.floor(price * 0.2465)
     priceDiv.innerHTML = price
     if(firstRun) {
-      let trade = document.createElement('div')
       let buy = document.createElement('button')
       buy.innerHTML = 'BUY'
       buy.onclick = () => {
@@ -305,12 +305,11 @@ function startGame(continuation) {
           amount.innerHTML = ++d[item.id]
           d.money -= price
           moneyDiv.innerHTML = d.money
-          price = Math.floor(priceDiv.dataset.initial * d[item.id] * 0.45)
+          price = Math.floor(priceInitiator * (d[item.id]+1) * 0.2465)
           priceDiv.innerHTML = price
         }
       }
-      trade.appendChild(buy)
-      item.querySelector('.bottomRow').insertBefore(trade, amount)
+      item.querySelector('.bottomRow').insertBefore(buy, amount)
     }
   })
 
