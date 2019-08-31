@@ -233,10 +233,21 @@ function settings() {
 
 function togglePause() {
   pause = pause ? 0 : 1
-  timerDiv.toggleInactive()
   satisfyBar.toggleInactive()
+  if (pause) {
+    clearInterval(timer)
+    customerDiv.innerHTML = ''
+    timerDiv.innerHTML = '--'
+    satisfy = 0
+    satisfyBar.style.width = '0%'
+  } else {
+    createCustomer()
+  }
+  satisfyBar.toggle()
+  document.querySelector('.backToWork').toggle()
+  document.querySelector('.takeBreak').toggle()
+  document.querySelector('.break').toggle()
   document.querySelector('.customerContainer').toggleInactive()
-  document.querySelector('.pausePlay').classList.toggle('pulsating')
 }
 
 function checkForSave() {
@@ -314,6 +325,9 @@ function startGame(continuation) {
   })
 
   firstRun = 0
+
+  if (s.autoPause)
+    togglePause()
 }
 
 document.querySelectorAll('.tabs > button').forEach(btn => {

@@ -16,6 +16,7 @@
       <label><input type="checkbox" name="autoMute"> Auto mute</label>
       <label><input type="checkbox" name="autoSave"> Auto save</label>
       <label><input type="checkbox" name="skipTitle"> Skip title screen</label>
+      <label><input type="checkbox" name="autoPause"> Start with taking a break</label>
       <label><input type="checkbox" name="disableCookieMsg"> Disable cookies usage message (requires restart to take effect)</label>
       <button onclick='save("Settings", s); document.querySelector(".settingsWin").toggle()'>CLOSE AND SAVE</button>
     </div>
@@ -47,6 +48,8 @@
   <div class='playScreen hidden' onmouseup='whenMouseUp()' onmousedown='mouseIsDown=1'>
     <div class='customerContainer'>
       <div class='customer'></div>
+      <div class='break hidden'>I'M ON BREAK</div>
+      <div class='takeBreak' onclick='togglePause()'>TAKE<br>BREAK</div>
     </div>
     <div class='backToTitleConfirm modal hidden'>
       <div class='hud'>
@@ -58,7 +61,6 @@
     </div>
     <div class='menu'>
       <p class='backToTitle' title='RETURN TO TITLE SCREEN' onclick='document.querySelector(".backToTitleConfirm").toggle()'>&#128281;</p>
-      <p class='pausePlay' title='PAUSE/PLAY' onclick='togglePause()'>&#9199;</p>
       <p class='sound' title='MUTE/UNMUTE' onclick='toggleMute()'>&#128264;</p>
       <p class='save' title='SAVE' onclick='save("Data", d)'>&#128190;</p>
       <p class='export' title='EXPORT SAVE'>&#128228;</p>
@@ -127,6 +129,7 @@
     <div class='hudBar hud'>
       <div id='progressBar'>
         <div id='satisfyBar'></div>
+        <div class='backToWork hidden' onclick='togglePause()'>BACK TO WORK</div>
       </div>
       <div id='timer'>--</div>
       <div id='cmd'># <span>_</span></div>
