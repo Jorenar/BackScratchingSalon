@@ -39,7 +39,7 @@
     <div class='menu'>
       <button id='continue' class='hidden' onclick='startGame(1)'>CONTINUE</button>
       <button id='newGame' onclick='startGame(0)'>NEW GAME</button>
-      <button onclick='document.querySelector(".settingsWin").classList.remove("hidden")'>SETTINGS</button>
+      <button onclick='document.querySelector(".settingsWin").toggle()'>SETTINGS</button>
       <button onclick='document.querySelector(".manual").toggle()'>MANUAL</button>
     </div>
     <footer id='feedBrowser'>Attention! Attention! This game uses &#127850;&#127850;! By continuing to play this game you agree to feed your browser some tasty &#127850;&#127850;!</footer>
@@ -65,7 +65,7 @@
       <p class='save' title='SAVE' onclick='save("Data", d)'>&#128190;</p>
       <p class='export' title='EXPORT SAVE'>&#128228;</p>
       <p class='import' title='IMPORT SAVE'>&#128229;</p>
-      <p class='settings' title='SETTINGS' onclick='settings()'>&#128736;</p>
+      <p class='settings' title='SETTINGS' onclick='document.querySelector(".settingsWin").toggle()'>&#128736;</p>
     </div>
     <div class='management'>
       <div class='tabs'>

@@ -179,6 +179,7 @@ function backToTitle() {
   if (pause)
     togglePause()
   clearInterval(customerTimer)
+  clearInterval(taxTimer)
   customerDiv.innerHTML = ''
 
   document.querySelector('.backToTitleConfirm').toggle()
