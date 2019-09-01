@@ -39,13 +39,13 @@
     <div class='menu'>
       <button id='continue' class='hidden' onclick='startGame(1)'>CONTINUE</button>
       <button id='newGame' onclick='startGame(0)'>NEW GAME</button>
-      <button onclick='settings()'>SETTINGS</button>
+      <button onclick='document.querySelector(".settingsWin").classList.remove("hidden")'>SETTINGS</button>
       <button onclick='document.querySelector(".manual").toggle()'>MANUAL</button>
     </div>
     <footer id='feedBrowser'>Attention! Attention! This game uses &#127850;&#127850;! By continuing to play this game you agree to feed your browser some tasty &#127850;&#127850;!</footer>
     <p id='version'>Version: dev</p>
   </div>
-  <div class='playScreen hidden' onmouseup='whenMouseUp()' onmousedown='mouseIsDown=1'>
+  <div class='playScreen hidden' onmouseup='mouseIsDown=0' onmousedown='mouseIsDown=1'>
     <div class='customerContainer'>
       <div class='customer'></div>
       <div class='break hidden'>I'M ON BREAK</div>

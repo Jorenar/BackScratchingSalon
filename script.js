@@ -1,3 +1,5 @@
+// variables -------------------------------------
+
 // flag variables
 var mouseIsDown = 0
 var firstRun = 1 // there is no need to generate some things again
@@ -47,6 +49,9 @@ var s = {
 const m = Object.assign({}, d)
 const n = Object.assign({}, s)
 
+
+// Custom methods --------------------------------
+
 Element.prototype.toggle = function() {
   this.classList.toggle('hidden')
 }
@@ -55,23 +60,33 @@ Element.prototype.toggleInactive = function() {
   this.classList.toggle('inactiveCover')
 }
 
+
+// timers ----------------------------------------
+
+const taxFunc = () => {
+
+}
+
 function startTimer(duration, display, instructions) {
-    let time = duration
-    let timer = setInterval( () => {
-        let minutes = parseInt(time / 60, 10);
-        let seconds = parseInt(time % 60, 10);
+  let time = duration
+  let timer = setInterval( () => {
+    let minutes = parseInt(time / 60, 10);
+    let seconds = parseInt(time % 60, 10);
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = minutes + ":" + seconds;
+    display.textContent = minutes + ":" + seconds;
 
-        if (--time < 0) {
-            time = duration;
-        }
-    }, 1000);
+    if (--time < 0) {
+      time = duration;
+    }
+  }, 1000);
   return timer
 }
+
+
+// cookies
 
 function save(type, dict) {
   let variables = ''
@@ -117,31 +132,59 @@ function fillData() {
   document.title = '$' + d.money + ' | Back Scratching Salon'
   moneyDiv.innerHTML = d.money
   mute = s.autoMute
+  taxTime = d.nextTax
   document.querySelectorAll('.powerUps > .item').forEach(item => {
     item.querySelector('.amount').innerHTML = d[item.id]
   })
 }
 
-function sound() {
-  with(new AudioContext)
-    with(G = createGain())
-      for (i in D = [16, 12])
-        with(createOscillator())
-          if (D[i])
-            connect(G),
-              G.connect(destination),
-              start(i * .05),
-              frequency.setValueAtTime(550 * 1.06 ** (13 - D[i]), i * .05),
-              gain.setValueAtTime(0.1, i * .05),
-              gain.setTargetAtTime(.0001, i * .05 + .03, .005),
-              stop(i * .05 + .04)
+function checkForSave() {
+  if (document.cookie.includes('BackScratchingSalon_DataSave')) {
+    document.getElementById('continue').classList.remove('hidden')
+    document.getElementById('newGame').onclick = () => {
+      document.querySelector('.newGameWarning').toggle()
+    }
+  }
 }
 
-function whenMouseUp() {
-  mouseIsDown = 0
-  document.querySelectorAll('.scratched').forEach(spotScratched => {
-    spotScratched.classList.remove('scratched')
-  })
+
+// toggle, change display, show window etc. ------
+
+function toggleMute() {
+  mute = mute ? 0 : 1
+  document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
+}
+
+function togglePause() {
+  pause = pause ? 0 : 1
+  satisfyBar.toggleInactive()
+  if (pause) {
+    clearInterval(customerTimer)
+    customerDiv.innerHTML = ''
+    timerDiv.innerHTML = '--'
+    satisfy = 0
+    satisfyBar.style.width = '0%'
+  } else {
+    createCustomer()
+  }
+  satisfyBar.toggle()
+  document.querySelector('.backToWork').toggle()
+  document.querySelector('.takeBreak').toggle()
+  document.querySelector('.break').toggle()
+  document.querySelector('.customerContainer').toggleInactive()
+}
+
+function backToTitle() {
+  document.title = 'Back Scratching Salon'
+  if (pause)
+    togglePause()
+  clearInterval(customerTimer)
+  customerDiv.innerHTML = ''
+
+  document.querySelector('.backToTitleConfirm').toggle()
+  document.querySelector('.playScreen').toggle()
+  checkForSave()
+  document.querySelector('.titleScreen').toggle()
 }
 
 function recalculateMultiplier() {
@@ -153,14 +196,14 @@ function recalculateMultiplier() {
   })
 }
 
-function toggleMute() {
-  mute = mute ? 0 : 1
-  document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
-}
+
+// main fun --------------------------------------
 
 function finalize() {
   clearInterval(customerTimer)
-  document.querySelector('.back').innerHTML = ''
+  let back = document.querySelector('.back')
+  back.innerHTML = ''
+  back.onmouseover = () => {}
   timerDiv.innerHTML = '--'
 
   satisfyBar.style.width = satisfy + '%'
@@ -177,6 +220,7 @@ function finalize() {
   setTimeout(() => {
     customerDiv.innerHTML = ''
     createCustomer()
+    satisfyBar.style.width = '0%'
   }, 1000)
 }
 
@@ -192,9 +236,7 @@ function createCustomer() {
 
   satisfyBar.style.width = '0%'
 
-  customerTime = 15
-
-  timerDiv.innerHTML = customerTime
+  timerDiv.innerHTML = customerTime = 15
 
   customerTimer = setInterval(() => {
     if (customerTime === 0) {
@@ -218,86 +260,38 @@ function createCustomer() {
 
   createBodyPart('ears', customerDiv)
 
-  for (let i = 0; i < 13; ++i) {
-    for (let j = 0; j < 12; ++j) {
-      let spot = document.createElement('div')
-      spot.className = 'spot'
-      spot.onmouseover = () => {
-        if (mouseIsDown && !pause) {
-          spot.classList.add('scratched')
+  let sound = 0
+  back.onmousemove = () => {
+    if(mouseIsDown && satisfy < 100) {
 
-          let scratched = document.querySelectorAll('.scratched')
-
-          if (scratched.length >= 5) {
-            scratched.forEach(spotScratched => {
-              spotScratched.classList.remove('scratched')
-            })
-
-            if (!mute)
-              sound()
-
-            satisfy += 5
-            if (satisfy < 100)
-              document.getElementById('satisfyBar').style.width = satisfy + '%'
-            else
-              finalize()
-          }
-        }
+      if (!mute && ++sound == 10) {
+        sound = 0
+        with(new AudioContext)
+          with(G = createGain())
+            for (i in D = [16, 12])
+              with(createOscillator())
+                if (D[i])
+                  connect(G),
+                    G.connect(destination),
+                    start(i * .05),
+                    frequency.setValueAtTime(550 * 1.06 ** (13 - D[i]), i * .05),
+                    gain.setValueAtTime(0.1, i * .05),
+                    gain.setTargetAtTime(.0001, i * .05 + .03, .005),
+                    stop(i * .05 + .04)
       }
-      back.appendChild(spot)
+
+      satisfy += 0.325
+      if (satisfy < 100)
+        document.getElementById('satisfyBar').style.width = satisfy + '%'
+      else
+        finalize()
     }
   }
-  back.insertAdjacentHTML('beforeend', '<div style="font-size: 70px; color: red; background: black">' + atob('Q0VOU1VSRQ') + '</div>')
-}
-
-function settings() {
-  document.querySelector('.settingsWin').classList.remove('hidden')
-}
-
-function togglePause() {
-  pause = pause ? 0 : 1
-  satisfyBar.toggleInactive()
-  if (pause) {
-    clearInterval(customerTimer)
-    customerDiv.innerHTML = ''
-    timerDiv.innerHTML = '--'
-    satisfy = 0
-    satisfyBar.style.width = '0%'
-  } else {
-    createCustomer()
-  }
-  satisfyBar.toggle()
-  document.querySelector('.backToWork').toggle()
-  document.querySelector('.takeBreak').toggle()
-  document.querySelector('.break').toggle()
-  document.querySelector('.customerContainer').toggleInactive()
-}
-
-const taxFunc = () => {
 
 }
 
-function checkForSave() {
-  if (document.cookie.includes('BackScratchingSalon_DataSave')) {
-    document.getElementById('continue').classList.remove('hidden')
-    document.getElementById('newGame').onclick = () => {
-      document.querySelector('.newGameWarning').toggle()
-    }
-  }
-}
 
-function backToTitle() {
-  document.title = 'Back Scratching Salon'
-  if (pause)
-    togglePause()
-  clearInterval(customerTimer)
-  customerDiv.innerHTML = ''
-
-  document.querySelector('.backToTitleConfirm').toggle()
-  document.querySelector('.playScreen').toggle()
-  checkForSave()
-  document.querySelector('.titleScreen').toggle()
-}
+// initialize ------------------------------------
 
 readSave('Settings', s)
 
@@ -312,7 +306,7 @@ function startGame(continuation) {
 
   fillData()
 
-  taxTimer = startTaxTimer(60*60, document.getElementById('nextTax'), 'te')
+  taxTimer = startTimer(60*60, document.getElementById('nextTax'), 'te')
 
   document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
 
