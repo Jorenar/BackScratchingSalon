@@ -12,6 +12,7 @@ var customerTime
 var taxTime
 
 var customerTimer
+var paymentTimer
 var taxTimer
 
 var cookiePrefix = "BackScratchingSalon_"
@@ -28,12 +29,14 @@ var d = {
   chainsaw: 0,
   fingers: 1,
   hands: 0,
-  nextTax: 3600,
   hands: 0,
   longNails: 0,
   money: 0,
+  nextPayment: 600,
+  nextTax: 1200,
   sandpaper: 0,
   scratcher: 0,
+  tax: 0.1,
 }
 
 // settings variables
@@ -63,28 +66,41 @@ Element.prototype.toggleInactive = function() {
 
 // timers ----------------------------------------
 
-const taxFunc = () => {
-
-}
-
-function startTimer(duration, display, instructions) {
-  let time = duration
+function startTimer(dTime, display, instructions) {
   let timer = setInterval( () => {
-    let minutes = parseInt(time / 60, 10);
-    let seconds = parseInt(time % 60, 10);
+    if (d[dTime]-- == 0) {
+      instructions()
+    }
+    let minutes = parseInt(d[dTime] / 60, 10);
+    let seconds = parseInt(d[dTime] % 60, 10);
 
     minutes = minutes < 10 ? "0" + minutes : minutes;
     seconds = seconds < 10 ? "0" + seconds : seconds;
 
     display.textContent = minutes + ":" + seconds;
 
-    if (--time < 0) {
-      time = duration;
-    }
   }, 1000);
   return timer
 }
 
+const taxPay = function() {
+  let tax = Math.floor(d.tax * d.money)
+  moneyDiv.innerHTML = d.money -= tax
+  if (tax)
+    setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0)
+  d.nextTax = 1200
+}
+
+const payment = function() {
+  let salary = 0
+  document.querySelectorAll('.personnel > .employee').forEach(employee => {
+    salary = employee.dataset.hired ? employee.dataset.wage : 0
+  })
+  moneyDiv.innerHTML = d.money -= salary
+  if (salary)
+    setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0)
+  d.nextPayment = 600
+}
 
 // cookies
 
@@ -176,15 +192,20 @@ function togglePause() {
 
 function backToTitle() {
   document.title = 'Back Scratching Salon'
+
   if (pause)
     togglePause()
+
   clearInterval(customerTimer)
   clearInterval(taxTimer)
+  clearInterval(paymentTimer)
+
   customerDiv.innerHTML = ''
+
+  checkForSave()
 
   document.querySelector('.backToTitleConfirm').toggle()
   document.querySelector('.playScreen').toggle()
-  checkForSave()
   document.querySelector('.titleScreen').toggle()
 }
 
@@ -307,7 +328,8 @@ function startGame(continuation) {
 
   fillData()
 
-  taxTimer = startTimer(60*60, document.getElementById('nextTax'), 'te')
+  taxTimer = startTimer('nextTax', document.getElementById('nextTax'), taxPay)
+  paymentTimer = startTimer('nextPayment', document.getElementById('nextPayment'), payment)
 
   document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
 
