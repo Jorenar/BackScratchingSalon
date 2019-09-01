@@ -109,7 +109,7 @@ function save(type, dict) {
   for (let key in dict)
     variables += dict[key] + '|'
   document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
-  document.getElementById('cmd').innerHTML = 'SAVED ' + type + '_'
+  document.querySelector('.cmd').innerHTML = 'SAVED ' + type + '_'
   setTimeout(() => {
     document.getElementById('cmd').innerHTML = '# <span>_</span>'
   }, 1000)
@@ -248,6 +248,34 @@ function createBodyPart(classes, parent) {
   return part
 }
 
+function scratching(sound) {
+  if(satisfy < 100) {
+
+    if (!mute && ++sound == 10) {
+      sound = 0
+      with(new AudioContext)
+        with(G = createGain())
+          for (i in D = [16, 12])
+            with(createOscillator())
+              if (D[i])
+                connect(G),
+                  G.connect(destination),
+                  start(i * .05),
+                  frequency.setValueAtTime(550 * 1.06 ** (13 - D[i]), i * .05),
+                  gain.setValueAtTime(0.1, i * .05),
+                  gain.setTargetAtTime(.0001, i * .05 + .03, .005),
+                  stop(i * .05 + .04)
+    }
+
+    satisfy += 0.325
+    if (satisfy < 100)
+      document.getElementById('satisfyBar').style.width = satisfy + '%'
+    else
+      finalize()
+  }
+  return sound
+}
+
 function createCustomer() {
   satisfy = 0
 
@@ -279,31 +307,10 @@ function createCustomer() {
 
   let sound = 0
   back.onmousemove = () => {
-    if(mouseIsDown && satisfy < 100) {
-
-      if (!mute && ++sound == 10) {
-        sound = 0
-        with(new AudioContext)
-          with(G = createGain())
-            for (i in D = [16, 12])
-              with(createOscillator())
-                if (D[i])
-                  connect(G),
-                    G.connect(destination),
-                    start(i * .05),
-                    frequency.setValueAtTime(550 * 1.06 ** (13 - D[i]), i * .05),
-                    gain.setValueAtTime(0.1, i * .05),
-                    gain.setTargetAtTime(.0001, i * .05 + .03, .005),
-                    stop(i * .05 + .04)
-      }
-
-      satisfy += 0.325
-      if (satisfy < 100)
-        document.getElementById('satisfyBar').style.width = satisfy + '%'
-      else
-        finalize()
-    }
+    if (mouseIsDown)
+      sound = scratching(sound)
   }
+  back.addEventListener("touchmove", scratching, false);
 
 }
 

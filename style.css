@@ -428,6 +428,7 @@ button {
   white-space: nowrap;
 }
 
+
 /* SETTINGS WINDOW */
 
 .settingsWin label {
@@ -481,7 +482,7 @@ button {
   }
 
   .hiddenMobile {
-    display: hidden;
+    display: none !important;
   }
 
   .customer {
@@ -492,12 +493,8 @@ button {
     width: 100%;
   }
 
-  .hudBar > div {
-    display: none;
-  }
-
   .menu > p {
-    font-size: 2.2em;
+    font-size: 8vw;
   }
 
   .management {
