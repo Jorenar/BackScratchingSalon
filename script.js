@@ -6,8 +6,11 @@ var pause = 0
 
 var satisfy = 0
 
-var time
-var timer
+var customerTime
+var taxTime
+
+var customerTimer
+var taxTimer
 
 var cookiePrefix = "BackScratchingSalon_"
 
@@ -23,6 +26,7 @@ var d = {
   chainsaw: 0,
   fingers: 1,
   hands: 0,
+  nextTax: 3600,
   hands: 0,
   longNails: 0,
   money: 0,
@@ -39,16 +43,42 @@ var s = {
   disableCookieMsg: 0,
 }
 
+// default parameters of previous dictionaries
 const m = Object.assign({}, d)
 const n = Object.assign({}, s)
 
+Element.prototype.toggle = function() {
+  this.classList.toggle('hidden')
+}
+
+Element.prototype.toggleInactive = function() {
+  this.classList.toggle('inactiveCover')
+}
+
+function startTimer(duration, display, instructions) {
+    let time = duration
+    let timer = setInterval( () => {
+        let minutes = parseInt(time / 60, 10);
+        let seconds = parseInt(time % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--time < 0) {
+            time = duration;
+        }
+    }, 1000);
+  return timer
+}
 
 function save(type, dict) {
   let variables = ''
   for (let key in dict)
     variables += dict[key] + '|'
   document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
-  document.getElementById('cmd').innerHTML = 'SAVED_'
+  document.getElementById('cmd').innerHTML = 'SAVED ' + type + '_'
   setTimeout(() => {
     document.getElementById('cmd').innerHTML = '# <span>_</span>'
   }, 1000)
@@ -92,14 +122,6 @@ function fillData() {
   })
 }
 
-Element.prototype.toggle = function() {
-  this.classList.toggle('hidden')
-}
-
-Element.prototype.toggleInactive = function() {
-  this.classList.toggle('inactiveCover')
-}
-
 function sound() {
   with(new AudioContext)
     with(G = createGain())
@@ -137,7 +159,7 @@ function toggleMute() {
 }
 
 function finalize() {
-  clearInterval(timer)
+  clearInterval(customerTimer)
   document.querySelector('.back').innerHTML = ''
   timerDiv.innerHTML = '--'
 
@@ -145,7 +167,7 @@ function finalize() {
 
   recalculateMultiplier()
 
-  d.money += time > 0 ? Math.floor(time * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100)
+  d.money += customerTime > 0 ? Math.floor(customerTime * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100)
 
   customerDiv.style.filter = 'opacity(20%)'
 
@@ -170,15 +192,15 @@ function createCustomer() {
 
   satisfyBar.style.width = '0%'
 
-  time = 15
+  customerTime = 15
 
-  timerDiv.innerHTML = time
+  timerDiv.innerHTML = customerTime
 
-  timer = setInterval(() => {
-    if (time === 0) {
+  customerTimer = setInterval(() => {
+    if (customerTime === 0) {
       finalize()
     } else if (!pause) {
-      timerDiv.innerHTML = --time >= 10 ? time : '0' + time
+      timerDiv.innerHTML = --customerTime >= 10 ? customerTime : '0' + customerTime
     }
   }, 1000)
 
@@ -236,7 +258,7 @@ function togglePause() {
   pause = pause ? 0 : 1
   satisfyBar.toggleInactive()
   if (pause) {
-    clearInterval(timer)
+    clearInterval(customerTimer)
     customerDiv.innerHTML = ''
     timerDiv.innerHTML = '--'
     satisfy = 0
@@ -249,6 +271,10 @@ function togglePause() {
   document.querySelector('.takeBreak').toggle()
   document.querySelector('.break').toggle()
   document.querySelector('.customerContainer').toggleInactive()
+}
+
+const taxFunc = () => {
+
 }
 
 function checkForSave() {
@@ -264,7 +290,7 @@ function backToTitle() {
   document.title = 'Back Scratching Salon'
   if (pause)
     togglePause()
-  clearInterval(timer)
+  clearInterval(customerTimer)
   customerDiv.innerHTML = ''
 
   document.querySelector('.backToTitleConfirm').toggle()
@@ -274,13 +300,6 @@ function backToTitle() {
 }
 
 readSave('Settings', s)
-
-document.querySelectorAll('.settingsWin > div > label > input[type=checkbox]').forEach(checkbox => {
-  checkbox.checked = s[checkbox.name]
-  checkbox.onclick = () => {
-    s[checkbox.name] = Number(checkbox.checked)
-  }
-})
 
 function startGame(continuation) {
 
@@ -292,6 +311,8 @@ function startGame(continuation) {
   }
 
   fillData()
+
+  taxTimer = startTaxTimer(60*60, document.getElementById('nextTax'), 'te')
 
   document.querySelector('.sound').innerHTML = mute ? '&#128263;' : '&#128264;'
 
@@ -331,6 +352,13 @@ function startGame(continuation) {
   if (s.autoPause)
     togglePause()
 }
+
+document.querySelectorAll('.settingsWin > div > label > input[type=checkbox]').forEach(checkbox => {
+  checkbox.checked = s[checkbox.name]
+  checkbox.onclick = () => {
+    s[checkbox.name] = Number(checkbox.checked)
+  }
+})
 
 document.querySelectorAll('.tabs > button').forEach(btn => {
   btn.onclick = () => {

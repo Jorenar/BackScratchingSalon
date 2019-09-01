@@ -223,7 +223,7 @@ button {
   animation: pulsation 0.5s infinite alternate;
 }
 
-#timer, #cmd, #money {
+.hudBar > div:not(#progressBar) {
   background: black;
   border: 5px solid #686868;
   color: #00f900;
