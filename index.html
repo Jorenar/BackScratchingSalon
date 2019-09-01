@@ -123,7 +123,16 @@
           </div>
         </div>
       </div>
-      <div class='equipment'></div>
+      <div class='equipment'>
+        <div id="toothbrush" class='hud item'>
+          <h1>ELECTRIC TOOTHBRUSH</h1>
+          <p>For some people it's enough</p>
+          <div class='bottomRow'>
+            <div class='amount data-worth=1'></div>
+            <div class='price'>20</div>
+          </div>
+        </div>
+      </div>
       <div class='personnel'></div>
     </div>
     <div class='hudBar hud'>
@@ -131,11 +140,11 @@
         <div id='satisfyBar'></div>
         <div class='backToWork hidden' onclick='togglePause()'>BACK TO WORK</div>
       </div>
-      <div id='timer'>--</div>
-      <div id='cmd'># <span>_</span></div>
-      <div>Tax: <span id='nextTax'></span></div>
-      <div>Payment: <span id='nextPayment'></span></div>
-      <div id='money'></div>
+      <div class='timer'>--</div>
+      <div class='cmd'># <span>_</span></div>
+      <div class='hiddenMobile'>Tax: <span id='nextTax'></span></div>
+      <div class='hiddenMobile'>Payday: <span id='nextPayday'></span></div>
+      <div class='money'></div>
     </div>
   </div>
   <script src='script.js'></script>
