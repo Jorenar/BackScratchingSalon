@@ -15,8 +15,6 @@ var customerTimer
 var paydayTimer
 var taxTimer
 
-var cookiePrefix = "BackScratchingSalon_"
-
 var customerDiv = document.querySelector('.customer')
 var moneyDiv = document.querySelector('.money')
 var satisfyBar = document.getElementById('satisfyBar')
@@ -44,12 +42,7 @@ var s = {
   autoSave: 1,
   autoPause: 0,
   skipTitle: 0,
-  disableCookieMsg: 0,
 }
-
-// default parameters of previous dictionaries
-const m = Object.assign({}, d)
-const n = Object.assign({}, s)
 
 
 // Custom methods --------------------------------
@@ -105,43 +98,15 @@ const payday = function() {
 // cookies
 
 function save(type, dict) {
-  let variables = ''
-  for (let key in dict)
-    variables += dict[key] + '|'
-  document.cookie = cookiePrefix + type + 'Save=' + encodeURI(variables) + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
+  localStorage.setItem(type, JSON.stringify(dict));
   document.querySelector('.cmd').innerHTML = 'SAVED ' + type + '_'
   setTimeout(() => {
-    document.getElementById('cmd').innerHTML = '# <span>_</span>'
+    document.querySelector('.cmd').innerHTML = '# <span>_</span>'
   }, 1000)
 }
 
-function getCookie(name) {
-  var dc = document.cookie
-  var prefix = name + "="
-  var begin = dc.indexOf("; " + prefix)
-  if (begin == -1) {
-    begin = dc.indexOf(prefix)
-    if (begin != 0) return null
-  } else {
-    begin += 2
-    var end = document.cookie.indexOf(";", begin)
-    if (end == -1) {
-      end = dc.length
-    }
-  }
-  // because unescape has been deprecated, replaced with decodeURI
-  //return unescape(dc.substring(begin + prefix.length, end))
-  return decodeURI(dc.substring(begin + prefix.length, end))
-}
-
 function readSave(type, dict) {
-  let variables = getCookie(cookiePrefix + type + 'Save')
-  if (variables) {
-    variables = variables.split('|')
-    let i = 0
-    for (let key in dict)
-      dict[key] = Number(variables[i++])
-  }
+  Object.assign(dict, JSON.parse(localStorage[type]))
 }
 
 function fillData() {
@@ -155,7 +120,7 @@ function fillData() {
 }
 
 function checkForSave() {
-  if (document.cookie.includes('BackScratchingSalon_DataSave')) {
+  if (localStorage.data) {
     document.getElementById('continue').classList.remove('hidden')
     document.getElementById('newGame').onclick = () => {
       document.querySelector('.newGameWarning').toggle()
@@ -317,14 +282,13 @@ function createCustomer() {
 
 // initialize ------------------------------------
 
-readSave('Settings', s)
+readSave('settings', s)
 
 function startGame(continuation) {
 
   if (continuation) {
-    readSave('Data', d)
+    readSave('data', d)
   } else {
-    Object.assign(d, m)
     document.querySelector('.newGameWarning').classList.add('hidden')
   }
 
@@ -406,8 +370,7 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
 
 checkForSave()
 
-if (s.disableCookieMsg)
-  document.getElementById('feedBrowser').toggle()
+// Store
 
 if (s.skipTitle)
   startGame(1)

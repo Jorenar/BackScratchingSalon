@@ -420,14 +420,6 @@ button {
   position: absolute
 }
 
-#feedBrowser {
-  position: absolute;
-  bottom: 50px;
-  animation: slide 25s linear infinite;
-  font-size: 1.5em;
-  white-space: nowrap;
-}
-
 
 /* SETTINGS WINDOW */
 
@@ -443,16 +435,6 @@ button {
 
 
 /* KEYFRAMES */
-
-@keyframes slide {
-  from {
-    transform: translateX(100%);
-  }
-
-  to {
-    transform: translateX(-100%);
-  }
-}
 
 @keyframes breath {
   to {
@@ -518,10 +500,6 @@ button {
 
   #version {
     bottom: 0px;
-  }
-
-  #feedBrowser {
-    display: none;
   }
 
 }
