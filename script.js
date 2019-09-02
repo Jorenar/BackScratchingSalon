@@ -18,7 +18,6 @@ var taxTimer;
 var equipmentTimer;
 
 var customerDiv = document.querySelector('.customer');
-var moneyDiv = document.querySelector('.money');
 var satisfyBar = document.getElementById('satisfyBar');
 var timerDiv = document.querySelector('.timer');
 
@@ -85,7 +84,7 @@ function startTimer(dTime, display, instructions) {
 
 const taxPay = function() {
   let tax = Math.floor(d.tax * d.money);
-  moneyDiv.innerHTML = d.money -= tax;
+  updateMoney(-tax);
   if (tax)
     setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0);
   d.nextTax = 1200;
@@ -96,7 +95,7 @@ const payday = function() {
   document.querySelectorAll('.personnel > .employee').forEach(employee => {
     salary = employee.dataset.hired ? employee.dataset.wage : 0;
   });
-  moneyDiv.innerHTML = d.money -= salary;
+  updateMoney(-salary)
   if (salary)
     setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0);
   d.nextPayday = 600;
@@ -118,8 +117,7 @@ function readSave(type, dict) {
 }
 
 function fillData() {
-  document.title = '$' + d.money + ' | Back Scratching Salon';
-  moneyDiv.innerHTML = d.money;
+  updateMoney(0);
   mute = s.autoMute;
   taxTime = d.nextTax;
   document.getElementById('nextPayday').innerHTML = '--:--';
@@ -187,6 +185,13 @@ function backToTitle() {
 
 // main fun --------------------------------------
 
+function updateMoney(howMuch) {
+  d.money += howMuch;
+  let money = d.money.toFixed(2);
+  document.title = '$' + money + ' | Back Scratching Salon';
+  document.querySelector('.money').innerHTML = money;
+}
+
 function finalize() {
   clearInterval(customerTimer);
   let back = document.querySelector('.back');
@@ -201,12 +206,9 @@ function finalize() {
     multiplier += current * amount.dataset.worth;
   });
 
-  d.money += customerTime > 0 ? Math.floor(customerTime * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100);
+  updateMoney( customerTime > 0 ? Math.floor(customerTime * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100));
 
   customerDiv.style.filter = 'opacity(20%)';
-
-  document.title = '$' + d.money + ' | Back Scratching Salon';
-  moneyDiv.innerHTML = d.money;
 
   setTimeout(() => {
     customerDiv.innerHTML = '';
@@ -330,8 +332,7 @@ function startGame(continuation) {
       buy.onclick = () => {
         if (d.money >= price) {
           amount.innerHTML = ++d[item.id];
-          d.money -= price;
-          moneyDiv.innerHTML = d.money;
+          updateMoney(-price)
           price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
           priceDiv.innerHTML = price;
         }
@@ -350,11 +351,7 @@ function startGame(continuation) {
     document.querySelectorAll('.equipment > .item').forEach(item => {
       let amount = item.querySelector('.amount');
       let gain = amount.dataset.worth;
-      console.log(gain * amount.innerHTML);
-      d.money += gain * amount.innerHTML;
-      d.money = Math.decimal(d.money, 2);
-      moneyDiv.innerHTML = d.money.toFixed(2);;
-      document.title = d.money + ' | Back Scratching Salon';
+      updateMoney(gain * amount.innerHTML);
     })
   }, 1000);
 
