@@ -368,6 +368,10 @@ button:hover {
   content: ' (+'attr(data-worth) ')';
 }
 
+.equipment .amount:after {
+  content: ' (+ $'attr(data-worth) ')';
+}
+
 .price:before {
   content: '$';
 }

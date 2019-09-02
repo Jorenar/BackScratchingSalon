@@ -15,6 +15,7 @@ var taxTime;
 var customerTimer;
 var paydayTimer;
 var taxTimer;
+var equipmentTimer;
 
 var customerDiv = document.querySelector('.customer');
 var moneyDiv = document.querySelector('.money');
@@ -56,6 +57,11 @@ Element.prototype.toggleInactive = function() {
   this.classList.toggle('inactiveCover');
 }
 
+Math.decimal = function(n, k) {
+  var factor = Math.pow(10, k+1);
+  n = Math.round(Math.round(n*factor)/10);
+  return n/(factor/10);
+}
 
 // timers ----------------------------------------
 
@@ -310,7 +316,7 @@ function startGame(continuation) {
 
   createCustomer();
 
-  document.querySelectorAll('.powerUps > .item').forEach(item => {
+  document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
     let amount = item.querySelector('.amount');
     let priceDiv = item.querySelector('.price');
     let priceInitiator = priceDiv.dataset.initiator;
@@ -338,24 +344,19 @@ function startGame(continuation) {
     }
   })
 
-  document.querySelectorAll('.equipment > .item').forEach(item => {
-    let amount = item.querySelector('.amount');
-    let price = item.querySelector('.price').innerHTML;
-    if(firstRun) {
-      let buy = document.createElement('button');
-      buy.innerHTML = 'BUY';
-      buy.onclick = () => {
-        if (d.money >= price) {
-          amount.innerHTML = ++d[item.id];
-          d.money -= price;
-          moneyDiv.innerHTML = d.money;
-        }
-      }
-      item.querySelector('.bottomRow').insertBefore(buy, amount);
-    }
-  })
-
   firstRun = 0;
+
+  equipmentTimer = setInterval( () => {
+    document.querySelectorAll('.equipment > .item').forEach(item => {
+      let amount = item.querySelector('.amount');
+      let gain = amount.dataset.worth;
+      console.log(gain * amount.innerHTML);
+      d.money += gain * amount.innerHTML;
+      d.money = Math.decimal(d.money, 2);
+      moneyDiv.innerHTML = d.money.toFixed(2);;
+      document.title = d.money + ' | Back Scratching Salon';
+    })
+  }, 1000);
 
   if (s.autoPause)
     togglePause();
