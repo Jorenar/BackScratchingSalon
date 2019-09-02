@@ -39,8 +39,8 @@ var d = {
 // settings variables
 var s = {
   autoMute: 0,
-  autoSave: 1,
   autoPause: 0,
+  autoSave: 1,
   skipTitle: 0,
 }
 
@@ -98,7 +98,7 @@ const payday = function() {
 // cookies
 
 function save(type, dict) {
-  localStorage.setItem(type, JSON.stringify(dict));
+  localStorage.setItem('BackScratchingSalon_' + type, JSON.stringify(dict));
   document.querySelector('.cmd').innerHTML = 'SAVED ' + type + '_'
   setTimeout(() => {
     document.querySelector('.cmd').innerHTML = '# <span>_</span>'
@@ -106,7 +106,7 @@ function save(type, dict) {
 }
 
 function readSave(type, dict) {
-  Object.assign(dict, JSON.parse(localStorage[type]))
+  Object.assign(dict, JSON.parse(localStorage['BackScratchingSalon_' + type]))
 }
 
 function fillData() {
@@ -120,7 +120,7 @@ function fillData() {
 }
 
 function checkForSave() {
-  if (localStorage.data) {
+  if (localStorage['BackScratchingSalon_data']) {
     document.getElementById('continue').classList.remove('hidden')
     document.getElementById('newGame').onclick = () => {
       document.querySelector('.newGameWarning').toggle()
