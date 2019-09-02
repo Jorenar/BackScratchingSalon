@@ -283,7 +283,8 @@ function createCustomer() {
 
 // initialize ------------------------------------
 
-readSave('settings', s);
+if (localStorage['BackScratchingSalon_settings'])
+  readSave('settings', s);
 
 function startGame(continuation) {
 
