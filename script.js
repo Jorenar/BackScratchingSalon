@@ -5,6 +5,7 @@ var mouseIsDown = 0;
 var firstRun = 1; // there is no need to generate some things again
 var mute = 0;
 var pause = 0;
+var sound = 0;
 
 var satisfy = 0;
 
@@ -115,6 +116,8 @@ function fillData() {
   moneyDiv.innerHTML = d.money;
   mute = s.autoMute;
   taxTime = d.nextTax;
+  document.getElementById('nextPayday').innerHTML = '--:--';
+  document.getElementById('nextTax').innerHTML = '--:--';
   document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
     item.querySelector('.amount').innerHTML = d[item.id];
   });
@@ -185,7 +188,6 @@ function finalize() {
   back.onmouseover = () => {};
   timerDiv.innerHTML = '--';
 
-  satisfyBar.style.width = satisfy + '%';
 
   let multiplier = 0.2;
   document.querySelectorAll('.powerUps .amount').forEach(amount => {
@@ -214,7 +216,7 @@ function createBodyPart(classes, parent) {
   return part;
 }
 
-function scratching(sound) {
+function scratching() {
   if(satisfy < 100) {
 
     if (!mute && ++sound == 10) {
@@ -233,13 +235,14 @@ function scratching(sound) {
                   stop(i * .05 + .04)
     }
 
-    satisfy += 0.325;
-    if (satisfy < 100)
-      document.getElementById('satisfyBar').style.width = satisfy + '%';
-    else
+    satisfy += 0.325 * (d.hands+1)
+    if (satisfy < 100) {
+      satisfyBar.style.width = satisfy + '%';
+    } else {
+      satisfyBar.style.width = '100%';
       finalize();
+    }
   }
-  return sound;
 }
 
 function createCustomer() {
@@ -271,10 +274,11 @@ function createCustomer() {
 
   createBodyPart('ears', customerDiv);
 
-  let sound = 0;
+  sound = 0
+
   back.onmousemove = () => {
     if (mouseIsDown)
-      sound = scratching(sound);
+      scratching();
   }
   back.addEventListener("touchmove", scratching, false);
 
@@ -324,6 +328,10 @@ function startGame(continuation) {
           moneyDiv.innerHTML = d.money;
           price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
           priceDiv.innerHTML = price;
+        }
+        if (amount.dataset.max == d[item.id]) {
+          buy.toggleInactive();
+          buy.onclick = () => {};
         }
       }
       item.querySelector('.bottomRow').insertBefore(buy, amount);

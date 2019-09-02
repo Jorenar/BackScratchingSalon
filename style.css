@@ -22,6 +22,10 @@ button {
   font-size: 1em;
 }
 
+button:hover {
+  transform: scale(1.05);
+}
+
 .hidden {
   display: none !important;
 }
@@ -238,7 +242,7 @@ button {
   animation: blink 1s step-end infinite;
 }
 
-#money:before {
+.money:before {
   content: '$';
 }
 
@@ -288,7 +292,7 @@ button {
   background: #222;
 }
 
-.tabs > * {
+.tabs > button {
   border: 10px solid #333;
   color: black;
   cursor: pointer;
@@ -298,6 +302,10 @@ button {
   font-weight: bold;
   letter-spacing: 3px;
   margin-bottom: -10px;
+}
+
+.tabs > button:hover {
+  transform: initial;
 }
 
 .tabs > .current {
