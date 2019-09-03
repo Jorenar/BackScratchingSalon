@@ -112,6 +112,7 @@ button:focus { outline: none; }
 }
 
 .hair {
+  top: var(--head-top);
   width: 240px;
   background: var(--skin-color);
   filter: invert(80%);
@@ -396,7 +397,7 @@ button:focus { outline: none; }
 
 .titleScreen button {
   display: block;
-  margin: 10px auto;
+  margin: 10px 15%;
   padding: 10px;
   font-size: 3em;
   filter: drop-shadow(0px 0px 10px #000);
@@ -404,6 +405,12 @@ button:focus { outline: none; }
 
 .titleScreen .menu {
   all: initial;
+}
+
+.titleScreen > .customer {
+  position: absolute;
+  right: 25%;
+  top: 30%;
 }
 
 .newGameWarning {
@@ -503,6 +510,11 @@ button:focus { outline: none; }
 
   .titleScreen button {
     font-size: 1em;
+  }
+
+  .titleScreen > .customer {
+    transform: scale(0.5);
+    top: 50%;
   }
 
   #title {

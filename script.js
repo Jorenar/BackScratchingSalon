@@ -17,7 +17,7 @@ var paydayTimer;
 var taxTimer;
 var equipmentTimer;
 
-var customerDiv = document.querySelector('.customer');
+var customerDiv = document.querySelector('.playScreen .customer');
 var satisfyBar = document.getElementById('satisfyBar');
 var timerDiv = document.querySelector('.timer');
 
@@ -186,7 +186,7 @@ function togglePause() {
   document.querySelector('.backToWork').toggle();
   document.querySelector('.takeBreak').toggle();
   document.querySelector('.break').toggle();
-  document.querySelector('.customerContainer').toggleInactive();
+  customerDiv.parentNode.toggleInactive();
 }
 
 function backToTitle() {
@@ -220,11 +220,8 @@ function updateMoney(howMuch) {
 
 function finalize() {
   clearInterval(customerTimer);
-  let back = document.querySelector('.back');
-  back.innerHTML = '';
-  back.onmouseover = () => {};
+  customerDiv.querySelector('.back').onmouseover = () => {};
   timerDiv.innerHTML = '--';
-
 
   let multiplier = 0.2;
   document.querySelectorAll('.powerUps .amount').forEach(amount => {
