@@ -88,7 +88,7 @@ button:focus { outline: none; }
   height: calc(100% - 170px);
   position: relative;
   display: inline-block;
-  background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(68, 37, 148, 1) 100%);
+  background: radial-gradient(circle, rgba(238, 174, 202, 0.3) 0%, rgba(68, 37, 148, 0.9) 100%);
 }
 
 .customer {
@@ -180,7 +180,7 @@ button:focus { outline: none; }
 }
 
 .takeBreak {
-  background: #4e3936;
+  background-image: linear-gradient(315deg, #a55c1b 0%, #000000 74%);
   bottom: 0;
   color: white;
   outline: 5px solid #000;
@@ -331,15 +331,15 @@ button:focus { outline: none; }
 }
 
 .management .powerUps {
-  background: red;
+  background: #f22;
 }
 
 .management .equipment {
-  background: blue;
+  background: #7474ff;
 }
 
 .management .personnel {
-  background: green;
+  background: #5ed25e;
 }
 
 .item {
@@ -348,7 +348,7 @@ button:focus { outline: none; }
   margin: 10px;
   height: 200px;
   display: inline-table;
-  background: yellow;
+  background-image: linear-gradient(315deg, #a38560 0%, #e0d4ae 74%);
 }
 
 .item > h1 {
@@ -390,17 +390,21 @@ button:focus { outline: none; }
   text-align: center;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #BBB;
   width: 100%;
   height: 100%;
+  background-image: repeating-linear-gradient(45deg, #DDD, #fff 10px, #faffff 35px, #cddbdb 70px);
 }
 
 .titleScreen button {
+  background: none;
+  text-shadow: 0px 0px 5px #b4e3ff;
+  border: none;
   display: block;
+  font-size: 3em;
   margin: 10px 15%;
   padding: 10px;
-  font-size: 3em;
-  filter: drop-shadow(0px 0px 10px #000);
+  animation: bri 3s infinite alternate;
+  color: #000;
 }
 
 .titleScreen .menu {
@@ -408,6 +412,7 @@ button:focus { outline: none; }
 }
 
 .titleScreen > .customer {
+  --skin-color: #ffcb3a;
   position: absolute;
   right: 25%;
   top: 30%;
@@ -426,7 +431,7 @@ button:focus { outline: none; }
 
 #title {
   animation: pulsation 10s infinite alternate;
-  filter: drop-shadow(0px 0px 5px #000);
+filter: drop-shadow(0px 0px 10px #b4e3ff);
   font-size: 7em;
   margin: 100px;
 }
@@ -477,6 +482,12 @@ button:focus { outline: none; }
 
   67% { opacity: 0 }
 
+}
+
+@keyframes bri {
+  50% {
+    text-shadow: 0px 0px 15px #005182;
+  }
 }
 
 
