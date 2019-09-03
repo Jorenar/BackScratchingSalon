@@ -208,11 +208,6 @@ button:focus { outline: none; }
   background: linear-gradient(45deg, #c0c0c0 0%, #ffffff 50%, #808080 100%);
 }
 
-#points {
-  float: left;
-  margin: 20px;
-}
-
 #progressBar {
   margin: 10px;
   text-align: center;
@@ -244,7 +239,12 @@ button:focus { outline: none; }
   padding: 5px;
 }
 
-#cmd > span {
+.cmd {
+  display: inline;
+  width: 9em;
+}
+
+.cmd > span {
   animation: blink 1s step-end infinite;
 }
 
