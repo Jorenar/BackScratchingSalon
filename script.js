@@ -388,7 +388,7 @@ function startGame(continuation) {
   autosaveTimer = setInterval( () => {
     if (s.autoSave)
       save('data', d);
-  }, 10000);
+  }, 60000);
 
   if (s.autoPause)
     togglePause();
