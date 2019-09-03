@@ -1,16 +1,13 @@
 // variables -------------------------------------
 
 // flag variables
-var mouseIsDown = 0;
-var firstRun = 1; // there is no need to generate some things again
+var mouseIsDown;
+var firstRun = 1; // for preventing multiple creation of certain elements
 var mute = 0;
 var pause = 0;
 var sound = 0;
 
 var satisfy = 0;
-
-var customerTime;
-var taxTime;
 
 var customerTimer;
 var paydayTimer;
@@ -24,6 +21,7 @@ var timerDiv = document.querySelector('.timer');
 
 // data variables
 var d = {
+  bonus: 0,
   chainsaw: 0,
   fingers: 1,
   hands: 0,
@@ -48,6 +46,7 @@ var s = {
 
 const m = Object.assign({}, d)
 
+
 // Custom methods --------------------------------
 
 Element.prototype.toggle = function() {
@@ -58,11 +57,6 @@ Element.prototype.toggleInactive = function() {
   this.classList.toggle('inactiveCover');
 }
 
-Math.decimal = function(n, k) {
-  var factor = Math.pow(10, k+1);
-  n = Math.round(Math.round(n*factor)/10);
-  return n/(factor/10);
-}
 
 // timers ----------------------------------------
 
@@ -121,7 +115,6 @@ function readSave(type, dict) {
 function fillData() {
   updateMoney(0);
   mute = s.autoMute;
-  taxTime = d.nextTax;
   document.getElementById('nextPayday').innerHTML = '--:--';
   document.getElementById('nextTax').innerHTML = '--:--';
   document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
@@ -139,11 +132,11 @@ function checkForSave() {
 }
 
 function rot13Fast(str) {
-  return str.split('').map(x => rot13Fast.lookup[x] || x).join('')
+  input  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
+  output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'.split('')
+  lookup = input.reduce((m,k,i) => Object.assign(m, {[k]: output[i]}), {})
+  return str.split('').map(x => lookup[x] || x).join('')
 }
-rot13Fast.input  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
-rot13Fast.output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'.split('')
-rot13Fast.lookup = rot13Fast.input.reduce((m,k,i) => Object.assign(m, {[k]: rot13Fast.output[i]}), {})
 
 function export_save() {
   let exportWin = document.querySelector('.exportWin');
@@ -221,7 +214,7 @@ function updateMoney(howMuch) {
   document.querySelector('.money').innerHTML = money;
 }
 
-function finalize() {
+function finalize(time) {
   clearInterval(customerTimer);
   customerDiv.querySelector('.back').onmouseover = () => {};
   timerDiv.innerHTML = '--';
@@ -232,7 +225,7 @@ function finalize() {
     multiplier += current * amount.dataset.worth;
   });
 
-  updateMoney( customerTime > 0 ? Math.floor(customerTime * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100));
+  updateMoney( time > 0 ? Math.floor(time * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100));
 
   customerDiv.style.filter = 'opacity(20%)';
 
@@ -250,7 +243,7 @@ function createBodyPart(classes, parent) {
   return part;
 }
 
-function scratching() {
+function scratching(time) {
   if(satisfy < 100) {
 
     if (!mute && ++sound == 10) {
@@ -274,7 +267,7 @@ function scratching() {
       satisfyBar.style.width = satisfy + '%';
     } else {
       satisfyBar.style.width = '100%';
-      finalize();
+      finalize(time);
     }
   }
 }
@@ -284,13 +277,14 @@ function createCustomer() {
 
   satisfyBar.style.width = '0%';
 
-  timerDiv.innerHTML = customerTime = 15;
+  let time = 15;
+  timerDiv.innerHTML = time;
 
   customerTimer = setInterval(() => {
-    if (customerTime === 0) {
-      finalize();
+    if (time === 0) {
+      finalize(0);
     } else if (!pause) {
-      timerDiv.innerHTML = --customerTime >= 10 ? customerTime : '0' + customerTime;
+      timerDiv.innerHTML = --time >= 10 ? time : '0' + time;
     }
   }, 1000);
 
@@ -312,9 +306,9 @@ function createCustomer() {
 
   back.onmousemove = () => {
     if (mouseIsDown)
-      scratching();
+      scratching(time);
   }
-  back.addEventListener("touchmove", scratching, false);
+  back.addEventListener("touchmove", () => {scratching(time)}, false);
 
 }
 
@@ -345,11 +339,13 @@ function startGame(continuation) {
 
   createCustomer();
 
-  if (document.monetization && document.monetization.state === 'started') {
-    let coilBonus = document.createElement('div');
-    coilBonus.className = 'hud item bonus';
-    coilBonus.innerHTML = '<h1>COIL BONUS</h1><p>Claim your Coil subscriber bonus: +$100</p><div class="bottomRow"><button onclick="updateMoney(100); this.parentNode.parentNode.remove()">CLAIM</button></div>'
-    document.querySelector('div.powerUps').prepend(coilBonus);
+  if (!d.bonus) {
+    if (document.monetization && document.monetization.state === 'started') {
+      let coilBonus = document.createElement('div');
+      coilBonus.className = 'hud item bonus';
+      coilBonus.innerHTML = '<h1>COIL BONUS</h1><p>Claim your Coil subscriber bonus: +$100</p><div class="bottomRow"><button onclick="updateMoney(100); this.parentNode.parentNode.remove()">CLAIM</button></div>'
+      document.querySelector('div.powerUps').prepend(coilBonus);
+    }
   }
 
   document.querySelectorAll('.powerUps > .item:not(.bonus), .equipment > .item').forEach(item => {
