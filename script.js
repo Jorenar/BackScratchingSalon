@@ -345,7 +345,14 @@ function startGame(continuation) {
 
   createCustomer();
 
-  document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
+  if (document.monetization && document.monetization.state === 'started') {
+    let coilBonus = document.createElement('div');
+    coilBonus.className = 'hud item bonus';
+    coilBonus.innerHTML = '<h1>COIL BONUS</h1><p>Claim your Coil subscriber bonus: +$100</p><div class="bottomRow"><button onclick="updateMoney(100); this.parentNode.parentNode.remove()">CLAIM</button></div>'
+    document.querySelector('div.powerUps').prepend(coilBonus);
+  }
+
+  document.querySelectorAll('.powerUps > .item:not(.bonus), .equipment > .item').forEach(item => {
     let amount = item.querySelector('.amount');
     let priceDiv = item.querySelector('.price');
     let priceInitiator = priceDiv.dataset.initiator;
