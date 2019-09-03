@@ -355,6 +355,11 @@ function startGame(continuation) {
     })
   }, 1000);
 
+  equipmentTimer = setInterval( () => {
+    if (s.autoSave)
+      save('data', d);
+  }, 10000);
+
   if (s.autoPause)
     togglePause();
 }
