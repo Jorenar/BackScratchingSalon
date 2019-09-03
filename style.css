@@ -485,7 +485,7 @@ button:focus { outline: none; }
 @media (max-device-width: 1200px), (max-device-height: 890px) {
 
   * {
-    animation: initial;
+    animation: initial !important;
   }
 
   .hiddenMobile {
