@@ -45,6 +45,7 @@ var s = {
   skipTitle: 0,
 }
 
+const m = Object.assign({}, d)
 
 // Custom methods --------------------------------
 
@@ -133,6 +134,31 @@ function checkForSave() {
     document.getElementById('newGame').onclick = () => {
       document.querySelector('.newGameWarning').toggle();
     }
+  }
+}
+
+function rot13Fast(str) {
+  return str.split('').map(x => rot13Fast.lookup[x] || x).join('')
+}
+rot13Fast.input  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
+rot13Fast.output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'.split('')
+rot13Fast.lookup = rot13Fast.input.reduce((m,k,i) => Object.assign(m, {[k]: rot13Fast.output[i]}), {})
+
+function export_save() {
+  let exportWin = document.querySelector('.exportWin');
+  exportWin.toggle();
+  exportWin.querySelector('textarea').value = rot13Fast(encodeURI(JSON.stringify(d)));
+}
+
+function import_save() {
+  let importWin = document.querySelector('.importWin');
+  importWin.toggle();
+  let ta = importWin.querySelector('textarea');
+  ta.value = '';
+  importWin.querySelector('#loadImported').onclick = () => {
+    Object.assign(d, JSON.parse(decodeURI(rot13Fast(ta.value))));
+    importWin.toggle();
+    fillData();
   }
 }
 
@@ -303,6 +329,7 @@ function startGame(continuation) {
   if (continuation) {
     readSave('data', d);
   } else {
+    Object.assign(d, m);
     document.querySelector('.newGameWarning').classList.add('hidden');
   }
 

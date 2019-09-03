@@ -1,11 +1,3 @@
-* {
-  user-select: none;
-  -webkit-user-select: none;
-}
-::-moz-focus-inner { border: 0; }
-::selection { background: none; }
-:focus { outline: none; }
-
 html, body {
   font-family: monospace;
   font-size: 1.2em;
@@ -26,6 +18,9 @@ button:hover {
   transform: scale(1.05);
 }
 
+button::-moz-focus-inner { border: 0; }
+button:focus { outline: none; }
+
 .hidden {
   display: none !important;
 }
@@ -41,6 +36,11 @@ button:hover {
 .playScreen {
   width: 100%;
   height: 100%;
+}
+
+.playScreen, .titleScreen {
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .modal {
@@ -67,6 +67,12 @@ button:hover {
   background-color: #fff;
   color: #000;
   overflow-y: auto;
+}
+
+.modal > div > textarea {
+  display: block;
+  margin: 5px;
+  width: 95%;
 }
 
 .manual > div > button {

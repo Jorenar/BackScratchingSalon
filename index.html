@@ -20,6 +20,19 @@
       <button onclick='save("settings", s); document.querySelector(".settingsWin").toggle()'>CLOSE AND SAVE</button>
     </div>
   </div>
+  <div class='exportWin modal hidden'>
+    <div class='hud'>
+      <textarea readonly=""></textarea>
+      <button onclick='document.querySelector(".exportWin").toggle()'>CLOSE</button>
+    </div>
+  </div>
+  <div class='importWin modal hidden'>
+    <div class='hud'>
+      <textarea></textarea>
+      <button id='loadImported'>LOAD</button>
+      <button onclick='document.querySelector(".importWin").toggle()'>CLOSE</button>
+    </div>
+  </div>
   <div class='manual modal hidden'>
     <div class='hud'>
       <i>According to the fashion of AAA gaming manuals this is just boring black on white text</i>
@@ -61,8 +74,8 @@
       <p class='backToTitle' title='RETURN TO TITLE SCREEN' onclick='document.querySelector(".backToTitleConfirm").toggle()'>&#128281;</p>
       <p class='sound' title='MUTE/UNMUTE' onclick='toggleMute()'>&#128264;</p>
       <p class='save' title='SAVE' onclick='save("data", d)'>&#128190;</p>
-      <p class='export' title='EXPORT SAVE'>&#128228;</p>
-      <p class='import' title='IMPORT SAVE'>&#128229;</p>
+      <p class='export' title='EXPORT SAVE' onclick='export_save()'>&#128228;</p>
+      <p class='import' title='IMPORT SAVE' onclick='import_save()'>&#128229;</p>
       <p class='settings' title='SETTINGS' onclick='document.querySelector(".settingsWin").toggle()'>&#128736;</p>
     </div>
     <div class='management'>
