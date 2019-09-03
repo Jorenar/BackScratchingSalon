@@ -5,34 +5,38 @@ var mouseIsDown;
 var firstRun = 1; // for preventing multiple creation of certain elements
 var mute = 0;
 var pause = 0;
-var sound = 0;
+var sound = 0; // it gets to be incremented to 5 and dropped to 0
 
 var satisfy = 0;
 
+var autosaveTimer;
 var customerTimer;
+var equipmentTimer;
 var paydayTimer;
 var taxTimer;
-var equipmentTimer;
-var autosaveTimer;
 
 var customerDiv = document.querySelector('.playScreen .customer');
 var satisfyBar = document.getElementById('satisfyBar');
 var timerDiv = document.querySelector('.timer');
 
+const savePrefix = 'BackScratchingSalon_';
+
 // data variables
 var d = {
+  accountant: 0,
   bonus: 0,
+  cats: 0,
   chainsaw: 0,
   fingers: 1,
   hands: 0,
   hands: 0,
   longNails: 0,
   money: 0,
-  nextPayday: 600,
-  nextTax: 1200,
+  nextPayday: 990,
+  nextTax: 1500,
   sandpaper: 0,
   scratcher: 0,
-  tax: 0.1,
+  technician: 0,
   toothbrush: 0,
 }
 
@@ -79,7 +83,7 @@ function startTimer(dTime, display, instructions) {
 }
 
 const taxPay = function() {
-  let tax = Math.floor(d.tax * d.money);
+  let tax = Math.floor((d.accountant ? 0.01 : 0.1) * d.money);
   updateMoney(-tax);
   if (tax)
     setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0);
@@ -101,7 +105,7 @@ const payday = function() {
 // saves
 
 function save(type, dict) {
-  localStorage.setItem('BackScratchingSalon_' + type, JSON.stringify(dict));
+  localStorage.setItem(savePrefix + type, JSON.stringify(dict));
   document.querySelector('.cmd').innerHTML = 'SAVED ' + type + '_';
   setTimeout(() => {
     document.querySelector('.cmd').innerHTML = '# <span>_</span>';
@@ -109,7 +113,7 @@ function save(type, dict) {
 }
 
 function readSave(type, dict) {
-  Object.assign(dict, JSON.parse(localStorage['BackScratchingSalon_' + type]));
+  Object.assign(dict, JSON.parse(localStorage[savePrefix + type]));
 }
 
 function fillData() {
