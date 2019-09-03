@@ -16,6 +16,7 @@ var customerTimer;
 var paydayTimer;
 var taxTimer;
 var equipmentTimer;
+var autosaveTimer;
 
 var customerDiv = document.querySelector('.playScreen .customer');
 var satisfyBar = document.getElementById('satisfyBar');
@@ -190,14 +191,16 @@ function togglePause() {
 }
 
 function backToTitle() {
-  document.title = 'Back Scratching Salon';
+  clearInterval(autosaveTimer);
+  clearInterval(customerTimer);
+  clearInterval(taxTimer);
+  clearInterval(paydayTimer);
+  clearInterval(equipmentTimer);
 
   if (pause)
     togglePause();
 
-  clearInterval(customerTimer);
-  clearInterval(taxTimer);
-  clearInterval(paydayTimer);
+  document.title = 'Back Scratching Salon';
 
   customerDiv.innerHTML = '';
 
@@ -379,7 +382,7 @@ function startGame(continuation) {
     })
   }, 1000);
 
-  equipmentTimer = setInterval( () => {
+  autosaveTimer = setInterval( () => {
     if (s.autoSave)
       save('data', d);
   }, 10000);
