@@ -76,6 +76,7 @@
       </div>
     </div>
     <div class='menu'>
+      <p class='unwindMenu' onclick='toggleMenu()'>&#9776;</p>
       <p class='backToTitle' title='RETURN TO TITLE SCREEN' onclick='document.querySelector(".backToTitleConfirm").toggle()'>&#128281;</p>
       <p class='sound' title='MUTE/UNMUTE' onclick='toggleMute()'>&#128264;</p>
       <p class='save' title='SAVE' onclick='save("data", d)'>&#128190;</p>
@@ -149,7 +150,22 @@
           </div>
         </div>
       </div>
-      <div class='personnel'></div>
+      <div class='personnel'>
+        <div id="accountant" class='hud item' data-wage=100>
+          <h1>Accountant</h1>
+          <p>Reduces tax from merciless 20% to only 1%</p>
+          <div class='bottomRow'>
+            <div class='amount' data-max=1></div>
+          </div>
+        </div>
+        <div id="technician" class='hud item' data-wage=200>
+          <h1>Technician</h1>
+          <p></p>
+          <div class='bottomRow'>
+            <div class='amount' data-max=2></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class='hudBar hud'>
       <div id='progressBar'>

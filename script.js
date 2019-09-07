@@ -83,7 +83,7 @@ function startTimer(dTime, display, instructions) {
 }
 
 const taxPay = function() {
-  let tax = Math.floor((d.accountant ? 0.01 : 0.1) * d.money);
+  let tax = Math.floor((d.accountant ? 0.01 : 0.2) * d.money);
   updateMoney(-tax);
   if (tax)
     setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0);
@@ -92,12 +92,28 @@ const taxPay = function() {
 
 const payday = function() {
   let salary = 0;
-  document.querySelectorAll('.personnel > .employee').forEach(employee => {
-    salary = employee.dataset.hired ? employee.dataset.wage : 0;
+  document.querySelectorAll('.personnel > .item').forEach(employee => {
+    salary += parseInt(employee.querySelector('.amount').innerHTML) * employee.dataset.wage;
   });
-  updateMoney(-salary)
-  if (salary)
-    setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0);
+  if (salary <= d.money) {
+    updateMoney(-salary);
+    if (salary)
+      setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0);
+  } else {
+    document.querySelectorAll('.personnel > .item').forEach(item => {
+      let amount = item.querySelector('.amount');
+      amount.innerHTML = d[item.id] = 0;
+      let hire = item.querySelector('button');
+      hire.toggleInactive();
+      hire.onclick = () => {
+        amount.innerHTML = ++d[item.id];
+        if (amount.dataset.max == d[item.id]) {
+          hire.toggleInactive();
+          hire.onclick = () => {};
+        }
+      }
+    });
+  }
   d.nextPayday = 600;
 }
 
@@ -121,7 +137,7 @@ function fillData() {
   mute = s.autoMute;
   document.getElementById('nextPayday').innerHTML = '--:--';
   document.getElementById('nextTax').innerHTML = '--:--';
-  document.querySelectorAll('.powerUps > .item, .equipment > .item').forEach(item => {
+  document.querySelectorAll('.item').forEach(item => {
     item.querySelector('.amount').innerHTML = d[item.id];
   });
 }
@@ -208,6 +224,12 @@ function backToTitle() {
   document.querySelector('.titleScreen').toggle();
 }
 
+function toggleMenu() {
+  document.querySelectorAll('.menu > p').forEach( e => {
+    e.style.display = 'block'
+  });
+}
+
 
 // main fun --------------------------------------
 
@@ -220,7 +242,7 @@ function updateMoney(howMuch) {
 
 function finalize(time) {
   clearInterval(customerTimer);
-  customerDiv.querySelector('.back').onmouseover = () => {};
+  customerDiv.querySelector('.back').onmousemove = () => {};
   timerDiv.innerHTML = '--';
 
   let multiplier = 0.2;
@@ -352,30 +374,53 @@ function startGame(continuation) {
     }
   }
 
-  document.querySelectorAll('.powerUps > .item:not(.bonus), .equipment > .item').forEach(item => {
+  document.querySelectorAll(':not(.personnel) > .item:not(.bonus)').forEach(item => {
     let amount = item.querySelector('.amount');
     let priceDiv = item.querySelector('.price');
     let priceInitiator = priceDiv.dataset.initiator;
-    let price = d[item.id] ? priceInitiator * d[item.id] : priceInitiator;
     let lMulti = 1.0465 + amount.dataset.worth / 100;
-    price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
+    let price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
     priceDiv.innerHTML = price;
     if(firstRun) {
       let buy = document.createElement('button');
       buy.innerHTML = 'BUY';
-      buy.onclick = () => {
-        if (d.money >= price) {
-          amount.innerHTML = ++d[item.id];
-          updateMoney(-price)
-          price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
-          priceDiv.innerHTML = price;
-        }
-        if (amount.dataset.max == d[item.id]) {
-          buy.toggleInactive();
-          buy.onclick = () => {};
+      if (amount.dataset.max == d[item.id]) {
+        buy.toggleInactive();
+      } else {
+        buy.onclick = () => {
+          if (d.money >= price) {
+            amount.innerHTML = ++d[item.id];
+            updateMoney(-price);
+            price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
+            priceDiv.innerHTML = price;
+          }
+          if (amount.dataset.max == d[item.id]) {
+            buy.toggleInactive();
+            buy.onclick = () => {};
+          }
         }
       }
       item.querySelector('.bottomRow').insertBefore(buy, amount);
+    }
+  })
+
+  document.querySelectorAll('.personnel > .item').forEach(item => {
+    if(firstRun) {
+      let amount = item.querySelector('.amount');
+      let hire = document.createElement('button');
+      hire.innerHTML = 'HIRE'
+      if (amount.dataset.max == d[item.id]) {
+        hire.toggleInactive();
+      } else {
+        hire.onclick = () => {
+          amount.innerHTML = ++d[item.id];
+          if (amount.dataset.max == d[item.id]) {
+            hire.toggleInactive();
+            hire.onclick = () => {};
+          }
+        }
+      }
+      item.querySelector('.bottomRow').insertBefore(hire, amount);
     }
   })
 
