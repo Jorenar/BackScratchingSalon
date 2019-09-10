@@ -25,7 +25,7 @@ const savePrefix = 'BackScratchingSalon_';
 var d = {
   accountant: 0,
   bonus: 0,
-  cats: 0,
+  laser: 0,
   chainsaw: 0,
   fingers: 1,
   hands: 0,
@@ -37,6 +37,7 @@ var d = {
   sandpaper: 0,
   scratcher: 0,
   technician: 0,
+  janitor: 0,
   toothbrush: 0,
 }
 
@@ -93,7 +94,7 @@ const taxPay = function() {
 const payday = function() {
   let salary = 0;
   document.querySelectorAll('.personnel > .item').forEach(employee => {
-    salary += parseInt(employee.querySelector('.amount').innerHTML) * employee.dataset.wage;
+    salary += parseInt(employee.querySelector('.amount').innerHTML) * parseInt(employee.querySelector('.price').innerHTML);
   });
   if (salary <= d.money) {
     updateMoney(-salary);
@@ -378,7 +379,7 @@ function startGame(continuation) {
     let amount = item.querySelector('.amount');
     let priceDiv = item.querySelector('.price');
     let priceInitiator = priceDiv.dataset.initiator;
-    let lMulti = 1.0465 + amount.dataset.worth / 100;
+    let lMulti = 1.1985 + amount.dataset.worth / 100;
     let price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
     priceDiv.innerHTML = price;
     if(firstRun) {
@@ -391,8 +392,7 @@ function startGame(continuation) {
           if (d.money >= price) {
             amount.innerHTML = ++d[item.id];
             updateMoney(-price);
-            price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
-            priceDiv.innerHTML = price;
+            priceDiv.innerHTML = price = Math.floor(priceInitiator * Math.pow(lMulti, (d[item.id]+1)));
           }
           if (amount.dataset.max == d[item.id]) {
             buy.toggleInactive();
@@ -432,7 +432,7 @@ function startGame(continuation) {
       let gain = amount.dataset.worth;
       updateMoney(gain * amount.innerHTML);
     })
-  }, 1000);
+  }, 1200);
 
   autosaveTimer = setInterval( () => {
     if (s.autoSave)
