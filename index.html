@@ -63,6 +63,7 @@
   </div>
   <div class='playScreen hidden' onmouseup='mouseIsDown=0' onmousedown='mouseIsDown=1'>
     <div class='customerContainer'>
+      <p class='showShop' onclick='toggleShopMobile()'>&#128722;</p>
       <div class='customer'></div>
       <div class='break hidden'>I'M ON BREAK</div>
       <div class='takeBreak' onclick='togglePause()'>TAKE<br>BREAK</div>
@@ -76,7 +77,7 @@
       </div>
     </div>
     <div class='menu'>
-      <p class='unwindMenu' onclick='toggleMenu()'>&#9776;</p>
+      <p class='unwindMenu' onclick='toggleMenu(this)'>&#9776;</p>
       <p class='backToTitle' title='RETURN TO TITLE SCREEN' onclick='document.querySelector(".backToTitleConfirm").toggle()'>&#128281;</p>
       <p class='sound' title='MUTE/UNMUTE' onclick='toggleMute()'>&#128264;</p>
       <p class='save' title='SAVE' onclick='save("data", d)'>&#128190;</p>
@@ -84,8 +85,9 @@
       <p class='import' title='IMPORT SAVE' onclick='import_save()'>&#128229;</p>
       <p class='settings' title='SETTINGS' onclick='document.querySelector(".settingsWin").toggle()'>&#128736;</p>
     </div>
-    <div class='management'>
+    <div class='management hiddenMobile'>
       <div class='tabs'>
+        <button class='close' onclick='toggleShopMobile()'>CLOSE</button>
         <button class='powerUps current'>POWER-UPS</button>
         <button class='equipment'>EQUIPMENT</button>
         <button class='personnel'>PERSONNEL</button>
@@ -101,7 +103,7 @@
         </div>
         <div id="hands" class='hud item'>
           <h1>HAND</h1>
-          <p>More hands won't make your scratching any better, but you will gain speed! As each hand multiply your speed!<br>P.S. No more than 10!</p>
+          <p>More hands won't make your scratching any better, but you will gain speed!<br>P.S. No more than 10!</p>
           <div class='bottomRow'>
             <div class='amount' data-worth=0 data-max=10></div>
             <div class='price' data-initiator=30></div>
@@ -177,7 +179,7 @@
         </div>
         <div id="technician" class='hud item'>
           <h1>Technician</h1>
-          <p></p>
+          <p>With him your equipment is twice as efficient</p>
           <div class='bottomRow'>
             <div class='amount' data-max=1></div>
             <div class='price'>200</div>

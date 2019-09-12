@@ -93,22 +93,22 @@ const taxPay = function() {
 
 const payday = function() {
   let salary = 0;
-  document.querySelectorAll('.personnel > .item').forEach(employee => {
-    salary += parseInt(employee.querySelector('.amount').innerHTML) * parseInt(employee.querySelector('.price').innerHTML);
+  document.querySelectorAll('.personnel > .item').forEach(item => {
+    salary += d[item.id] * parseInt(item.querySelector('.price').innerHTML);
   });
+  console.log(salary);
   if (salary <= d.money) {
     updateMoney(-salary);
     if (salary)
       setTimeout( () => { document.querySelector('#nextTax').textContent = 'paid' }, 0);
   } else {
     document.querySelectorAll('.personnel > .item').forEach(item => {
-      let amount = item.querySelector('.amount');
-      amount.innerHTML = d[item.id] = 0;
+      d[item.id] = 0;
       let hire = item.querySelector('button');
       hire.toggleInactive();
       hire.onclick = () => {
-        amount.innerHTML = ++d[item.id];
-        if (amount.dataset.max == d[item.id]) {
+        ++d[item.id];
+        if (item.querySelector('.amount').dataset.max == d[item.id]) {
           hire.toggleInactive();
           hire.onclick = () => {};
         }
@@ -144,6 +144,14 @@ function fillData() {
   document.querySelectorAll(':not(.personnel) > .item').forEach(item => {
     item.querySelector('.amount').innerHTML = d[item.id];
   });
+  if (!firstRun) {
+    document.querySelectorAll('.item').forEach(item => {
+      if (item.querySelector('.amount').dataset.max == d[item.id])
+        item.querySelector('.bottomRow > button').classList.add('inactiveCover');
+      else
+        item.querySelector('.bottomRow > button').classList.remove('inactiveCover');
+    })
+  }
 }
 
 function checkForSave() {
@@ -228,12 +236,18 @@ function backToTitle() {
   document.querySelector('.titleScreen').toggle();
 }
 
-function toggleMenu() {
-  document.querySelectorAll('.menu > p').forEach( e => {
-    e.style.display = 'block'
+function toggleMenu(btn) {
+  document.querySelectorAll('.menu > p:not(.unwindMenu)').forEach( e => {
+    let disp = e.style.display;
+    e.style.display = disp == 'block' ? 'none' : 'block';
   });
 }
 
+function toggleShopMobile() {
+  document.querySelector('.playScreen .menu').toggle();
+  document.querySelector('.playScreen .management').classList.toggle('hiddenMobile');
+  customerDiv.parentNode.toggle();
+}
 
 // main fun --------------------------------------
 
@@ -357,9 +371,6 @@ function startGame(continuation) {
   } else {
     Object.assign(d, m);
     document.querySelector('.newGameWarning').classList.add('hidden');
-    document.querySelectorAll('.item > .bottomRow > button').forEach(btn => {
-      btn.classList.remove('inactiveCover');
-    })
   }
 
   fillData();
@@ -439,6 +450,7 @@ function startGame(continuation) {
     document.querySelectorAll('.equipment > .item').forEach(item => {
       let amount = item.querySelector('.amount');
       let gain = amount.dataset.worth;
+      gain *= d.technician + 1;
       updateMoney(gain * amount.innerHTML);
     })
   }, 1100);
@@ -459,7 +471,7 @@ document.querySelectorAll('.settingsWin > div > label > input[type=checkbox]').f
   }
 });
 
-document.querySelectorAll('.tabs > button').forEach(btn => {
+document.querySelectorAll('.tabs > button:not(.close)').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('.management .current').forEach(e => {
       e.classList.remove('current');
@@ -468,6 +480,7 @@ document.querySelectorAll('.tabs > button').forEach(btn => {
     btn.classList.add('current');
   }
 });
+
 
 checkForSave();
 

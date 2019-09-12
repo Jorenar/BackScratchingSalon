@@ -91,6 +91,11 @@ button:focus { outline: none; }
   background: radial-gradient(circle, rgba(238, 174, 202, 0.3) 0%, rgba(68, 37, 148, 0.9) 100%);
 }
 
+.customerContainer > .showShop {
+  display: none;
+  float: right;
+}
+
 .customer {
   transition: filter 1s;
 }
@@ -262,9 +267,12 @@ button:focus { outline: none; }
   position: absolute;
   top: 10px;
   z-index: 2;
+  border-radius: 5px;
+  padding: 3px;
+  background: #999;
 }
 
-.menu > p {
+.menu > p, .showShop {
   display: inline-block;
   filter: drop-shadow(0px 0px 3px #000);
   font-size: 50px;
@@ -286,6 +294,10 @@ button:focus { outline: none; }
 .backToTitleConfirm > div {
   width: min-content;
   white-space: nowrap;
+}
+
+.backToTitleConfirm > div > button {
+  display: initial !important;
 }
 
 
@@ -323,6 +335,10 @@ button:focus { outline: none; }
   border-bottom: 10px solid transparent;
 }
 
+.tabs > .close {
+  display: none;
+}
+
 .management > div:not(.tabs) {
   border-top: 10px solid #333;
   overflow-y: auto;
@@ -336,7 +352,6 @@ button:focus { outline: none; }
 
 .management .powerUps {
   background: #f55;
-
 }
 
 .management .equipment {
@@ -516,8 +531,12 @@ button:focus { outline: none; }
     width: 100%;
   }
 
+  .customerContainer > .showShop {
+    display: initial;
+  }
+
   .menu > p {
-    font-size: 8vw;
+    font-size: 40px;
   }
 
   .menu > p:not(.unwindMenu) {
@@ -525,11 +544,48 @@ button:focus { outline: none; }
   }
 
   .menu > .unwindMenu {
+    font-size: 45px;
     display: initial !important;
   }
 
+  .backToTitleConfirm > div {
+    width: initial;
+    white-space: initial;
+    text-align: center;
+  }
+
+  .backToTitleConfirm > div > button {
+    margin: 5px;
+  }
+
   .management {
-    display: none;
+    float: left;
+    width: calc(100% - 10px);
+  }
+
+  .tabs > button {
+    display: block;
+    height: 50px;
+    margin-bottom: -10px;
+    width: 100%;
+    border-left: none;
+  }
+
+  .tabs > button.current:before {
+    content: '>';
+  }
+
+  .tabs > .close {
+    color: #999;
+    display: initial;
+  }
+
+  .management > div:not(.tabs) {
+    height: calc(100% - 170px);
+  }
+
+  .management .item {
+    width: calc(100% - 40px);
   }
 
   .titleScreen button {
