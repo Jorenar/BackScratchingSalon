@@ -455,6 +455,7 @@ function startGame(continuation) {
       let amount = item.querySelector('.amount');
       let gain = amount.dataset.worth;
       gain *= d.technician + 1;
+      gain *= 1 - (pause * 0.15);
       updateMoney(gain * amount.innerHTML);
     })
   }, 1100);
