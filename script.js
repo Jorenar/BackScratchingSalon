@@ -24,23 +24,25 @@ const savePrefix = 'BackScratchingSalon_';
 // data variables
 var d = {
   accountant: 0,
-  grinder: 0,
   bark: 0,
   blender: 0,
   bonus: 0,
-  laser: 0,
   chainsaw: 0,
   fingers: 1,
+  grinder: 0,
   hands: 0,
   hands: 0,
+  janitor: 0,
+  laser: 0,
+  lawnMower: 0,
   longNails: 0,
   money: 0,
   nextPayday: 990,
   nextTax: 1500,
+  powerWasher: 0,
   sandpaper: 0,
   scratcher: 0,
   technician: 0,
-  janitor: 0,
   toothbrush: 0,
 }
 
