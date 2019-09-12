@@ -115,6 +115,9 @@ const payday = function() {
       }
     });
   }
+  if (!d.janitor) {
+    updateMoney(-Math.floor(d.money * 0.85))
+  }
   d.nextPayday = 600;
 }
 
@@ -138,7 +141,7 @@ function fillData() {
   mute = s.autoMute;
   document.getElementById('nextPayday').innerHTML = '--:--';
   document.getElementById('nextTax').innerHTML = '--:--';
-  document.querySelectorAll('.item').forEach(item => {
+  document.querySelectorAll(':not(.personnel) > .item').forEach(item => {
     item.querySelector('.amount').innerHTML = d[item.id];
   });
 }
@@ -237,6 +240,8 @@ function toggleMenu() {
 function updateMoney(howMuch) {
   d.money += howMuch;
   let money = d.money.toFixed(2);
+  if (howMuch < 0)
+    console.log("Update money: " + howMuch);
   document.title = '$' + money + ' | Back Scratching Salon';
   document.querySelector('.money').innerHTML = money;
 }
@@ -352,6 +357,9 @@ function startGame(continuation) {
   } else {
     Object.assign(d, m);
     document.querySelector('.newGameWarning').classList.add('hidden');
+    document.querySelectorAll('.item > .bottomRow > button').forEach(btn => {
+      btn.classList.remove('inactiveCover');
+    })
   }
 
   fillData();
@@ -413,7 +421,8 @@ function startGame(continuation) {
         hire.toggleInactive();
       } else {
         hire.onclick = () => {
-          amount.innerHTML = ++d[item.id];
+          //amount.innerHTML = ++d[item.id];
+          ++d[item.id];
           if (amount.dataset.max == d[item.id]) {
             hire.toggleInactive();
             hire.onclick = () => {};
@@ -432,7 +441,7 @@ function startGame(continuation) {
       let gain = amount.dataset.worth;
       updateMoney(gain * amount.innerHTML);
     })
-  }, 1200);
+  }, 1100);
 
   autosaveTimer = setInterval( () => {
     if (s.autoSave)

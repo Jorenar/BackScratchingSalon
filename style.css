@@ -384,10 +384,6 @@ button:focus { outline: none; }
   content: ' (+ $'attr(data-worth) ')';
 }
 
-.personnel .amount:after {
-  content: '/'attr(data-max);
-}
-
 .price:before {
   content: '$';
 }
