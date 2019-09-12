@@ -171,6 +171,8 @@ button:focus { outline: none; }
 
 .break {
   background: #fcf59b;
+  filter: brightness(90%);
+  transform: rotate(-5deg);
   border-bottom-right-radius: 70px 20px;
   border-top-left-radius: 5px 30px;
   color: #667;
@@ -180,13 +182,29 @@ button:focus { outline: none; }
   padding: 50px;
   position: absolute;
   top: 50%;
-  transform: scale(-1, 1);
   z-index: 2;
+}
+
+.break > p {
+  transform: scale(-1, 1);
+}
+
+.backToWork {
+  font-size: 0.8em;
+  height: 30px;
+  cursor: pointer;
+  color: #00f900;
+  animation: pulsation 1s infinite alternate !important;
+}
+
+.backToWork:after {
+  content: '\00a0\00a0\21A9';
 }
 
 .takeBreak {
   background-image: linear-gradient(315deg, #a55c1b 0%, #000000 74%);
   bottom: 0;
+  transform: rotate(5deg);
   color: white;
   outline: 5px solid #000;
   padding: 10px;
@@ -225,14 +243,6 @@ button:focus { outline: none; }
   height: 30px;
   box-shadow: 0 0 5px 5px green;
   background: linear-gradient(0deg, rgba(60, 255, 0, 1) 0%, rgba(0, 255, 166, 1) 50%, rgba(60, 255, 0, 1) 100%);
-}
-
-.backToWork {
-  font-size: 1.2em;
-  height: 30px;
-  cursor: pointer;
-  color: #00f900;
-  animation: pulsation 0.5s infinite alternate;
 }
 
 .hudBar > div:not(#progressBar) {

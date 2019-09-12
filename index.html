@@ -65,7 +65,9 @@
     <div class='customerContainer'>
       <p class='showShop' onclick='toggleShopMobile()'>&#128722;</p>
       <div class='customer'></div>
-      <div class='break hidden'>I'M ON BREAK</div>
+      <div class='break hidden'><p>I'M ON BREAK </p>
+      <div class='backToWork hidden' onclick='togglePause()'>BACK TO WORK</div>
+      </div>
       <div class='takeBreak' onclick='togglePause()'>TAKE<br>BREAK</div>
     </div>
     <div class='backToTitleConfirm modal hidden'>
@@ -190,7 +192,6 @@
     <div class='hudBar hud'>
       <div id='progressBar'>
         <div id='satisfyBar'></div>
-        <div class='backToWork hidden' onclick='togglePause()'>BACK TO WORK</div>
       </div>
       <div class='timer'>--</div>
       <div class='cmd hiddenMobile'># <span>_</span></div>

@@ -208,7 +208,6 @@ function togglePause() {
   } else {
     createCustomer();
   }
-  satisfyBar.toggle();
   document.querySelector('.backToWork').toggle();
   document.querySelector('.takeBreak').toggle();
   document.querySelector('.break').toggle();
@@ -249,13 +248,14 @@ function toggleShopMobile() {
   customerDiv.parentNode.toggle();
 }
 
+
 // main fun --------------------------------------
 
 function updateMoney(howMuch) {
   d.money += howMuch;
   let money = d.money.toFixed(2);
   if (howMuch < 0)
-    console.log("Update money: " + howMuch);
+    console.log("Money decrease: $" + -howMuch.toFixed(2));
   document.title = '$' + money + ' | Back Scratching Salon';
   document.querySelector('.money').innerHTML = money;
 }
@@ -265,13 +265,17 @@ function finalize(time) {
   customerDiv.querySelector('.back').onmousemove = () => {};
   timerDiv.innerHTML = '--';
 
-  let multiplier = 0.2;
-  document.querySelectorAll('.powerUps .amount').forEach(amount => {
-    let current = amount.innerHTML;
-    multiplier += current * amount.dataset.worth;
-  });
+  if (satisfy) {
+    let multiplier = 0.2;
+    document.querySelectorAll('.powerUps .amount').forEach(amount => {
+      let current = amount.innerHTML;
+      multiplier += current * amount.dataset.worth;
+    });
 
-  updateMoney( time > 0 ? Math.floor(time * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100));
+    updateMoney( time > 0 ? Math.floor(time * satisfy * multiplier / 100) : Math.floor(satisfy * multiplier / 100));
+  } else {
+    updateMoney(-0.1 * d.money);
+  }
 
   customerDiv.style.filter = 'opacity(20%)';
 
