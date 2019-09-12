@@ -91,10 +91,6 @@ button:focus { outline: none; }
   background: radial-gradient(circle, rgba(238, 174, 202, 0.3) 0%, rgba(68, 37, 148, 0.9) 100%);
 }
 
-.showShop {
-  display: none !important;
-}
-
 .customer {
   transition: filter 1s;
 }
@@ -286,6 +282,10 @@ button:focus { outline: none; }
   filter: drop-shadow(0px 0px 3px #000);
   font-size: 50px;
   margin: 5px;
+}
+
+.showShop {
+  display: none;
 }
 
 .menu > .unwindMenu {
@@ -558,7 +558,7 @@ button:focus { outline: none; }
 
   .showShop {
     position: absolute;
-    display: initial !important;
+    display: initial;
     right: 10px;
     background: #DDD;
     top: 5px;
