@@ -63,13 +63,13 @@
   </div>
   <div class='playScreen hidden' onmouseup='mouseIsDown=0' onmousedown='mouseIsDown=1'>
     <div class='customerContainer'>
-      <p class='showShop' onclick='toggleShopMobile()'>&#128722;</p>
       <div class='customer'></div>
       <div class='break hidden'><p>I'M ON BREAK </p>
         <div class='backToWork hidden' onclick='togglePause()'>BACK TO WORK</div>
       </div>
       <div class='takeBreak' onclick='togglePause()'>TAKE<br>BREAK</div>
     </div>
+      <p class='showShop' onclick='toggleShopMobile()'>&#128722;</p>
     <div class='backToTitleConfirm modal hidden'>
       <div class='hud'>
         <p>Are you sure? All unsaved progress will be lost</p>
@@ -87,7 +87,7 @@
       <p class='import' title='IMPORT SAVE' onclick='import_save()'>&#128229;</p>
       <p class='settings' title='SETTINGS' onclick='document.querySelector(".settingsWin").toggle()'>&#128736;</p>
     </div>
-    <div class='management hiddenMobile'>
+    <div class='management'>
       <div class='tabs'>
         <button class='close' onclick='toggleShopMobile()'>CLOSE</button>
         <button class='powerUps current'>POWER-UPS</button>
@@ -234,9 +234,9 @@
         <div id='satisfyBar'></div>
       </div>
       <div class='timer'>--</div>
-      <div class='cmd hiddenMobile'># <span>_</span></div>
-      <div class='hiddenMobile'>Tax: <span id='nextTax'></span></div>
-      <div class='hiddenMobile'>Payday: <span id='nextPayday'></span></div>
+      <div class='cmd '># <span>_</span></div>
+      <div class=''>Tax: <span id='nextTax'></span></div>
+      <div class=''>Payday: <span id='nextPayday'></span></div>
       <div class='money'></div>
     </div>
   </div>

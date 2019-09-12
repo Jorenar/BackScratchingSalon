@@ -247,6 +247,7 @@ function toggleMenu(btn) {
 }
 
 function toggleShopMobile() {
+  document.querySelector('.showShop').toggle();
   document.querySelector('.playScreen .menu').toggle();
   document.querySelector('.playScreen .management').classList.toggle('hiddenMobile');
   customerDiv.parentNode.toggle();
