@@ -401,8 +401,15 @@ button:focus { outline: none; }
   margin: 5px;
 }
 
-.powerUps .amount:after {
-  content: ' (+'attr(data-worth) ')';
+.price, :not(.personnel) > div > div > .amount {
+  border: 3px solid #555;
+  background: black;
+  padding: 5px;
+  color: #00f900;
+}
+
+.powerUps :not(#hands) > div > .amount:after {
+  content: ' [+'attr(data-worth) ']';
 }
 
 .equipment .amount:after {
@@ -411,6 +418,10 @@ button:focus { outline: none; }
 
 .price:before {
   content: '$';
+}
+
+.personnel .price:before {
+  content: 'Wage: $';
 }
 
 

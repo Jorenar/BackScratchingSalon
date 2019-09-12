@@ -24,6 +24,9 @@ const savePrefix = 'BackScratchingSalon_';
 // data variables
 var d = {
   accountant: 0,
+  grinder: 0,
+  bark: 0,
+  blender: 0,
   bonus: 0,
   laser: 0,
   chainsaw: 0,
@@ -96,7 +99,6 @@ const payday = function() {
   document.querySelectorAll('.personnel > .item').forEach(item => {
     salary += d[item.id] * parseInt(item.querySelector('.price').innerHTML);
   });
-  console.log(salary);
   if (salary <= d.money) {
     updateMoney(-salary);
     if (salary)
@@ -116,7 +118,7 @@ const payday = function() {
     });
   }
   if (!d.janitor) {
-    updateMoney(-Math.floor(d.money * 0.85))
+    updateMoney(-Math.floor(d.money * 0.45))
   }
   d.nextPayday = 600;
 }
@@ -323,6 +325,11 @@ function scratching(time) {
 }
 
 function createCustomer() {
+
+  // to prevent creation of new customer when player press "take break" too quickly
+  if (pause)
+    return;
+
   satisfy = 0;
 
   satisfyBar.style.width = '0%';
