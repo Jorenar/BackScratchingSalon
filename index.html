@@ -36,6 +36,31 @@
   <div class='manual modal hidden'>
     <div class='hud'>
       <i>According to the fashion of AAA gaming manuals this is just boring black on white text</i>
+      <p>You are the owner of this beautiful salon where your customers can deal with their itching problems.</p>
+      <p>To earn your first money just scratch back of your first customer. If you aren't on mobile, then to do so click on the customer's back and move mouse over it.</p>
+      <p>On the left you can see a <b>shop</b> (if you are on mobile, click on the shopping card in top right).</p>
+      <p><b>Power Ups</b> are for you. You get getter at scratching</p>
+      <p><b>Equipment</b> are machines to earning money when you are lazing around.</p>
+      <p><b>Personnel</b> is there to aid you as you only know how to scratch backs.</p>
+      <p>In Power Ups and Equipment items have two labels next to buy button:</p>
+      <ul>
+        <li>Your currently owned amount of item and how much each of them will give you (power ups: scratching efficiency; equipment: money/second),</li>
+        <li>The cost of buying the next such item.</li>
+      </ul>
+      <p>If you are not working, then take a break, so customers won't wait for you. For every customer who doesn't get even a little bit of satisfaction, you will lose 10% of your money.</p>
+      <p>One of the first things you will want to do is to hire a janitor. Without him your place will get dirty and Centers for Disease Control and Prevention will give you a enormous fine.</p>
+      <p>If by payday you will not have enough money to pay your employees, all of them will quit.</p>
+      <p>On the bottom you can see control panel:</p>
+      <ul>
+        <li>First row: satisfy bar - how much your customer is satisfied,</li>
+        <li>Second row: customer timer, CMD messages, time to next tax, time to next payday, your money.</li>
+      </ul>
+      <p>The rest you will get from reading descriptions</p>
+      <p>Have fun!</p>
+      <br>
+      Back Scratching Salon is a game created by <a href='https://joren.ga'>Jorengarenar</a> for <a href='https://2019.js13kgames.com'>js13kGames 2019</a> competition.
+      <br>
+      Please, report technical problems <a href='https://github.com/Jorengarenar/BackScratchingSalon/issues'>here</a>
       <button onclick='document.querySelector(".manual").toggle()'>CLOSE</button>
     </div>
   </div>
@@ -48,7 +73,7 @@
     </div>
     <div class='newGameWarning modal hidden'>
       <div class='hud'>
-        <p>Your previous progress will be lost, when you save</p>
+        <p>Your previous progress will be lost, when you save (or game will autosave)</p>
         <button onclick='this.parentNode.parentNode.toggle()'>ABORT</button>
         <button onclick='startGame(0)'>OK</button>
       </div>
@@ -205,7 +230,7 @@
       <div class='personnel'>
         <div id="janitor" class='hud item'>
           <h1>JANITOR</h1>
-          <p>Janitor a day keeps a sanel away</p>
+          <p>Janitor a day keeps an inspectorate away</p>
           <div class='bottomRow'>
             <div class='amount' data-max=1></div>
             <div class='price'>10</div>
